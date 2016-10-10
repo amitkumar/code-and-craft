@@ -26,7 +26,7 @@ jquery(function(){
 	var pie = d3.pie().sort(null);
 
 	var arc = d3.arc()
-	.innerRadius(radius - 80)
+	.innerRadius(radius - 800)
 	.outerRadius(radius - 20);
 
 	var svg = d3.select('#craft-timer')
