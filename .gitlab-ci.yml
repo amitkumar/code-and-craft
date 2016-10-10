@@ -1,0 +1,8 @@
+pages:
+  script:
+  - webpack -p
+  artifacts:
+    paths:
+    - app
+  only:
+  - master
