@@ -1,9 +1,9 @@
 {
-  "name": "webpack.babel",
+  "name": "code-n-craft",
   "version": "1.0.0",
-  "description": "Webpack + Babel",
+  "description": "Code 'n Craft",
   "main": "app.js",
-  "author": "Shane Osbourne",
+  "author": "Amit Kumar <email@amitkumar.com>",
   "license": "MIT",
   "scripts": {
     "start": "node app"
