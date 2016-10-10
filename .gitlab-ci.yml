@@ -1,8 +1,7 @@
 pages:
   script:
-  - webpack -p
   artifacts:
     paths:
-    - app
+    - public
   only:
   - master

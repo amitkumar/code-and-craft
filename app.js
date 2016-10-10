@@ -42,7 +42,7 @@ browserSync.init({
     ],
     plugins: ['bs-fullscreen-message'],
     files: [
-        'app/css/*.css',
-        'app/*.html'
+        'public/css/*.css',
+        'public/*.html'
     ]
 });
