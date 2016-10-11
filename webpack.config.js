@@ -8,7 +8,8 @@ module.exports = {
   devtool: '#eval-source-map',
 
   entry: [
-    './src/main'
+  'bootstrap-loader',
+  './src/main'
   ],
 
   output: {
@@ -18,14 +19,37 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin()
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.NoErrorsPlugin()
   ],
 
   module: {
     loaders: [
-      {
-        loader: "babel-loader",
+    { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
+    { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
+    {
+      test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'url?limit=10000',
+    },
+    {
+      test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+      loader: 'file',
+    },
+    { 
+      test: /\.png$/, 
+      loader: "url-loader?limit=100000" 
+    },
+    { 
+      test: /\.jpg$/, 
+      loader: "file-loader" 
+    },
+    {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
+      loader: 'url?limit=10000&mimetype=image/svg+xml'
+    },
+    { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' },
+    {
+      loader: "babel-loader",
 
         // Only run `.js` and `.jsx` files through Babel
         test: /\.jsx?$/,
@@ -38,6 +62,6 @@ module.exports = {
           presets: ['es2015', 'stage-0'],
         }
       },
-    ]
-  }
-};
+      ]
+    }
+  };
