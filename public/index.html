@@ -29,12 +29,26 @@
     	.show-on-load {
     		visibility: hidden;
     	}
+    	.control-panel {
+    		position: fixed;
+    		top: 0;
+    		/*transform: translate3d(0, -50%, 0);*/
+    		right: 0;
+    		height: 100%;
+    		width: 20rem;
+    		border-left: 1px solid rgba(0,0,0,.1);
+    		padding: 1rem;
+    	}
     </style>
-	<div class="show-on-load">
-		<button type="button" class="btn btn-default">Start Craft Timer</button>
-	</div>
+	
 	
     <svg id="craft-timer" class="craft-timer"></svg>
+    
+    <div id="control-panel" class="control-panel show-on-load">
+		
+		<button id="btn-start-global-timer" type="button" class="btn btn-default">Start Timer</button>
+	</div>
+
     <audio id="craft-audio-10s">
       <source src="audio/singing-bowl-10s.mp3" type="audio/mp3">  
   	</audio>
@@ -42,6 +56,6 @@
       <source src="audio/singing-bowl-loop-starting-at-10s.mp3" type="audio/mp3">  
   	</audio>
     <script src="dist/bundle.js"></script>
-    
+
 </body>
 </html>

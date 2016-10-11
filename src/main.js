@@ -1,15 +1,21 @@
 import * as d3 from 'd3';
 import jquery from 'jquery';
-import './audio';
+import * as CraftAudio from './audio';
 
 jquery(function(){
 	jquery('.show-on-load').css('visibility', 'visible');
-	var timer = {
+
+	var globalInterval;
+
+
+	var craftTimer = {
 		duration : 10000,
 		elapsed : 0,
-		started : null
+		running : false
 	};
+
 	var $craftTimer = jquery('#craft-timer'),
+		$startGlobalTimer = jquery('#btn-start-global-timer'),
 		craftTimerWidth = $craftTimer.width(),
 		craftTimerHeight = $craftTimer.height();
 	
@@ -17,7 +23,7 @@ jquery(function(){
 	height = 200,
 	radius = Math.min(width, height) / 2;
 	
-	var data = generateTimerData(timer.duration, timer.elapsed);
+	var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
 	
 	var colorScale = d3.scaleLinear().domain([0, data.length - 1]).range([.8, .2]);
 	var color = function(index){
@@ -53,18 +59,7 @@ jquery(function(){
 		};
 	}
 
-    setInterval(everySecond, 1000);
-    function everySecond() {
-    	timer.elapsed = timer.elapsed + 1000;
-    	if (timer.elapsed > timer.duration){
-    		timer.elapsed = 0;
-    	}
-    	var data = generateTimerData(timer.duration, timer.elapsed);
-
-    	svg.datum(data);
-    	path = path.data(pie); // compute the new angles
-	    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
-	}
+    
 
 	/**
 	 * For a duration of n seconds, generates an array with n+1 numbers initialized to 0.
@@ -87,4 +82,49 @@ jquery(function(){
 		console.log(result);
 		return result;
 	}
+
+
+	$startGlobalTimer.on('click', function(){
+		startGlobalInterval();
+		startCraftTimer();
+	});
+
+	function startGlobalInterval(){
+		clearInterval(globalInterval);
+		globalInterval = setInterval(everySecond, 1000);
+	}
+	function drawCraftTimer(){
+		var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
+		svg.datum(data);
+    	path = path.data(pie); // compute the new angles
+	    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
+	}
+	function startCraftTimer(){
+		craftTimer.elapsed = 0;
+		craftTimer.running = true;
+	}
+	function stopCraftTimer(){
+		craftTimer.elapsed = 0;
+		craftTimer.running = false;
+		CraftAudio.end();
+		drawCraftTimer();
+	}
+	
+    function everySecond() {
+
+		if (craftTimer.running){
+			if (craftTimer.elapsed === 0){
+				CraftAudio.start();
+			}	
+			craftTimer.elapsed = craftTimer.elapsed + 1000;
+			drawCraftTimer();
+		}
+
+		if (craftTimer.elapsed > craftTimer.duration){
+    		stopCraftTimer();
+    	}
+	}
+
+	startGlobalInterval();
+	startCraftTimer();
 });
