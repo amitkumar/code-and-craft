@@ -3,6 +3,7 @@ import jquery from 'jquery';
 import './audio';
 
 jquery(function(){
+	jquery('.show-on-load').css('visibility', 'visible');
 	var timer = {
 		duration : 10000,
 		elapsed : 0,

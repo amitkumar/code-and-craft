@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Code 'n Craft!</title>
+</head>
+
+<body>
     <style>
     	html, body {
     		width: 100%;
@@ -20,10 +23,17 @@
     	.craft-timer path:last-of-type {
     		fill: rgba(0,0,0,.0);
     	}
+    	.btn-default {
+    		border-radius: 0;
+    	}
+    	.show-on-load {
+    		visibility: hidden;
+    	}
     </style>
-</head>
-
-<body>
+	<div class="show-on-load">
+		<button type="button" class="btn btn-default">Start Craft Timer</button>
+	</div>
+	
     <svg id="craft-timer" class="craft-timer"></svg>
     <audio id="craft-audio-10s">
       <source src="audio/singing-bowl-10s.mp3" type="audio/mp3">  
@@ -32,5 +42,6 @@
       <source src="audio/singing-bowl-loop-starting-at-10s.mp3" type="audio/mp3">  
   	</audio>
     <script src="dist/bundle.js"></script>
+    
 </body>
 </html>
