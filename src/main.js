@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import jquery from 'jquery';
+import './audio';
 
 jquery(function(){
 	var timer = {
@@ -11,8 +12,8 @@ jquery(function(){
 		craftTimerWidth = $craftTimer.width(),
 		craftTimerHeight = $craftTimer.height();
 	
-	var width = 300,
-	height = 300,
+	var width = 200,
+	height = 200,
 	radius = Math.min(width, height) / 2;
 	
 	var data = generateTimerData(timer.duration, timer.elapsed);
@@ -26,7 +27,7 @@ jquery(function(){
 	var pie = d3.pie().sort(null);
 
 	var arc = d3.arc()
-	.innerRadius(radius - 800)
+	.innerRadius(radius - 500)
 	.outerRadius(radius - 20);
 
 	var svg = d3.select('#craft-timer')
