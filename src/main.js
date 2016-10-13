@@ -18,6 +18,8 @@ jquery(function(){
 		$startGlobalTimer = jquery('#btn-start-global-timer'),
 		craftTimerWidth = $craftTimer.width(),
 		craftTimerHeight = $craftTimer.height();
+
+	var $soundToggle = jquery('#btn-toggle-sound');
 	
 	var width = 200,
 	height = 200,
@@ -85,8 +87,19 @@ jquery(function(){
 
 
 	$startGlobalTimer.on('click', function(){
-		startGlobalInterval();
-		startCraftTimer();
+		setTimeout(function(){
+			startGlobalInterval();
+			startCraftTimer();
+		}, 1000);
+	});
+	$soundToggle.on('click', function(){
+		globalSoundEnabled = !globalSoundEnabled
+		Howler.mute(!globalSoundEnabled);
+		if (globalSoundEnabled){
+			$soundToggle.text('Disable Sound');
+		} else {
+			$soundToggle.text('Enable Sound');
+		}
 	});
 
 	function startGlobalInterval(){

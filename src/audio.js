@@ -12,6 +12,10 @@ var craftEnd = new Howl({
   src: ['audio/singing-bowl-end.mp3'],
 });
 
+craftStart.on('end', function(){
+	craftLoop.play();
+});
+
 function start(){
 	craftStart.volume(1);
 	setTimeout(function(){
