@@ -1,12 +1,18 @@
 import * as d3 from 'd3';
 import jquery from 'jquery';
 import * as CraftAudio from './audio';
+import { Howl, Howler } from 'howler';
+import DonutGraph from './donut-graph';
+import Timer from './timer';
 
 jquery(function(){
 	jquery('.show-on-load').css('visibility', 'visible');
 
-	var globalInterval;
-
+	let globalInterval;
+	let globalSoundEnabled = true;
+	
+	// 90 minutes, converted to milliseconds
+	const globalTimer = new Timer(90 * 60 * 1000);
 
 	var craftTimer = {
 		duration : 10000,
@@ -21,8 +27,8 @@ jquery(function(){
 
 	var $soundToggle = jquery('#btn-toggle-sound');
 	
-	var width = 200,
-	height = 200,
+	var width = 100,
+	height = 100,
 	radius = Math.min(width, height) / 2;
 	
 	var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
@@ -37,13 +43,15 @@ jquery(function(){
 
 	var arc = d3.arc()
 	.innerRadius(radius - 500)
-	.outerRadius(radius - 20);
+	.outerRadius(radius);
 
-	var svg = d3.select('#craft-timer')
+	var svg = d3.select('#craft-timer');
+
+	var g = svg	
 	.append("g")
 	.attr("transform", "translate(" + craftTimerWidth / 2 + "," + craftTimerHeight / 2 + ")");
 
-	var path = svg.datum(data).selectAll("path")
+	var path = g.datum(data).selectAll("path")
 	.data(pie)
 	.enter().append("path")
 	.attr("fill", function(d, i) { return color(i); })
@@ -87,10 +95,13 @@ jquery(function(){
 
 
 	$startGlobalTimer.on('click', function(){
+		globalTimerStartedAt = Date.now();
+
 		setTimeout(function(){
 			startGlobalInterval();
 			startCraftTimer();
-		}, 1000);
+			threeMinuteDonut.start();
+		}, 0);
 	});
 	$soundToggle.on('click', function(){
 		globalSoundEnabled = !globalSoundEnabled
@@ -103,13 +114,13 @@ jquery(function(){
 	});
 
 	function startGlobalInterval(){
-		clearInterval(globalInterval);
-		globalInterval = setInterval(everySecond, 1000);
+		// clearInterval(globalInterval);
+		// globalInterval = setInterval(everySecond, 1000);
 	}
 	function drawCraftTimer(){
 		var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
-		svg.datum(data);
-    	path = path.data(pie); // compute the new angles
+		g.datum(data);
+		path = path.data(pie); // compute the new angles
 	    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
 	}
 	function startCraftTimer(){
@@ -122,22 +133,33 @@ jquery(function(){
 		CraftAudio.end();
 		drawCraftTimer();
 	}
-	
-    function everySecond() {
 
-		if (craftTimer.running){
-			if (craftTimer.elapsed === 0){
-				CraftAudio.start();
-			}	
-			craftTimer.elapsed = craftTimer.elapsed + 1000;
-			drawCraftTimer();
-		}
 
-		if (craftTimer.elapsed > craftTimer.duration){
-    		stopCraftTimer();
-    	}
+	const threeMinuteDonut = new DonutGraph('three-minute', svg, 3 * 60 * 1000, 500, 20);
+	threeMinuteDonut.start();
+
+
+    
+ //    function everySecond() {
+	// 	if (craftTimer.running){
+	// 		if (craftTimer.elapsed === 0){
+	// 			CraftAudio.start();
+	// 		}	
+	// 		craftTimer.elapsed = craftTimer.elapsed + 1000;
+	// 		drawCraftTimer();
+	// 	}
+
+	// 	if (craftTimer.elapsed > craftTimer.duration){
+ //    		stopCraftTimer();
+ //    	}
+
+ //    	threeMinuteDonut.draw();
+	// }
+
+
+	function tick(){
+
 	}
 
-	startGlobalInterval();
-	startCraftTimer();
+	d3.timer(tick);
 });

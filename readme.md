@@ -10,9 +10,10 @@ https://amitthekumar.gitlab.io/code-n-craft/
 Amit Kumar
 http://www.amitkumar.com
 
+# Image Inspirations
+- https://www.google.com/search?q=sol+lewitt
 
 ## References
-
 - https://www.browsersync.io/docs/recipes
 - https://bl.ocks.org/mbostock/1346410
 - https://bl.ocks.org/mbostock/4341417

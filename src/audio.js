@@ -31,7 +31,7 @@ function end(){
 	craftEnd.play();
 }
 function hardStop(){
-	craftStart.stop;
+	craftStart.stop();
 	craftLoop.stop();
 	craftEnd.stop();
 }
