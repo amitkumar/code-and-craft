@@ -62,22 +62,28 @@ jquery(function(){
 
 
 
-	// const craftTimerGraph = new DonutGraph({
-	// 	id : 'craft-10-sec',
-	// 	svg: svg, 
-	// 	duration: 10 * 1000, 
-	// 	width: 100, 
-	// 	thickness: Math.min(svgRectangle.width, svgRectangle.height)/2 + 50
-	// });
-	// Timer.start();
-
-	const workTimerGraph = new DonutGraph({
-		id : 'three-minute',
+	const craftTimerGraph = new DonutGraph({
+		id : 'craft-10-sec',
 		svg: svg, 
 		duration: 10 * 1000, 
-		width: Math.min(svgRectangle.width, svgRectangle.height) - 50, 
-		thickness: 100
+		width: 100, 
+		thickness: Math.min(svgRectangle.width, svgRectangle.height)/2 + 50,
+		onStart : function(){
+			CraftAudio.start();
+		},
+		onEnd : function(){
+			CraftAudio.end();	
+		}
 	});
-	workTimerGraph.start();
+	craftTimerGraph.start();
+
+	// const workTimerGraph = new DonutGraph({
+	// 	id : 'three-minute',
+	// 	svg: svg, 
+	// 	duration: 10 * 1000, 
+	// 	width: Math.min(svgRectangle.width, svgRectangle.height) - 50, 
+	// 	thickness: 100
+	// });
+	// workTimerGraph.start();
 
 });

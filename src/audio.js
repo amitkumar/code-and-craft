@@ -15,8 +15,12 @@ var craftEnd = new Howl({
 craftStart.on('end', function(){
 	craftLoop.play();
 });
+craftEnd.on('end', function(){
+	hardStop();
+});
 
 function start(){
+	hardStop();
 	craftStart.volume(1);
 	setTimeout(function(){
 		craftStart.play();	
