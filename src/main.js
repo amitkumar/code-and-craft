@@ -14,11 +14,8 @@ jquery(function(){
 	// 90 minutes, converted to milliseconds
 	const globalTimer = new Timer(90 * 60 * 1000);
 
-	var craftTimer = {
-		duration : 10000,
-		elapsed : 0,
-		running : false
-	};
+
+	const craftTimer = new Timer(15 * 1000);
 
 	var $craftTimer = jquery('#craft-timer'),
 		$startGlobalTimer = jquery('#btn-start-global-timer'),
@@ -31,7 +28,7 @@ jquery(function(){
 	height = 100,
 	radius = Math.min(width, height) / 2;
 	
-	var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
+	var data = DonutGraph.generateTimerData(craftTimer.duration, craftTimer.elapsed);
 	
 	var colorScale = d3.scaleLinear().domain([0, data.length - 1]).range([.8, .2]);
 	var color = function(index){
@@ -70,37 +67,10 @@ jquery(function(){
 	}
 
     
-
-	/**
-	 * For a duration of n seconds, generates an array with n+1 numbers initialized to 0.
-	 * Number of elapsed milliseconds will be reflected with appropriate number of array indices 
-	 * set to 1000, with last item in array holding remaining duration.
-	 * 
-	 * @param duration {Number} - milliseconds
-	 * @param elapsed {Number} - milliseconds
-	 */
-	function generateTimerData(duration, elapsed){
-		console.log('duration, elapsed', duration, elapsed);
-		var numIndices = Math.floor(duration / 1000);
-		var result = Array(numIndices + 1).fill(0);
-		var numIndicesElapsed = Math.ceil(elapsed / 1000);
-		for(var i = 0; i < numIndicesElapsed; i++){
-			result[i] = 1000;
-		}
-		result[result.length - 1] = (numIndices - numIndicesElapsed) * 1000;
-		console.log('numIndices', numIndices, 'numIndicesElapsed', numIndicesElapsed);
-		console.log(result);
-		return result;
-	}
-
-
 	$startGlobalTimer.on('click', function(){
-		globalTimerStartedAt = Date.now();
-
 		setTimeout(function(){
-			startGlobalInterval();
+			startGlobalTimer();
 			startCraftTimer();
-			threeMinuteDonut.start();
 		}, 0);
 	});
 	$soundToggle.on('click', function(){
@@ -113,29 +83,26 @@ jquery(function(){
 		}
 	});
 
-	function startGlobalInterval(){
-		// clearInterval(globalInterval);
-		// globalInterval = setInterval(everySecond, 1000);
+	function startGlobalTimer(){
+		globalTimer.start();
 	}
 	function drawCraftTimer(){
-		var data = generateTimerData(craftTimer.duration, craftTimer.elapsed);
+		var data = DonutGraph.generateTimerData(craftTimer.duration, craftTimer.elapsed);
 		g.datum(data);
 		path = path.data(pie); // compute the new angles
 	    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
 	}
 	function startCraftTimer(){
-		craftTimer.elapsed = 0;
-		craftTimer.running = true;
+		craftTimer.start();
 	}
 	function stopCraftTimer(){
-		craftTimer.elapsed = 0;
-		craftTimer.running = false;
+		craftTimer.stop();
 		CraftAudio.end();
 		drawCraftTimer();
 	}
 
 
-	const threeMinuteDonut = new DonutGraph('three-minute', svg, 3 * 60 * 1000, 500, 20);
+	const threeMinuteDonut = new DonutGraph('three-minute', svg, 10 * 1000, 500, 20);
 	threeMinuteDonut.start();
 
 
@@ -156,10 +123,4 @@ jquery(function(){
  //    	threeMinuteDonut.draw();
 	// }
 
-
-	function tick(){
-
-	}
-
-	d3.timer(tick);
 });

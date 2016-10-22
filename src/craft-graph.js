@@ -8,34 +8,12 @@ export default class {
 		this.width = width;
 		this.radius = this.width / 2;
 		this.thickness = thickness;
-
-		// Store the displayed angles in _current.
-		// Then, interpolate from _current to the new angles.
-		// During the transition, _current is updated in-place by d3.interpolate.
-		function arcTween(a) {
-			var i = d3.interpolate(this._current, a);
-			this._current = i(0);
-			return function(t) {
-				return arc(i(t));
-			};
-		}
-
-		this.draw = function(){
-			console.log('draw');
-			g.datum(this.timerData);
-			path.data(pie); // compute the new angles
-		    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
-		}
-		this.start = function(){
-			this.timer.start();
-		}
-
-
-		this.timer = new Timer(duration, 1001, ::this.draw, ::this.draw);
+		this.timer = new Timer(duration);
 		
-		const data = this.timerData;
+		let data = this.timerData;
 		const colorScale = d3.scaleLinear().domain([0, data.length - 1]).range([.8, .2]);
 		const color = function(index){
+			console.log('index', index, colorScale(index));
 			return d3.interpolateInferno(colorScale(index));
 		};
 		
@@ -55,13 +33,33 @@ export default class {
 		.attr("fill", function(d, i) { return color(i); })
 		.attr("d", arc)
 	    .each(function(d) { this._current = d; }); // store the initial angles
-	}
 
-	get elapsed(){
-		if (!this.running){
-			return 0;
+		
+
+		// Store the displayed angles in _current.
+		// Then, interpolate from _current to the new angles.
+		// During the transition, _current is updated in-place by d3.interpolate.
+		function arcTween(a) {
+			var i = d3.interpolate(this._current, a);
+			this._current = i(0);
+			return function(t) {
+				return arc(i(t));
+			};
 		}
-		return Date.now() - this.startedAt;
+
+		this.draw = function(){
+			g.datum(this.timerData);
+			path = path.data(pie); // compute the new angles
+		    path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
+		}
+		this.start = function(){
+			this.startedAt = Date.now();
+			this.running = true;
+		}
+		this.stop = function(){
+			this.running = false;
+			this.draw();
+		}
 	}
 
 	get timerData(){
