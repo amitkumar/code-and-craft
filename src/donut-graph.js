@@ -70,12 +70,16 @@ export default class {
 	static generateTimerData(duration, elapsed){
 		console.log('duration, elapsed', duration, elapsed);
 		const numIndices = Math.floor(duration / 1000);
-		const numIndicesCompleted = Math.floor(elapsed / 1000);
+		let numIndicesCompleted = Math.floor(elapsed / 1000);
+		if (numIndicesCompleted > numIndices){
+			numIndicesCompleted = numIndices;
+		}
 		let result = Array(numIndices + 1).fill(0);
 		for(let i = 0; i < numIndicesCompleted; i++){
 			result[i] = 1000;
 		}
 		result[numIndicesCompleted] = elapsed % 1000;
+
 		result[result.length - 1] = duration - elapsed; //(numIndices - numIndicesElapsed) * 1000;
 		console.log('numIndices', numIndices, 'numIndicesCompleted', numIndicesCompleted);
 		console.log(result);
