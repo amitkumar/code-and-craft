@@ -1,12 +1,11 @@
 import * as d3 from 'd3';
 export default class {
-	constructor(duration, interval, onTick, onEnd){
+	constructor(duration, onTick, onEnd){
 		this.duration = duration;
 		this.running = false;
 		// Time started as milliseconds elapsed since the UNIX epoch (Date.now())
 		this.startedAt = null;
 		this._lastTicked = null;
-		this.interval = interval;
 		this.onTick = onTick || function(){};
 		this.onEnd = onEnd || function(){};
 		this.d3Timer = undefined;
@@ -20,10 +19,8 @@ export default class {
 			this._internalOnEnd();
 			this.stop();
 		} else {
-			if (now - this._lastTicked >= this.interval){
-				this._lastTicked = now;
-				this.onTick();
-			}
+			this._lastTicked = now;
+			this.onTick();
 		}
 	}
 	_internalOnEnd(){
