@@ -46,7 +46,7 @@ class DonutGraph {
 			onEnd : () => {
 				path.each(function(d) { this._current = d; })
 					.data(this.generateEndTimerData())
-					.transition().duration(1000).attrTween('d', function(a){
+					.transition().duration(1030).attrTween('d', function(a){
 			    		var i = d3.interpolate(this._current, a);
 						this._current = i(0);
 						return function(t) {
@@ -109,8 +109,8 @@ class DonutGraph {
 			return {
 				data : 0,
 				value : 0,
-				startAngle : 0,
-				endAngle : 0,
+				startAngle : this.scaleIndexToRadians(index),
+				endAngle : this.scaleIndexToRadians(index),
 				padAngle: 0
 			}
 		});
