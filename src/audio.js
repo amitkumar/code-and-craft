@@ -13,7 +13,7 @@ var craftEnd = new Howl({
 });
 
 craftStart.on('end', function(){
-	craftLoop.play();
+	// craftLoop.play();
 });
 craftEnd.on('end', function(){
 	hardStop();

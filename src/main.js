@@ -66,8 +66,8 @@ jquery(function(){
 		id : 'craft-10-sec',
 		svg: svg, 
 		duration: 10 * 1000, 
-		width: 100, 
-		thickness: Math.min(svgRectangle.width, svgRectangle.height)/2 + 50,
+		width: 200, 
+		thickness: Math.min(svgRectangle.width, svgRectangle.height)/2,
 		onStart : function(){
 			CraftAudio.start();
 		},
@@ -82,6 +82,7 @@ jquery(function(){
 	// 	svg: svg, 
 	// 	duration: 10 * 1000, 
 	// 	width: Math.min(svgRectangle.width, svgRectangle.height) - 50, 
+	//  colorScale: d3.scaleLinear().domain([0, data.length - 1]).range([.8, .2]),
 	// 	thickness: 100
 	// });
 	// workTimerGraph.start();
