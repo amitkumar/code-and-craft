@@ -2,7 +2,7 @@ import jquery from 'jquery';
 import { Howl, Howler } from 'howler';
 
 var craftStart = new Howl({
-  src: ['audio/singing-bowl-10s.mp3']
+  src: ['audio/singing-bowl-15s.mp3']
 });
 var craftLoop = new Howl({
   src: ['audio/singing-bowl-loop-starting-at-10s.mp3'],
