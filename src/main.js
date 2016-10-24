@@ -33,7 +33,8 @@ jquery(function(){
 		breakDuration: 15 * 1000,
 		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
 		discToSpikeRatio : 0.1666666667,
-		$timeDisplay : jquery('#elapsed-time')
+		$timeDisplay : jquery('#elapsed-time'),
+		$workTimeDisplay : jquery('#work-timer-remaining')
 	});
 
 	$document.on('mousemove touchdown', function(){

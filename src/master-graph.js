@@ -33,6 +33,7 @@ class MasterGraph {
 		this.scaleOuterRadius = d3.scaleLinear().domain([this.overallIntervalDuration, 0 ]).range([0, this.radius]);
 
 		this.$timeDisplay = settings.$timeDisplay;
+		this.$workTimeDisplay = settings.$workTimeDisplay;
 
 		const svgRectangle = this.svg.node().getBoundingClientRect();
 
@@ -51,6 +52,9 @@ class MasterGraph {
 				<p>Code Interval:<br/>${Math.ceil(workTimeLeft.asSeconds())}s</p>
 				<p>Craft Interval:<br/>${Math.ceil(craftTimeLeft.asSeconds())}s</p>
 				`);
+
+			this.$workTimeDisplay.html(`${Math.ceil(workTimeLeft.asSeconds())}s`);
+
 			const data = this.generateTimerData();
 			path.data(data)
 				.attr("d", arc)
@@ -151,6 +155,7 @@ class MasterGraph {
 			discToSpikeRatio : this.discToSpikeRatio,
 			onStart : () => {
 				this.baseG.classed('active', false);
+				this.$workTimeDisplay.removeClass('active');
 				CraftAudio.start();
 			},
 			onEndStart : () => {
@@ -158,6 +163,7 @@ class MasterGraph {
 				this.workTimer.start();
 			},
 			onEndComplete : () => {
+				this.$workTimeDisplay.addClass('active');
 				this.baseG.classed('active', true);
 			}
 		});

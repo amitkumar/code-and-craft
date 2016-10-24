@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Code 'n Craft!</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
 <body>
@@ -16,6 +17,8 @@
     	body {
     		position: relative;
             overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+            font-size: 10px;
     	}
     	.craft-timer {
     		width: 100%;
@@ -67,10 +70,28 @@
         .master-graph.active {
             opacity: 1;
         }
+
+        .work-timer-remaining {
+            transition: opacity .5s ease-out;
+            opacity: .1;
+            font-size: 16px;
+            position: fixed;
+            text-align: center;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            color: rgba(0,0,0,.1);
+            margin: 0 0 .2em 0;
+            padding: 0
+        }
+        .work-timer-remaining.active {
+            opacity: 1;
+        }
     </style>
 	
 	
     <svg id="craft-timer" class="craft-timer"></svg>
+    <h2 id="work-timer-remaining" class="work-timer-remaining"></h2>
     
     <div id="control-panel" class="control-panel show-on-load">
 		<button id="btn-start-global-timer" type="button" class="btn btn-default">Start Timer</button>
