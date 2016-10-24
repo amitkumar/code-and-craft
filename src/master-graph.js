@@ -22,7 +22,6 @@ class MasterGraph {
 		this.svg = settings.svg;
 		this.width = settings.width;
 		this.radius = this.width / 2;
-		this.thickness = settings.thickness;
 		this.onStart = settings.onStart || function(){};
 		this.onEndStart = settings.onEndStart || function(){};
 		this.onEndComplete = settings.onEndComplete || function(){};
@@ -30,7 +29,9 @@ class MasterGraph {
 		this.workDuration = settings.workDuration;
 		this.breakDuration = settings.breakDuration;
 		this.scaleIndexToRadians = d3.scaleLinear().domain([0, this.numIntervals]).range([0, Math.PI * 2]);
+		this.discToSpikeRatio = settings.discToSpikeRatio;
 		this.scaleOuterRadius = d3.scaleLinear().domain([this.overallIntervalDuration, 0 ]).range([0, this.radius]);
+
 		this.$timeDisplay = settings.$timeDisplay;
 
 		const svgRectangle = this.svg.node().getBoundingClientRect();
@@ -78,24 +79,7 @@ class MasterGraph {
 			}
 		});
 		
-		this.craftGraph = new CraftGraph({
-			id : 'craft',
-			svg: this.svg, 
-			duration: this.breakDuration,
-			width: this.width,
-			discToSpikeRatio : .333333333333,
-			onStart : () => {
-				this.baseG.classed('active', false);
-				CraftAudio.start();
-			},
-			onEndStart : () => {
-				CraftAudio.end();
-				this.workTimer.start();
-			},
-			onEndComplete : () => {
-				this.baseG.classed('active', true);
-			}
-		});
+		
 
 		this.overallTimer = new Timer({
 			duration: (this.numIntervals * (this.overallIntervalDuration)), 
@@ -111,12 +95,20 @@ class MasterGraph {
 			}
 		});
 
+		this.discRadius = this.radius * this.discToSpikeRatio;
+		this.spikeInnerRadius = d3.scaleLinear().domain([this.overallIntervalDuration, 0]).range([this.discRadius, -this.radius]);
+
 		const arc = d3.arc()
-		.innerRadius(0)
-		.outerRadius((d) => {
-			console.log(d);
-			return this.scaleOuterRadius(d.value);
-		});
+		.innerRadius((d) => {
+			return this.spikeInnerRadius(d.value);
+		})
+		.outerRadius(this.discRadius);
+
+		// const arc = d3.arc()
+		// .innerRadius(0)
+		// .outerRadius((d) => {
+		// 	return this.scaleOuterRadius(d.value);
+		// });
 
 		const textClass = (d) => {
 			if (d.value <= 0){
@@ -124,7 +116,7 @@ class MasterGraph {
 			}
 		};
 
-		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.1, .2]);
+		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.4, .8]);
 		this.interpolateColor = d3.interpolate('white', 'black');
 		this.color = (index) => {
 			return this.interpolateColor(this.colorScale(index));
@@ -133,13 +125,14 @@ class MasterGraph {
 		this.baseG = this.svg
 		.append("g")
 		.attr('class', 'master-graph active')
-		.attr("transform", "translate(" + svgRectangle.width / 2 + "," + svgRectangle.height / 2 + ")");
+		.attr("transform", "translate(" + svgRectangle.width / 2 + "," + svgRectangle.height / 2 + ") rotate(180) scale(-1, 1)");
 
 		const data = this.generateStartTimerData();
 		const path = this.baseG.selectAll("path")
 		.data(data)
 		.enter().append("path")
 		.attr("fill", (d, i) => { return this.color(i); })
+		.attr("stroke", 'rgba(255,255,255,.2)')
 		.attr("d", arc)
 		.each(function(d) { this._start = d; });
     
@@ -149,6 +142,25 @@ class MasterGraph {
 		// .attr("fill", (d, i) => { return this.color(i); })
 		// .attr('class', textClass)
 		// .text(function(d){return d.label});
+
+		this.craftGraph = new CraftGraph({
+			id : 'craft',
+			svg: this.svg, 
+			duration: this.breakDuration,
+			width: this.width,
+			discToSpikeRatio : this.discToSpikeRatio,
+			onStart : () => {
+				this.baseG.classed('active', false);
+				CraftAudio.start();
+			},
+			onEndStart : () => {
+				CraftAudio.end();
+				this.workTimer.start();
+			},
+			onEndComplete : () => {
+				this.baseG.classed('active', true);
+			}
+		});
 	}
 
 	get overallIntervalDuration(){
@@ -176,7 +188,7 @@ class MasterGraph {
 				value : val,
 				startAngle : this.scaleIndexToRadians(index),
 				endAngle : this.scaleIndexToRadians(index + 1),
-				padAngle: .003,
+				// padAngle: .003,
 				label : Math.ceil(val/1000) + 's'
 			}
 		});
@@ -197,6 +209,7 @@ class MasterGraph {
 			values[i] = overallIntervalDuration;
 		}
 		values[numIndicesCompleted] = elapsed % overallIntervalDuration;
+		values.reverse();
 
 		const result = values.map((val, index) => {
 			// const easedVal = d3.easeCubic(CraftGraph.scaleMillisecondsToSeconds(val));
@@ -205,7 +218,7 @@ class MasterGraph {
 				value : val,
 				startAngle : this.scaleIndexToRadians(index),
 				endAngle : this.scaleIndexToRadians(index + 1),
-				padAngle: .003,
+				// padAngle: .003,
 				label : Math.ceil(val/1000) + 's'
 			}
 		});

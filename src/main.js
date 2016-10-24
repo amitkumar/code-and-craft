@@ -32,6 +32,7 @@ jquery(function(){
 		workDuration: 180 * 1000,
 		breakDuration: 15 * 1000,
 		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
+		discToSpikeRatio : 0.1666666667,
 		$timeDisplay : jquery('#elapsed-time')
 	});
 
