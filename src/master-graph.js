@@ -35,16 +35,20 @@ class MasterGraph {
 
 		const svgRectangle = this.svg.node().getBoundingClientRect();
 
-		this.draw = function(){
-			const time = moment.duration(this.overallTimer.elapsed),
+		this.draw = () => {
+			const elapsed = this.overallTimer.elapsed,
+				time = moment.duration(elapsed),
 				timeLeft = moment.duration(this.overallTimer.remaining),
 				workTimeLeft = moment.duration(this.workTimer.remaining),
-				craftTimeLeft = moment.duration(this.craftGraph.timer.remaining);
+				craftTimeLeft = moment.duration(this.craftGraph.timer.remaining),
+				intervalsRemaining = this.numIntervals - Math.floor(elapsed / this.overallIntervalDuration);
+
 			this.$timeDisplay.html(`
 				<p>Overall Elapsed:<br/>+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}</p>
 				<p>Overall Remaining:<br/>-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}</p>
-				<p>Code Interval Remaining:<br/>${Math.ceil(workTimeLeft.asSeconds())}s</p>
-				<p>Craft Interval Remaining:<br/>${Math.ceil(craftTimeLeft.asSeconds())}s</p>
+				<p>Intervals Remaining:<br/>${intervalsRemaining}</p>
+				<p>Code Interval:<br/>${Math.ceil(workTimeLeft.asSeconds())}s</p>
+				<p>Craft Interval:<br/>${Math.ceil(craftTimeLeft.asSeconds())}s</p>
 				`);
 			const data = this.generateTimerData();
 			path.data(data)
@@ -154,7 +158,9 @@ class MasterGraph {
 	generateStartTimerData(){
 		const elapsed = this.overallTimer.elapsed;
 		const numIndices = this.numIntervals;
-		let numIndicesCompleted = Math.floor(elapsed / 1000);
+		const overallIntervalDuration = this.overallIntervalDuration;
+
+		let numIndicesCompleted = Math.floor(elapsed / this.overallIntervalDuration);
 		if (numIndicesCompleted > numIndices){
 			numIndicesCompleted = numIndices;
 		}
