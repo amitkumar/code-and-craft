@@ -120,7 +120,7 @@ class MasterGraph {
 			}
 		};
 
-		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.4, .8]);
+		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.3, .7]);
 		this.interpolateColor = d3.interpolate('white', 'black');
 		this.color = (index) => {
 			return this.interpolateColor(this.colorScale(index));
