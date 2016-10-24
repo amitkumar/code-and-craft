@@ -82,8 +82,8 @@ class MasterGraph {
 			id : 'craft',
 			svg: this.svg, 
 			duration: this.breakDuration,
-			width: this.radius/2, 
-			thickness: this.radius + (this.radius/2/2),
+			width: this.width,
+			discToSpikeRatio : .333333333333,
 			onStart : () => {
 				this.baseG.classed('active', false);
 				CraftAudio.start();

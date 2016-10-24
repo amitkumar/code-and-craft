@@ -54,9 +54,15 @@
             font-size: 1.2rem;
         }
 
+        .craft-graph {
+            z-index : 10;
+            position: relative;
+        }
         .master-graph {
             transition: opacity .5s ease-out;
             opacity: .1;
+            z-index : 0;
+            position: relative;
         }
         .master-graph.active {
             opacity: 1;
@@ -71,7 +77,6 @@
         <button id="btn-stop-global-timer" type="button" class="btn btn-default">Stop Timer</button>
         <button id="btn-toggle-sound" type="button" class="btn btn-default">Disable Sound</button>
 		<br/>
-		
         <br/>
         <p id="elapsed-time" class="time"></p>
 	</div>

@@ -6,7 +6,7 @@ class CraftGraph {
 	 * @param settings.id
 	 * @param settings.svg
 	 * @param settings.width
-	 * @param settings.thickness
+	 * @param settings.discToSpikeRatio
 	 * @param settings.duration
 	 * @param settings.onStart
 	 * @param settings.onEndStart
@@ -17,7 +17,7 @@ class CraftGraph {
 		this.svg = settings.svg;
 		this.width = settings.width;
 		this.radius = this.width / 2;
-		this.thickness = settings.thickness;
+		this.discRadius = this.radius * settings.discToSpikeRatio;
 		this.onStart = settings.onStart || function(){};
 		this.onEndStart = settings.onEndStart || function(){};
 		this.onEndComplete = settings.onEndComplete || function(){};
@@ -27,8 +27,8 @@ class CraftGraph {
 		const svgRectangle = this.svg.node().getBoundingClientRect();
 
 		const arc = d3.arc()
-		.innerRadius(this.radius - this.thickness)
-		.outerRadius(this.radius);
+		.innerRadius(-this.radius)
+		.outerRadius(this.discRadius);
 
 		this.draw = function(){
 			path.data(this.generateTimerData())
@@ -38,7 +38,6 @@ class CraftGraph {
 			this.timer.start();
 		}
 		this.stop = function(){
-			
 			this.timer.stop();
 		}
 
@@ -72,6 +71,7 @@ class CraftGraph {
 		
 		const g = this.svg
 		.append("g")
+		.attr('class', 'craft-graph')
 		.attr("transform", "translate(" + svgRectangle.width / 2 + "," + svgRectangle.height / 2 + ")");
 
 		const path = g.selectAll("path")
