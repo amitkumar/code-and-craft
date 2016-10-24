@@ -37,11 +37,21 @@ class MasterGraph {
 
 		this.draw = function(){
 			const time = moment.duration(this.overallTimer.elapsed),
-				timeLeft = moment.duration(this.overallTimer.remaining);
-			this.$timeDisplay.html(`+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}<br/>
-				-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}`);
-			path.data(this.generateTimerData())
-				.attr("d", arc);
+				timeLeft = moment.duration(this.overallTimer.remaining),
+				workTimeLeft = moment.duration(this.workTimer.remaining),
+				craftTimeLeft = moment.duration(this.craftGraph.timer.remaining);
+			this.$timeDisplay.html(`
+				<p>Overall Elapsed:<br/>+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}</p>
+				<p>Overall Remaining:<br/>-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}</p>
+				<p>Code Interval Remaining:<br/>${Math.ceil(workTimeLeft.asSeconds())}s</p>
+				<p>Craft Interval Remaining:<br/>${Math.ceil(craftTimeLeft.asSeconds())}s</p>
+				`);
+			const data = this.generateTimerData();
+			path.data(data)
+				.attr("d", arc)
+			// labels.data(data)
+			// 	.attr('class', textClass)
+			// 	.text(function(d){return d.label});
 		}
 
 		this.start = function(){
@@ -104,6 +114,12 @@ class MasterGraph {
 			return this.scaleOuterRadius(d.value);
 		});
 
+		const textClass = (d) => {
+			if (d.value <= 0){
+				return 'hidden';
+			}
+		};
+
 		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.1, .2]);
 		this.interpolateColor = d3.interpolate('white', 'black');
 		this.color = (index) => {
@@ -115,14 +131,20 @@ class MasterGraph {
 		.attr('class', 'master-graph active')
 		.attr("transform", "translate(" + svgRectangle.width / 2 + "," + svgRectangle.height / 2 + ")");
 
+		const data = this.generateStartTimerData();
 		const path = this.baseG.selectAll("path")
-		.data(this.generateStartTimerData())
+		.data(data)
 		.enter().append("path")
 		.attr("fill", (d, i) => { return this.color(i); })
 		.attr("d", arc)
-	    .each(function(d) { this._start = d; });
+		.each(function(d) { this._start = d; });
     
-	    
+	 //    const labels = this.baseG.selectAll("text")
+		// .data(data)
+		// .enter().append("text")
+		// .attr("fill", (d, i) => { return this.color(i); })
+		// .attr('class', textClass)
+		// .text(function(d){return d.label});
 	}
 
 	get overallIntervalDuration(){
@@ -143,13 +165,13 @@ class MasterGraph {
 		values[numIndicesCompleted] = elapsed % 1000;
 
 		const result = values.map((val, index) => {
-			const easedVal = d3.easeCubic(CraftGraph.scaleMillisecondsToSeconds(val));
 			return {
 				data : val,
-				value : easedVal,
+				value : val,
 				startAngle : this.scaleIndexToRadians(index),
 				endAngle : this.scaleIndexToRadians(index + 1),
-				padAngle: .003
+				padAngle: .003,
+				label : Math.ceil(val/1000) + 's'
 			}
 		});
 		return result;
@@ -177,7 +199,8 @@ class MasterGraph {
 				value : val,
 				startAngle : this.scaleIndexToRadians(index),
 				endAngle : this.scaleIndexToRadians(index + 1),
-				padAngle: .003
+				padAngle: .003,
+				label : Math.ceil(val/1000) + 's'
 			}
 		});
 		return result;
