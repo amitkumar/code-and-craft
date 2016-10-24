@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import jquery from 'jquery';
 import * as CraftAudio from './audio';
 import { Howl, Howler } from 'howler';
-import DonutGraph from './donut-graph';
+import CraftGraph from './craft-graph';
 import Timer from './timer';
 
 jquery(function(){
@@ -47,7 +47,7 @@ jquery(function(){
 		globalTimer.start();
 	}
 
-	const craftTimerGraph = new DonutGraph({
+	const craftTimerGraph = new CraftGraph({
 		id : 'craft-10-sec',
 		svg: svg, 
 		duration: 10 * 1000, 
@@ -62,7 +62,7 @@ jquery(function(){
 	});
 	craftTimerGraph.start();
 
-	// const workTimerGraph = new DonutGraph({
+	// const workTimerGraph = new CraftGraph({
 	// 	id : 'three-minute',
 	// 	svg: svg, 
 	// 	duration: 10 * 1000, 
