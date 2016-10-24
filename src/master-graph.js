@@ -2,7 +2,6 @@ import * as d3 from 'd3';
 import * as CraftAudio from './audio';
 import CraftGraph from './craft-graph';
 import Timer from './timer';
-import * as Utils from './utils';
 import moment from 'moment';
 
 class MasterGraph {
