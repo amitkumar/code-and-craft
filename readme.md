@@ -1,9 +1,25 @@
 # Code 'n Craft Web App
-Features the timers used in Code 'n Craft events (coming soon). Made with D3.
+Features the timers used in Code 'n Craft events. Made with D3.
 
 
 ## Live Site
 https://amitthekumar.gitlab.io/code-n-craft/
+
+
+## Local Development
+
+### Project Setup
+
+``` shell
+$ npm install
+```
+
+### Run
+
+``` shell
+$ npm start
+```
+This starts a browserSync server. View the site at http://localhost:3000.
 
 
 ## Author
@@ -11,6 +27,7 @@ Amit Kumar
 http://www.amitkumar.com
 
 # Image Inspirations
+- https://gitlab.com/amitthekumar/code-n-craft/tree/master/public/img/kawandeep-virdee
 - https://www.google.com/search?q=sol+lewitt
 
 ## References
