@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import Timer from './timer';
-
+import * as Utils from './utils';
 
 class CraftGraph {
 	/**
@@ -37,6 +37,9 @@ class CraftGraph {
 		}
 		this.start = function(){
 			this.timer.start();
+		}
+		this.stop = function(){
+			this.timer.stop();
 		}
 
 		this.timer = new Timer({

@@ -13,6 +13,7 @@ jquery(function(){
 	let globalSoundEnabled = true;
 	
 	const $startGlobalTimer = jquery('#btn-start-global-timer');
+	const $stopGlobalTimer = jquery('#btn-stop-global-timer');
 
 	const $soundToggle = jquery('#btn-toggle-sound');
 	
@@ -27,9 +28,9 @@ jquery(function(){
 	const masterGraph = new MasterGraph({
 		id : 'master',
 		svg: svg, 
-		duration: 90 * 60 * 1000,
 		numIntervals : 30,
-		intervalDuration: 3 * 60 * 1000,
+		workDuration: 180 * 1000,
+		breakDuration: 15 * 1000,
 		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
 		$timeDisplay : jquery('#elapsed-time')
 	});
@@ -38,14 +39,16 @@ jquery(function(){
 		$controlPanel.addClass('visible');
 		clearTimeout(hideControlPanelTimeout);
 		hideControlPanelTimeout = setTimeout(function(){
-			$controlPanel.removeClass('visible')	
+			$controlPanel.removeClass('visible');	
 		}, 1500);
 	});
 
 
-
 	$startGlobalTimer.on('click', function(){
 		masterGraph.start();
+	});
+	$stopGlobalTimer.on('click', function(){
+		masterGraph.stop();
 	});
 
 	$soundToggle.on('click', function(){

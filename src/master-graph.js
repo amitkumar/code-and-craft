@@ -11,7 +11,8 @@ class MasterGraph {
 	 * @param settings.svg
 	 * @param settings.width
 	 * @param settings.numIntervals
-	 * @param settings.duration
+	 * @param settings.workDuration
+	 * @param settings.breakDuration
 	 * @param settings.onStart
 	 * @param settings.onEndStart
 	 * @param settings.onEndComplete
@@ -27,79 +28,110 @@ class MasterGraph {
 		this.onEndStart = settings.onEndStart || function(){};
 		this.onEndComplete = settings.onEndComplete || function(){};
 		this.numIntervals = settings.numIntervals;
-		this.numIndices = settings.numIntervals;
-		this.scaleIndexToRadians = d3.scaleLinear().domain([0, this.numIndices]).range([0, Math.PI * 2]);
+		this.workDuration = settings.workDuration;
+		this.breakDuration = settings.breakDuration;
+		this.scaleIndexToRadians = d3.scaleLinear().domain([0, this.numIntervals]).range([0, Math.PI * 2]);
+		this.scaleOuterRadius = d3.scaleLinear().domain([this.overallIntervalDuration, 0 ]).range([0, this.radius]);
 		this.$timeDisplay = settings.$timeDisplay;
-
-		this.draw = function(){
-			const time = moment.duration(this.timerelapsed),
-				timeLeft = moment.duration(this.timer.remaining);
-			this.$timeDisplay.html(`+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}<br/>
-				-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}`);
-			// path.data(this.generateTimerData())
-			// 	.attr("d", arc);
-		}
-
-		this.start = function(){
-			this.timer.start();
-		}
-
-		this.stop = function(){
-			this.timer.stop();
-		}
-
-		console.log('duration', settings.duration);
-		this.timer = new Timer({
-			duration: settings.duration, 
-			onTick : ::this.draw,
-			onStart : () => {
-				console.log('started');
-			},
-			onEnd : () => {
-				console.log('ended');
-			}
-		});
 
 		const svgRectangle = this.svg.node().getBoundingClientRect();
 
+		this.draw = function(){
+			const time = moment.duration(this.overallTimer.elapsed),
+				timeLeft = moment.duration(this.overallTimer.remaining);
+			this.$timeDisplay.html(`+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}<br/>
+				-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}`);
+			path.data(this.generateTimerData())
+				.attr("d", arc);
+		}
+
+		this.start = function(){
+			this.overallTimer.start();
+		}
+
+		this.stop = function(){
+			this.workTimer.stop();
+			CraftAudio.hardStop();
+			this.craftGraph.stop();
+			this.overallTimer.stop();
+		}
+
+		this.workTimer = new Timer({
+			duration: this.workDuration,
+			onStart : () => {
+			},
+			onEnd : () => {
+				this.craftGraph.start();
+			}
+		});
+		
+		this.craftGraph = new CraftGraph({
+			id : 'craft',
+			svg: this.svg, 
+			duration: this.breakDuration,
+			width: this.radius/2, 
+			thickness: this.radius + (this.radius/2/2),
+			onStart : () => {
+				this.baseG.classed('active', false);
+				CraftAudio.start();
+			},
+			onEndStart : () => {
+				CraftAudio.end();
+				this.workTimer.start();
+			},
+			onEndComplete : () => {
+				this.baseG.classed('active', true);
+			}
+		});
+
+		this.overallTimer = new Timer({
+			duration: (this.numIntervals * (this.overallIntervalDuration)), 
+			onTick : ::this.draw,
+			onStart : () => {
+				console.log('started');
+				this.craftGraph.start();
+			},
+			onEnd : () => {
+				console.log('ended');
+				this.workTimer.stop();
+				this.craftGraph.stop();
+			}
+		});
+
 		const arc = d3.arc()
 		.innerRadius(0)
-		.outerRadius(this.radius);
+		.outerRadius((d) => {
+			console.log(d);
+			return this.scaleOuterRadius(d.value);
+		});
 
-		this.colorScale = d3.scaleLinear().domain([0, this.numIndices - 1]).range([.8, .2]);
+		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.1, .2]);
+		this.interpolateColor = d3.interpolate('white', 'black');
 		this.color = (index) => {
-			return d3.interpolateInferno(this.colorScale(index));
+			return this.interpolateColor(this.colorScale(index));
 		};
 
-		const baseG = this.svg
+		this.baseG = this.svg
 		.append("g")
+		.attr('class', 'master-graph active')
 		.attr("transform", "translate(" + svgRectangle.width / 2 + "," + svgRectangle.height / 2 + ")");
 
-		const path = baseG.selectAll("path")
-		.data(this.generateBaseTimerData())
+		const path = this.baseG.selectAll("path")
+		.data(this.generateStartTimerData())
 		.enter().append("path")
 		.attr("fill", (d, i) => { return this.color(i); })
 		.attr("d", arc)
 	    .each(function(d) { this._start = d; });
-
+    
 	    
-	    this.craftTimerGraph = new CraftGraph({
-			id : 'craft',
-			svg: this.svg, 
-			duration: 10 * 1000, 
-			width: 200, 
-			thickness: Math.min(svgRectangle.width, svgRectangle.height)/2,
-			onStart : function(){
-				CraftAudio.start();
-			},
-			onEndStart : function(){
-				CraftAudio.end();	
-			}
-		});
 	}
 
-	generateBaseTimerData(){
-		const elapsed = this.timer.elapsed;
+	get overallIntervalDuration(){
+		return this.workDuration + this.breakDuration;
+	}
+
+	generateStartTimerData(){
+		const elapsed = this.overallTimer.elapsed;
 		const numIndices = this.numIntervals;
 		let numIndicesCompleted = Math.floor(elapsed / 1000);
 		if (numIndicesCompleted > numIndices){
@@ -117,8 +149,36 @@ class MasterGraph {
 				data : val,
 				value : easedVal,
 				startAngle : this.scaleIndexToRadians(index),
-				endAngle : this.scaleIndexToRadians(index + easedVal),
-				padAngle: 0
+				endAngle : this.scaleIndexToRadians(index + 1),
+				padAngle: .003
+			}
+		});
+		return result;
+	}
+
+	generateTimerData(){
+		const elapsed = this.overallTimer.elapsed;
+		const numIndices = this.numIntervals;
+		const overallIntervalDuration = this.overallIntervalDuration;
+
+		let numIndicesCompleted = Math.floor(elapsed / this.overallIntervalDuration);
+		if (numIndicesCompleted > numIndices){
+			numIndicesCompleted = numIndices;
+		}
+		const values = Array(numIndices).fill(0);
+		for(let i = 0; i < numIndicesCompleted; i++){
+			values[i] = overallIntervalDuration;
+		}
+		values[numIndicesCompleted] = elapsed % overallIntervalDuration;
+
+		const result = values.map((val, index) => {
+			// const easedVal = d3.easeCubic(CraftGraph.scaleMillisecondsToSeconds(val));
+			return {
+				data : val,
+				value : val,
+				startAngle : this.scaleIndexToRadians(index),
+				endAngle : this.scaleIndexToRadians(index + 1),
+				padAngle: .003
 			}
 		});
 		return result;
@@ -126,6 +186,5 @@ class MasterGraph {
 }
 
 MasterGraph.scaleMillisecondsToSeconds = d3.scaleLinear().domain([0, 1000]).range([0, 1]);
-
 
 export default MasterGraph;
