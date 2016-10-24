@@ -34,6 +34,7 @@ browserSync.init({
     server: 'public',
     open: false,
     logFileChanges: false,
+    notify: false,
     middleware: [
         webpackDevMiddleware(bundler, {
             publicPath: webpackConfig.output.publicPath,
