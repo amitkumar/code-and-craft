@@ -4,6 +4,7 @@ import * as CraftAudio from './audio';
 import { Howl, Howler } from 'howler';
 import MasterGraph from './master-graph';
 import Timer from './timer';
+import moment from 'moment';
 
 jquery(function(){
 	jquery('.show-on-load').css('visibility', 'visible');
@@ -23,8 +24,17 @@ jquery(function(){
 
 	let hideControlPanelTimeout = undefined;
 
-	$document.on('mousemove touch', function(){
-		
+	const masterGraph = new MasterGraph({
+		id : 'master',
+		svg: svg, 
+		duration: 90 * 60 * 1000,
+		numIntervals : 30,
+		intervalDuration: 3 * 60 * 1000,
+		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
+		$timeDisplay : jquery('#elapsed-time')
+	});
+
+	$document.on('mousemove touchdown', function(){
 		$controlPanel.addClass('visible');
 		clearTimeout(hideControlPanelTimeout);
 		hideControlPanelTimeout = setTimeout(function(){
@@ -33,8 +43,9 @@ jquery(function(){
 	});
 
 
+
 	$startGlobalTimer.on('click', function(){
-		masterGraph.start();	
+		masterGraph.start();
 	});
 
 	$soundToggle.on('click', function(){
@@ -45,14 +56,5 @@ jquery(function(){
 		} else {
 			$soundToggle.text('Enable Sound');
 		}
-	});
-
-	const masterGraph = new MasterGraph({
-		id : 'master',
-		svg: svg, 
-		duration: 90 * 60 * 1000,
-		numIntervals : 30,
-		intervalDuration: 3 * 60 * 1000,
-		width: Math.min(svgRectangle.width, svgRectangle.height) - 50
 	});
 });

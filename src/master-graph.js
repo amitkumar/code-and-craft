@@ -3,6 +3,7 @@ import * as CraftAudio from './audio';
 import CraftGraph from './craft-graph';
 import Timer from './timer';
 import * as Utils from './utils';
+import moment from 'moment';
 
 class MasterGraph {
 	/**
@@ -14,6 +15,7 @@ class MasterGraph {
 	 * @param settings.onStart
 	 * @param settings.onEndStart
 	 * @param settings.onEndComplete
+	 * @param settings.$timeDisplay
 	 */
 	constructor(settings){
 		this.id = settings.id;
@@ -27,9 +29,13 @@ class MasterGraph {
 		this.numIntervals = settings.numIntervals;
 		this.numIndices = settings.numIntervals;
 		this.scaleIndexToRadians = d3.scaleLinear().domain([0, this.numIndices]).range([0, Math.PI * 2]);
+		this.$timeDisplay = settings.$timeDisplay;
 
 		this.draw = function(){
-			console.log('draw');
+			const time = moment.duration(this.timerelapsed),
+				timeLeft = moment.duration(this.timer.remaining);
+			this.$timeDisplay.html(`+${("00" + Math.floor(time.asMinutes())).substr(-2,2)}:${("00" + time.seconds()).substr(-2,2)}<br/>
+				-${("00" + Math.floor(timeLeft.asMinutes())).substr(-2,2)}:${("00" + timeLeft.seconds()).substr(-2,2)}`);
 			// path.data(this.generateTimerData())
 			// 	.attr("d", arc);
 		}
@@ -38,6 +44,11 @@ class MasterGraph {
 			this.timer.start();
 		}
 
+		this.stop = function(){
+			this.timer.stop();
+		}
+
+		console.log('duration', settings.duration);
 		this.timer = new Timer({
 			duration: settings.duration, 
 			onTick : ::this.draw,

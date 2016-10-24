@@ -45,6 +45,12 @@ export default class {
 		this.running = false;
 		this.startedAt = null;
 	}
+	get remaining(){
+		if (!this.running){
+			return 0;
+		}
+		return this.duration - this.elapsed;
+	}
 	get elapsed(){
 		if (!this.running){
 			return 0;
