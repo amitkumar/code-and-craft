@@ -10,7 +10,8 @@ class DonutGraph {
 	 * @param settings.thickness
 	 * @param settings.duration
 	 * @param settings.onStart
-	 * @param settings.onEnd
+	 * @param settings.onEndStart
+	 * @param settings.onEndComplete
 	 */
 	constructor(settings){
 		this.id = settings.id;
@@ -19,7 +20,8 @@ class DonutGraph {
 		this.radius = this.width / 2;
 		this.thickness = settings.thickness;
 		this.onStart = settings.onStart || function(){};
-		this.onEnd = settings.onEnd || function(){};
+		this.onEndStart = settings.onEndStart || function(){};
+		this.onEndComplete = settings.onEndComplete || function(){};
 		this.numIndices = Math.floor(settings.duration / 1000);
 		this.scaleIndexToRadians = d3.scaleLinear().domain([0, this.numIndices]).range([0, Math.PI * 2]);
 
@@ -44,6 +46,7 @@ class DonutGraph {
 				this.onStart();
 			},
 			onEnd : () => {
+				this.onEndStart();
 				path.each(function(d) { this._current = d; })
 					.data(this.generateEndTimerData())
 					.transition().duration(1030).attrTween('d', function(a){
@@ -52,9 +55,10 @@ class DonutGraph {
 						return function(t) {
 							return arc(i(t));
 						};
+			    	}).on('end', () => {
+			    		this.onEndComplete();
 			    	});
-
-				this.onEnd();
+				
 			}
 		});
 		
@@ -109,8 +113,8 @@ class DonutGraph {
 			return {
 				data : 0,
 				value : 0,
-				startAngle : this.scaleIndexToRadians(index),
-				endAngle : this.scaleIndexToRadians(index),
+				startAngle : 0,
+				endAngle : 0,
 				padAngle: 0
 			}
 		});

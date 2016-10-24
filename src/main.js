@@ -32,6 +32,7 @@ jquery(function(){
 			// startCraftTimer();
 		}, 0);
 	});
+
 	$soundToggle.on('click', function(){
 		globalSoundEnabled = !globalSoundEnabled
 		Howler.mute(!globalSoundEnabled);
@@ -45,22 +46,6 @@ jquery(function(){
 	function startGlobalTimer(){
 		globalTimer.start();
 	}
-	// function drawCraftTimer(){
-	// 	var data = DonutGraph.generateTimerData(craftTimer.duration, craftTimer.elapsed);
-	// 	g.datum(data);
-	// 	path = path.data(pie); // compute the new angles
-	//     path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
-	// }
-	// function startCraftTimer(){
-	// 	craftTimer.start();
-	// }
-	// function stopCraftTimer(){
-	// 	craftTimer.stop();
-	// 	CraftAudio.end();
-	// 	drawCraftTimer();
-	// }
-
-
 
 	const craftTimerGraph = new DonutGraph({
 		id : 'craft-10-sec',
@@ -71,7 +56,7 @@ jquery(function(){
 		onStart : function(){
 			CraftAudio.start();
 		},
-		onEnd : function(){
+		onEndStart : function(){
 			CraftAudio.end();	
 		}
 	});
