@@ -1,5 +1,5 @@
 # Code 'n Craft Web App
-Features the timers used in Code 'n Craft events. Made with D3.
+Features the tools & timers used for Code 'n Craft events. Made with D3.
 
 
 ## Live Site
