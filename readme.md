@@ -26,7 +26,7 @@ This starts a browserSync server. View the site at http://localhost:3000.
 Amit Kumar
 http://www.amitkumar.com
 
-# Image Inspirations
+## Image Inspirations
 - https://gitlab.com/amitthekumar/code-n-craft/tree/master/public/img/kawandeep-virdee
 - https://www.google.com/search?q=sol+lewitt
 

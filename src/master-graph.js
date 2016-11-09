@@ -108,19 +108,13 @@ class MasterGraph {
 		})
 		.outerRadius(this.discRadius);
 
-		// const arc = d3.arc()
-		// .innerRadius(0)
-		// .outerRadius((d) => {
-		// 	return this.scaleOuterRadius(d.value);
-		// });
-
 		const textClass = (d) => {
 			if (d.value <= 0){
 				return 'hidden';
 			}
 		};
 
-		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.3, .7]);
+		this.colorScale = d3.scaleLinear().domain([0, this.numIntervals - 1]).range([.1, .5]);
 		this.interpolateColor = d3.interpolate('white', 'black');
 		this.color = (index) => {
 			return this.interpolateColor(this.colorScale(index));

@@ -97,13 +97,16 @@ class CraftGraph {
 
 		const result = values.map((val, index) => {
 			const easedVal = d3.easeCubic(CraftGraph.scaleMillisecondsToSeconds(val));
-			return {
+			
+			const result = {
 				data : val,
 				value : easedVal,
 				startAngle : this.scaleIndexToRadians(index),
 				endAngle : this.scaleIndexToRadians(index + easedVal),
 				padAngle: 0
 			}
+			console.log('craft timer data', 'index', index, 'result', result );
+			return result;
 		});
 		return result;
 	}

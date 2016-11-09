@@ -28,9 +28,9 @@ jquery(function(){
 	const masterGraph = new MasterGraph({
 		id : 'master',
 		svg: svg, 
-		numIntervals : 30,
-		workDuration: 180 * 1000,
-		breakDuration: 15 * 1000,
+		numIntervals : 20,
+		workDuration: 5 * 60 * 1000,
+		breakDuration: 20 * 1000,
 		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
 		discToSpikeRatio : 0.1666666667,
 		$timeDisplay : jquery('#elapsed-time'),
