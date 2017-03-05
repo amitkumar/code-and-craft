@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const path = require('path')
+const fs = require('fs')
+const exec = require('child_process').exec
+const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./server/fsGitHooks')
 
 app.use(require('cookie-parser')())
 app.use(require('body-parser').urlencoded({ extended: true }))
@@ -9,7 +12,6 @@ app.use(require('body-parser').json())
 app.use(express.static(path.join(__dirname,'/')))
 
 app.get('/', (req,res) => {
-  console.log(req.cookies)
   res.send(
     `<html>
       <head>
@@ -34,8 +36,13 @@ app.get('/editor', (req,res) => {
 
 app.post('/compile', (req,res) => {
   console.log(req.cookies.username)
-  console.log(req.body.source)
-  res.sendStatus(200)
+  let thisCompilePath = path.join(changeRepo, req.cookies.username)
+  // console.log(req.body.source)
+  promiseDir(thisCompilePath)
+  .then(promiseGitInit)
+  .then(()=>promiseGitCommit(thisCompilePath, req.body, `autocommit from ${req.cookies.username}`))
+  .then(status => res.send(status))
+  .catch(problem => res.send(problem))
 })
 
 server.listen(3000)

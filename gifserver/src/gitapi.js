@@ -8,7 +8,7 @@ new MutationObserver(function(mutations) {
                   method: 'POST',
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({
-                    source: cm.getDoc().getValue()
+                    'source.txt': cm.getDoc().getValue()
                   }),
                   credentials: 'same-origin'
                 })
