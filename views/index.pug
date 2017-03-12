@@ -1,8 +1,17 @@
 html
 	head
 		title Code &amp; Craft
+		style.
+			svg {
+				//- position: absolute;
+				z-index: 0;
+				top: 0;
+			}
 		body
 			h1= message
 			form(action="/new-user" method="POST")
 				input(name="username" placeholder="username" type="text")
 				button(type="submit") Submit
+
+			<script src="//d3js.org/d3.v4.min.js"></script>
+			script(src="/js/main.js")

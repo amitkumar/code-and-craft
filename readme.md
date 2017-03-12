@@ -12,14 +12,16 @@ https://amitthekumar.gitlab.io/code-n-craft/
 
 ``` shell
 $ npm install
+$ npm install -g webpack
 ```
 
 ### Run
 
 ``` shell
+$ webpack --progress --watch
 $ npm start
 ```
-This starts a browserSync server. View the site at http://localhost:3000.
+View the site at http://localhost:3000.
 
 
 ## Author

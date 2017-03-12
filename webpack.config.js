@@ -13,14 +13,14 @@ module.exports = {
   ],
 
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'dist/bundle.js'
+    filename: 'js/bundle.js'
   },
 
   plugins: [
-  new webpack.optimize.OccurenceOrderPlugin(),
-  new webpack.NoErrorsPlugin()
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
 
   module: {
