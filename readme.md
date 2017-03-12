@@ -40,3 +40,9 @@ http://www.amitkumar.com
 
 
 
+## Hosting
+- Hosted on DigitalOcean. Contact Amit Kumar for access.
+- Set up with these instructions: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
+- Using Nginx, PM2, Let's Encrypt, node.js
+- Project directory is at ~/code
+- `$ ssh root@45.55.157.3`

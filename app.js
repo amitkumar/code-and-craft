@@ -53,18 +53,26 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const path = require('path')
+const compress = require('compression');
 const fs = require('fs')
 const exec = require('child_process').exec
 const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./lib/fs-git-hooks')
 
-app.use(require('cookie-parser')())
-app.use(require('body-parser').urlencoded({ extended: true }))
-app.use(require('body-parser').json())
-app.use(express.static(path.join(__dirname,'/public/')))
+app.set('views', __dirname + '/views');
+app.set('view engine', 'pug');
 
-app.get('/', (req,res) => {
-  res.sendFile('index.html')
-})
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('body-parser').json());
+app.use(compress());
+app.use(express.static(path.join(__dirname,'/dist/')));
+
+
+app.get('/', (req, res) => {
+    res.render('index', {
+        user : req.cookies.username
+    });
+});
 
 app.post('/new-user', (req,res) => {
   res.cookie('username',req.body.username)
@@ -72,7 +80,7 @@ app.post('/new-user', (req,res) => {
 })
 
 app.get('/glc', (req,res) => {
-    res.sendFile(path.join(__dirname,'/public/glc.html'))
+    res.sendFile(path.join(__dirname,'/dist/glc.html'))
 })
 
 app.post('/compile', (req,res) => {
@@ -87,8 +95,8 @@ app.post('/compile', (req,res) => {
 })
 
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var server_port = process.env.PORT || 3000;
+var server_ip_address = process.env.IP || '127.0.0.1';
  
 
 server.listen(server_port, server_ip_address);

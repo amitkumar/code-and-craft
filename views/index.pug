@@ -1,0 +1,8 @@
+html
+	head
+		title Code &amp; Craft
+		body
+			h1= message
+			form(action="/new-user" method="POST")
+				input(name="username" placeholder="username" type="text")
+				button(type="submit") Submit
