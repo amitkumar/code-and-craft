@@ -1,5 +1,5 @@
-# Code 'n Craft Web App
-Features the tools & timers used for Code 'n Craft events. Made with D3.
+# Code & Craft Web App
+Features the tools & timers used for Code & Craft events. Made with D3.
 
 
 ## Live Site
@@ -37,3 +37,6 @@ http://www.amitkumar.com
 - http://webpack.github.io/docs/tutorials/getting-started/
 - https://github.com/harytkon/d3-es6-webpack-boilerplate/blob/master/package.json
 - http://webpack.github.io/docs/tutorials/getting-started/
+
+
+

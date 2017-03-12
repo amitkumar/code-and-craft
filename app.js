@@ -86,5 +86,10 @@ app.post('/compile', (req,res) => {
   .catch(problem => res.send(problem))
 })
 
-server.listen(3000)
-console.log('server listening on 3000')
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+ 
+
+server.listen(server_port, server_ip_address);
+console.log(`Server listening on ${server_ip_address}:${server_port}`);
