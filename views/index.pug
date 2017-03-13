@@ -1,17 +1,96 @@
 html
 	head
 		title Code &amp; Craft
-		style.
-			svg {
-				//- position: absolute;
-				z-index: 0;
-				top: 0;
-			}
-		body
-			h1= message
-			form(action="/new-user" method="POST")
-				input(name="username" placeholder="username" type="text")
-				button(type="submit") Submit
 
-			<script src="//d3js.org/d3.v4.min.js"></script>
-			script(src="/js/main.js")
+
+
+
+		style#dynamic-styles
+
+		body
+			style.
+				#background-shapes {
+					position: absolute;
+					z-index: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					//- display: flex;
+					flex-wrap : wrap;
+					justify-content: space-around;
+					align-items: center;
+					align-content: stretch;
+				}
+
+				.svg-wrapper {
+					width: 20%;
+					display: inline-block;
+					padding: .75em;
+				}
+				svg {
+					width: 100%;
+					height: auto;
+					transition: .25s all ease;
+					transform: scale(1);
+				}
+
+				svg g {
+					transition: .25s all ease;
+					transform : scale(1);
+					transform-origin : 50% 50%;
+				}
+
+				svg:hover g {
+					transform : scale(0);
+				}
+
+				main {
+					position: relative;
+					z-index: 10;
+				}
+
+				.h1 {
+					position: fixed;
+					font-size: 37rem;
+					text-align: right;
+					color: white;
+					line-height: .7;
+					letter-spacing: -.04em;
+					width: 100%;
+					padding-right: 0em;
+					top: -.05em;
+					right: -.0em;
+					pointer-events: none;
+				}
+
+			#background-shapes
+
+			main
+				h1.h1
+					| Code
+					br
+					| &amp;
+					br
+					| Craft
+				form(action="/new-user" method="POST")
+					input(name="username" placeholder="username" type="text")
+					button(type="submit") Submit
+
+			//- <script src="//d3js.org/d3.v4.min.js"></script>
+			script(src="/js/bundle.js")
+
+			script.
+				//- var scale = 1;
+
+				//- setInterval(function(){
+				//- 	scale = scale === 1 ? 2 : 1;
+				//- 	var styles = `
+				//- 		svg {
+				//- 			transform: scale(${scale});
+				//- 		}
+				//- 	`;
+				//- 	document.getElementById('dynamic-styles').innerHTML = styles;
+				//- }, 5000)
+
+
+
