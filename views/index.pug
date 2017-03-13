@@ -2,95 +2,208 @@ html
 	head
 		title Code &amp; Craft
 
+	body
+		style.
+			#background-shapes {
+				position: absolute;
+				z-index: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				//- display: flex;
+				flex-wrap : wrap;
+				justify-content: space-around;
+				align-items: center;
+				align-content: stretch;
+				padding: .5em;
+			}
 
+			.svg-wrapper {
+				width: 20%;
+				display: inline-block;
+				padding: .75em;
+			}
+			svg {
+				width: 100%;
+				height: auto;
+				transition: .25s all ease;
+				transform: scale(1);
+			}
 
+			svg g {
+				transition: .25s all ease;
+				transform : scale(1);
+				transform-origin : 50% 50%;
+			}
+
+			svg:hover g {
+				transform : scale(0);
+			}
+
+			main {
+				position: relative;
+				z-index: 10;
+			}
+
+			.h1 {
+				position: fixed;
+				font-size: 37rem;
+				text-align: right;
+				color: white;
+				line-height: .7;
+				letter-spacing: -.04em;
+				width: 100%;
+				padding-right: 0em;
+				top: -.05em;
+				right: -.0em;
+				pointer-events: none;
+			}
+
+			.form {
+
+			}
+
+		style#base-font-sizes
 
 		style#dynamic-styles
 
-		body
-			style.
-				#background-shapes {
-					position: absolute;
-					z-index: 0;
-					top: 0;
-					width: 100%;
-					height: 100%;
-					//- display: flex;
-					flex-wrap : wrap;
-					justify-content: space-around;
-					align-items: center;
-					align-content: stretch;
+		script.
+			function resizeFonts(){
+				var maxDesktopWindowWidth = 2400,
+					minDesktopWindowWidth = 769,
+					minMobileWidth = 320;
+
+				var windowWidth = window.innerWidth;
+
+				var range = maxDesktopWindowWidth - minDesktopWindowWidth;
+
+				var mobileRange = minDesktopWindowWidth - 1 - minMobileWidth;
+
+				var proportion = {
+					desktop : 1,
+					mobile : 1
+				};
+
+				proportion['desktop'] = (windowWidth - minDesktopWindowWidth) / range;
+				proportion['mobile'] = (windowWidth - minMobileWidth) / mobileRange;
+				
+				console.log('window proportion', proportion);
+
+				if (proportion['desktop'] > 1) {
+					proportion['desktop'] = 1;
+				}
+				if (proportion['mobile'] < 0){
+					proportion['mobile'] = 0;
 				}
 
-				.svg-wrapper {
-					width: 20%;
-					display: inline-block;
-					padding: .75em;
-				}
-				svg {
-					width: 100%;
-					height: auto;
-					transition: .25s all ease;
-					transform: scale(1);
-				}
+				var h1FontSize,
+					h2FontSize,
+					textBodyFontSize,
+					captionFontSize;
 
-				svg g {
-					transition: .25s all ease;
-					transform : scale(1);
-					transform-origin : 50% 50%;
-				}
+				h1FontSize = 24;
+				h2FontSize = 10;
+				textBodyFontSize = 4.8;
+				captionFontSize = 2.6;
 
-				svg:hover g {
-					transform : scale(0);
-				}
+				var h1 = {
+					mobile : {
+						min : 12,
+						max : 24
+					},
+					desktop : {
+						min : 27,
+						max : 45
+					}
+				},
+				h2 = {
+					mobile : {
+						min : 6,
+						max : 8
+					},
+					desktop : {
+						min : 8,
+						max : 10
+					}
+				},
+				text = {
+					mobile : {
+						min : 1.6,
+						max : 2.4
+					},
+					desktop : {
+						min : 2.4,
+						max : 4.8
+					}
+				},
+				caption = {
+					mobile : {
+						min : 1.4,
+						max : 1.4
+					},
+					desktop : {
+						min : 1.4,
+						max : 2.6
+					}
+				};
 
-				main {
-					position: relative;
-					z-index: 10;
-				}
+				var selector = windowWidth >= minDesktopWindowWidth ? 'desktop' : 'mobile';
 
+				h1FontSize = proportion[selector] * (h1[selector].max - h1[selector].min) + h1[selector].min;
+				h2FontSize = proportion[selector] * (h2[selector].max - h2[selector].min) + h2[selector].min;
+				textBodyFontSize = proportion[selector] * (text[selector].max - text[selector].min) + text[selector].min;
+				captionFontSize = proportion[selector] * (caption[selector].max - caption[selector].min) + caption[selector].min;
+				
+				var styleContent = `
 				.h1 {
-					position: fixed;
-					font-size: 37rem;
-					text-align: right;
-					color: white;
-					line-height: .7;
-					letter-spacing: -.04em;
-					width: 100%;
-					padding-right: 0em;
-					top: -.05em;
-					right: -.0em;
-					pointer-events: none;
+					font-size : ${h1FontSize}rem;
 				}
+				.h2 {
+					font-size : ${h2FontSize}rem;
+				}
+				.text-body {
+					font-size : ${textBodyFontSize}rem;
+				}
+				.caption {
+					font-size : ${captionFontSize}rem;
+				}
+				`;
 
-			#background-shapes
+				document.getElementById('base-font-sizes').innerHTML = styleContent;
+			}
+			resizeFonts();
+			window.addEventListener('resize', resizeFonts);
 
-			main
-				h1.h1
-					| Code
-					br
-					| &amp;
-					br
-					| Craft
-				form(action="/new-user" method="POST")
-					input(name="username" placeholder="username" type="text")
-					button(type="submit") Submit
+		
 
-			//- <script src="//d3js.org/d3.v4.min.js"></script>
-			script(src="/js/bundle.js")
+		#background-shapes
 
-			script.
-				//- var scale = 1;
+		main
+			h1.h1
+				| Code
+				br
+				| &amp;
+				br
+				| Craft
+			form.form(action="/new-user" method="POST")
+				input(name="username" placeholder="username" type="text")
+				button(type="submit") Submit
 
-				//- setInterval(function(){
-				//- 	scale = scale === 1 ? 2 : 1;
-				//- 	var styles = `
-				//- 		svg {
-				//- 			transform: scale(${scale});
-				//- 		}
-				//- 	`;
-				//- 	document.getElementById('dynamic-styles').innerHTML = styles;
-				//- }, 5000)
+		//- <script src="//d3js.org/d3.v4.min.js"></script>
+		script(src="/js/bundle.js")
+
+		script.
+			//- var scale = 1;
+
+			//- setInterval(function(){
+			//- 	scale = scale === 1 ? 2 : 1;
+			//- 	var styles = `
+			//- 		svg {
+			//- 			transform: scale(${scale});
+			//- 		}
+			//- 	`;
+			//- 	document.getElementById('dynamic-styles').innerHTML = styles;
+			//- }, 5000)
 
 
 
