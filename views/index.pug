@@ -43,6 +43,7 @@ html
 			main {
 				position: relative;
 				z-index: 10;
+				//- height: 100vh;
 			}
 
 			.h1 {
@@ -60,7 +61,31 @@ html
 			}
 
 			.form {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				margin-top: -6em;
+				transform: translate3d(-50%,-50%,0);
+				background: white;
+				padding: 2em;
+				font-weight: bold;
+				text-align: center;
+			}
 
+			.form input {
+				padding: 1em;
+				width: 20em;
+				background: white;
+				color: black;
+				font-weight: bold;
+				text-align: center;
+			}
+			.form button {
+				background: none;
+				display: block;
+				margin: 1em auto 0;
+				padding: .5em 1em;
+				color: rgba(80, 80, 80, 1);
 			}
 
 		style#base-font-sizes
@@ -186,7 +211,7 @@ html
 				br
 				| Craft
 			form.form(action="/new-user" method="POST")
-				input(name="username" placeholder="username" type="text")
+				input(name="username" placeholder="Enter Your Name" type="text")
 				button(type="submit") Submit
 
 		//- <script src="//d3js.org/d3.v4.min.js"></script>
