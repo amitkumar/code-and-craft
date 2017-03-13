@@ -4,6 +4,9 @@ html
 
 	body
 		style.
+			* {
+				box-sizing: border-box;
+			}
 			#background-shapes {
 				position: absolute;
 				z-index: 0;
@@ -62,14 +65,16 @@ html
 
 			.form {
 				position: fixed;
-				top: 50%;
-				left: 50%;
-				margin-top: -6em;
-				transform: translate3d(-50%,-50%,0);
+				bottom: 0;
+				left: 0;
+				//- transform: translate3d(0,-50%,0);
 				background: white;
-				padding: 2em;
+				padding: 4em;
 				font-weight: bold;
 				text-align: center;
+				transition: .25s all ease;
+				transform: scale(0);
+				color: rgba(0,0,0,1)
 			}
 
 			.form input {
@@ -79,13 +84,15 @@ html
 				color: black;
 				font-weight: bold;
 				text-align: center;
+				border: 5px solid rgba(0,0,0,1)
 			}
 			.form button {
 				background: none;
 				display: block;
 				margin: 1em auto 0;
-				padding: .5em 1em;
-				color: rgba(80, 80, 80, 1);
+				padding: 1em 2em;
+				color: rgba(0,0,0,1);
+				border: 5px solid rgba(0,0,0,1);
 			}
 
 		style#base-font-sizes
@@ -210,7 +217,7 @@ html
 				| &amp;
 				br
 				| Craft
-			form.form(action="/new-user" method="POST")
+			form#form.form(action="/new-user" method="POST")
 				input(name="username" placeholder="Enter Your Name" type="text")
 				button(type="submit") Submit
 
@@ -218,6 +225,12 @@ html
 		script(src="/js/bundle.js")
 
 		script.
+			//- var scale = 1;
+
+			setTimeout(function(){
+				document.getElementById('form').style.transform = 'scale(1)';
+			}, 1000)
+
 			//- var scale = 1;
 
 			//- setInterval(function(){
