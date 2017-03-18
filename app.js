@@ -56,6 +56,7 @@ const path = require('path')
 const compress = require('compression');
 const fs = require('fs')
 const exec = require('child_process').exec
+const fileUpload = require('express-fileupload');
 const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./lib/fs-git-hooks')
 
 app.set('views', __dirname + '/views');
@@ -65,6 +66,7 @@ app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('body-parser').json());
 app.use(compress());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname,'/dist/')));
 
 
@@ -92,6 +94,14 @@ app.post('/compile', (req,res) => {
   .then(()=>promiseGitCommit(thisCompilePath, req.body, `autocommit from ${req.cookies.username}`))
   .then(status => res.send(status))
   .catch(problem => res.send(problem))
+})
+
+app.post('/upload', (req,res) => {
+  let videoFile = req.files.video;
+  videoFile.mv('./video-bin/instagram.webm', function(err) {
+    if (err) return res.status(500).send(err);
+    res.send('File uploaded.');
+  });
 })
 
 
