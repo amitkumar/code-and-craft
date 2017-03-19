@@ -85,7 +85,9 @@ app.get('/glc', (req,res) => {
     res.sendFile(path.join(__dirname,'/dist/glc.html'))
 })
 
-app.post('/compile', (req,res) => {
+//later, the upload function will also grab the source of the codemirror and commit it.
+app.post('/commit', (req,res) => {
+  console.log(req.cookies)
   console.log(req.cookies.username)
   let thisCompilePath = path.join(changeRepo, req.cookies.username)
   // console.log(req.body.source)
@@ -96,9 +98,23 @@ app.post('/compile', (req,res) => {
   .catch(problem => res.send(problem))
 })
 
+//cookies 
+
+//dashboard 
+
+//update src attribute of sessions object in session array per user. 
+
+//
 app.post('/upload', (req,res) => {
+  console.log(req.cookies.username)
   let videoFile = req.files.video;
-  videoFile.mv('./video-bin/instagram.webm', function(err) {
+  let thisCompilePath = path.join(__dirname, 'video-bin', req.cookies.username)
+  let thisFileName = Date.now() //sorry just temporary
+  promiseDir(thisCompilePath)
+  .then(console.log.bind(console))
+  .catch(console.log.bind(console))
+
+  videoFile.mv(path.join(thisCompilePath, `${thisFileName}.webm`), function(err) {
     if (err) return res.status(500).send(err);
     res.send('File uploaded.');
   });
