@@ -82,10 +82,17 @@ app.get('/grapevine/dashboard', (req, res) => {
     });
 });
 
-app.post('/new-user', (req,res) => {
+app.get('/grapevine/glc', (req,res) => {
+    res.render('grapevine/glc', {
+        user : req.cookies.username
+    });
+});
+
+app.post('/grapevine/new-user', (req,res) => {
   res.cookie('username',req.body.username)
-  res.redirect('/glc')
-})
+  res.redirect('/grapevine/glc')
+});
+
 
 app.get('/glc', (req,res) => {
     res.sendFile(path.join(__dirname,'/dist/glc.html'))

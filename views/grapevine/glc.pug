@@ -1,0 +1,21 @@
+html
+    head
+        title Code &amp; Craft - Gif Loop Coder
+        link(rel="stylesheet" type="text/css" href="/vendor/glc/styles/styles.css")
+        link(rel="stylesheet" type="text/css" href="/vendor/glc/styles/codemirror.css")
+        
+    body
+        #content
+        
+        video(id="replay" autoplay loop)
+        
+        script.
+            glcConfig = {
+                externalEditor: false,
+                useTabs: false,
+                canvasWidth: 400,
+                canvasHeight: 400,
+                canvasCanScale: true
+            };
+    
+        script(type="text/javascript" src="/vendor/glc/glc-min.js")
