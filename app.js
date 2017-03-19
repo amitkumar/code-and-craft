@@ -71,21 +71,21 @@ app.use(express.static(path.join(__dirname,'/dist/')));
 
 
 app.get('/', (req, res) => {
-    res.render('index', {
-        user : req.cookies.username
-    });
+  res.render('index', {
+    user : req.cookies.username
+  });
 });
 
 app.get('/grapevine/dashboard', (req, res) => {
-    res.render('grapevine/dashboard', {
-        user : req.cookies.username
-    });
+  res.render('grapevine/dashboard', {
+    user : req.cookies.username
+  });
 });
 
 app.get('/grapevine/glc', (req,res) => {
-    res.render('grapevine/glc', {
-        user : req.cookies.username
-    });
+  res.render('grapevine/glc', {
+    user : req.cookies.username
+  });
 });
 
 app.post('/grapevine/new-user', (req,res) => {
@@ -95,7 +95,7 @@ app.post('/grapevine/new-user', (req,res) => {
 
 
 app.get('/glc', (req,res) => {
-    res.sendFile(path.join(__dirname,'/dist/glc.html'))
+  res.sendFile(path.join(__dirname,'/dist/glc.html'))
 })
 
 app.post('/compile', (req,res) => {
@@ -120,7 +120,7 @@ app.post('/upload', (req,res) => {
 
 var server_port = process.env.PORT || 3000;
 var server_ip_address = process.env.IP || '127.0.0.1';
- 
+
 
 server.listen(server_port, server_ip_address);
 console.log(`Server listening on ${server_ip_address}:${server_port}`);

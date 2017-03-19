@@ -8,7 +8,10 @@ https://amitthekumar.gitlab.io/code-n-craft/
 
 ## Local Development
 
+
 ### Project Setup
+
+- Install editorconfig plugin in your text editor.
 
 ``` shell
 $ npm install
