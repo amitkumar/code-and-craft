@@ -125,12 +125,14 @@ app.post('/upload', (req,res) => {
   let thisFileName = Date.now() //sorry just temporary
   promiseDir(thisCompilePath)
   .then(console.log.bind(console))
+  .then(()=>{
+    videoFile.mv(path.join(thisCompilePath, `${thisFileName}.webm`), function(err) {
+        if (err) return res.status(500).send(err);
+        res.send('File uploaded.');
+    });
+  })
   .catch(console.log.bind(console))
 
-  videoFile.mv(path.join(thisCompilePath, `${thisFileName}.webm`), function(err) {
-    if (err) return res.status(500).send(err);
-    res.send('File uploaded.');
-  });
 })
 
 
