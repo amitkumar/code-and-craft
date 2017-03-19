@@ -52,6 +52,7 @@
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
+const io = require('socket.io')(server)
 const path = require('path')
 const compress = require('compression');
 const fs = require('fs')
@@ -68,6 +69,9 @@ app.use(require('body-parser').json());
 app.use(compress());
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname,'/dist/')));
+app.get('/socket.io.js', (req,res) => {
+  res.sendFile(path.join(__dirname, 'node_modules', 'socket.io-client', 'socket.io.js'))
+})
 
 
 app.get('/', (req, res) => {
