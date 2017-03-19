@@ -76,6 +76,12 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/grapevine/dashboard', (req, res) => {
+    res.render('grapevine/dashboard', {
+        user : req.cookies.username
+    });
+});
+
 app.post('/new-user', (req,res) => {
   res.cookie('username',req.body.username)
   res.redirect('/glc')
