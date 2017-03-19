@@ -2,6 +2,7 @@
 // webpack and webpack-hot-middleware documentation
 var webpack = require('webpack');
 var path = require('path');
+var copyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   debug: true,
@@ -9,7 +10,7 @@ module.exports = {
 
   entry: [
   'bootstrap-loader',
-  './src/main'
+  './src/js/main'
   ],
 
   output: {
@@ -19,6 +20,10 @@ module.exports = {
   },
 
   plugins: [
+    new copyWebpackPlugin([ {
+      from: 'src/vendor'
+    }
+    ]),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
   ],

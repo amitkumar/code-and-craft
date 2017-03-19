@@ -31,6 +31,7 @@
     "bootstrap-sass": "^3.3.7",
     "browser-sync": "^2.8.0",
     "bs-fullscreen-message": "^1.0.0",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
