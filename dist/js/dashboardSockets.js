@@ -6,7 +6,7 @@ socket.on('infoArray', data => {
     let thisVideo = document.createElement('video')
     let thisLabel = document.createElement('h3')
     thisLabel.textContent = user.username
-    thisVideo.setAttribute('src', '/' + user.path)
+    thisVideo.setAttribute('src', user.path)
     thisVideo.setAttribute('autoplay', true)
     thisVideo.setAttribute('loop', true)
     thisVideoBox.appendChild(thisLabel)

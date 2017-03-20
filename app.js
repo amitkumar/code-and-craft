@@ -138,7 +138,9 @@ app.post('/upload', (req,res) => {
                 reject(err)
                 res.status(500).send(err);
             } else {
-                req.session.path = clientSrc
+                // req.session.path = clientSrc
+                //make sure obj saved in the usernameToSession object has the path property assigned to it. Req.session is supposed to allow that.
+                Object.assign(usernameToSession[req.session.username], {path: '\\' + clientSrc})
                 updateDashboard()
                 res.send('File uploaded.');
                 resolve(thisFileName + 'written successfully')
