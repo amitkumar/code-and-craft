@@ -56,7 +56,18 @@ const io = require('socket.io')(server)
 const path = require('path')
 const compress = require('compression');
 const fs = require('fs')
-const session = require('express-session')({ secret: "not so secret", resave: true, saveUninitialized: true})
+
+const Session = require('express-session');
+const MemoryStore = require('session-memory-store')(Session);
+const sessionStore = new MemoryStore({
+    expires : 1 * 60 * 60 // 1 hour
+});
+const session = Session({ 
+    secret: "not so secret", 
+    resave: true, 
+    saveUninitialized: true,
+    store : sessionStore
+});
 const sharedsession = require('express-socket.io-session')
 const exec = require('child_process').exec
 const fileUpload = require('express-fileupload');
