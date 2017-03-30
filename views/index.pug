@@ -10,6 +10,12 @@ html
 				font-weight : 100;
 			}
 
+			@media (max-width: 600px) {
+				html, body {
+					font-size : 12px;
+				}
+			}
+
 			* {
 				box-sizing: border-box;
 			}
@@ -42,7 +48,7 @@ html
 			.svg-wrapper {
 				width: 20%;
 				display: inline-block;
-				padding: .75em;
+				padding: .5rem;
 			}
 			svg {
 				width: 100%;
@@ -76,7 +82,7 @@ html
 				letter-spacing: -.04em;
 				width: 100%;
 				padding-right: 0em;
-				top: 0;
+				top: 1rem;
 				right: 0;
 				pointer-events: none;
 				margin: 0;
@@ -159,12 +165,12 @@ html
 
 				var h1 = {
 					mobile : {
-						min : 12,
-						max : 24
+						min : 5,
+						max : 5
 					},
 					desktop : {
-						min : 12,
-						max : 15
+						min : 8,
+						max : 12
 					}
 				},
 				h2 = {
