@@ -4,6 +4,12 @@ html
 
 	body
 		style.
+			html, body {
+				font-size : 16px;
+				font-family : sans-serif;
+				font-weight : 100;
+			}
+
 			* {
 				box-sizing: border-box;
 			}
@@ -19,6 +25,18 @@ html
 				align-items: center;
 				align-content: stretch;
 				padding: .5em;
+			}
+
+			.external-resource img {
+				width: 100%;
+			}
+
+			.external-resource {
+				transition: .25s all ease;
+				transform: rotate(0);
+			}
+			.external-resource:hover {
+				transform : rotate(360deg);
 			}
 
 			.svg-wrapper {
@@ -51,16 +69,17 @@ html
 
 			.h1 {
 				position: fixed;
-				font-size: 37rem;
+				font-size: 12rem;
 				text-align: right;
 				color: white;
 				line-height: .7;
 				letter-spacing: -.04em;
 				width: 100%;
 				padding-right: 0em;
-				top: -.05em;
-				right: -.0em;
+				top: 0;
+				right: 0;
 				pointer-events: none;
+				margin: 0;
 			}
 
 			.form {
@@ -144,8 +163,8 @@ html
 						max : 24
 					},
 					desktop : {
-						min : 27,
-						max : 45
+						min : 12,
+						max : 15
 					}
 				},
 				h2 = {
@@ -209,6 +228,13 @@ html
 		
 
 		#background-shapes
+			div.svg-wrapper.external-resource
+				a(href="http://instagram.com/code.and.craft")
+					img(src="/img/instagram.png")
+			div.svg-wrapper.external-resource
+				a(href="https://github.com/amitkumar/code-and-craft")
+					img(src="/img/github.svg")
+			
 
 		main
 			h1.h1
@@ -217,7 +243,8 @@ html
 				| &amp;
 				br
 				| Craft
-			form#form.form(action="/grapevine/new-user" method="POST")
+			
+			//- form#form.form(action="/grapevine/new-user" method="POST")
 				input(name="username" placeholder="Enter Your Name" type="text")
 				button(type="submit") Submit
 
