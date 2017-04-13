@@ -19,6 +19,7 @@ html
 			* {
 				box-sizing: border-box;
 			}
+			
 			#background-shapes {
 				position: absolute;
 				z-index: 0;
@@ -31,6 +32,23 @@ html
 				align-items: center;
 				align-content: stretch;
 				padding: .5em;
+			}
+
+			#background-shapes>div:nth-of-type(1),
+			#background-shapes>div:nth-of-type(2) {
+				opacity: 0;
+			}
+
+			#invite {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 40%;
+				padding: 1em;
+				z-index: 100;
+				background: white;
+				margin-left: 1em;
+				font-weight: bold;
 			}
 
 			.external-resource img {
@@ -235,13 +253,28 @@ html
 
 		
 
+		#invite
+			div.invite
+				| Next event: 
+				em Interconnected
+				br
+				| April 25
+				br
+				| 6:30-8:30pm
+				br
+				| WeWork Williamsburg
+				br
+				br
+				| Spaces are limited, so please 
+				a(href="https://www.eventbrite.com/e/code-and-craft-interconnected-tickets-33686840246") RSVP
+		
 		#background-shapes
-			div.svg-wrapper.external-resource
-				a(href="http://instagram.com/code.and.craft")
-					img(src="/img/instagram.png")
-			div.svg-wrapper.external-resource
-				a(href="https://github.com/amitkumar/code-and-craft")
-					img(src="/img/github.svg")
+			//- div.svg-wrapper.external-resource
+			//- 	a(href="http://instagram.com/code.and.craft")
+			//- 		img(src="/img/instagram.png")
+			//- div.svg-wrapper.external-resource
+			//- 	a(href="https://github.com/amitkumar/code-and-craft")
+			//- 		img(src="/img/github.svg")
 			
 
 		main
