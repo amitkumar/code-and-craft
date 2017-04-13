@@ -51,8 +51,12 @@ html
 				font-weight: bold;
 			}
 
+			.external-resource {
+				display: inline-block;
+				margin-right: .5em;
+			}
 			.external-resource img {
-				width: 100%;
+				width: 1.25em;
 				vertical-align: initial;
 			}
 
@@ -267,7 +271,14 @@ html
 				br
 				| Spaces are limited, so please 
 				a(href="https://www.eventbrite.com/e/code-and-craft-interconnected-tickets-33686840246") RSVP
+				br
+				br
+				a.external-resource(href="http://instagram.com/code.and.craft")
+					img(src="/img/instagram.png")
+				a.external-resource(href="https://github.com/amitkumar/code-and-craft")
+					img(src="/img/github.svg")
 		
+
 		#background-shapes
 			//- div.svg-wrapper.external-resource
 			//- 	a(href="http://instagram.com/code.and.craft")
