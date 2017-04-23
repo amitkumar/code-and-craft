@@ -93,26 +93,26 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/grapevine/dashboard', (req, res) => {
-    res.render('grapevine/dashboard', {});
+app.get('/interconnected/dashboard', (req, res) => {
+    res.render('interconnected/dashboard', {});
 });
 
-app.get('/grapevine/glc', (req,res) => {
+app.get('/interconnected/glc', (req,res) => {
     if (!req.session.username){
         return res.redirect('/');
     } else {
-        res.render('grapevine/glc', {
+        res.render('interconnected/glc', {
             user : req.session.username
         });    
     }
 });
 
-app.post('/grapevine/new-user', (req,res) => {
+app.post('/interconnected/new-user', (req,res) => {
     if (!req.body.username){
         return res.redirect('/');
     } else {
         req.session.username = req.body.username
-        res.redirect('/grapevine/glc')
+        res.redirect('/interconnected/glc')
     }
 });
 

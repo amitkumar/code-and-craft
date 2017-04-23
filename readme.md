@@ -13,6 +13,16 @@ http://codeandcraft.org
 - Assets in /dist folder shouldn't be directly edited; they will be overwritten by a webpack build. Instead, edit the files in the /public directory.
 
 
+### Project Structure
+
+#### "Interconncted" app 
+
+- HTML pages are PUG template files. /views/interconnected/
+- Backend code is in /app.js
+- JS is in /public/interconnected
+- Uses GLC library, which is located at /public/vendor/gifloopcoder. It is compiled to /dist
+
+
 ### Project Setup
 
 - Install editorconfig plugin in your text editor.
@@ -21,9 +31,6 @@ http://codeandcraft.org
 $ npm install
 $ npm install -g webpack
 ```
-
-
-
 
 ### Run
 
