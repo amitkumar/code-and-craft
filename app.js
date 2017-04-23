@@ -93,13 +93,19 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/interconnected', (req, res) => {
+    res.render('interconnected/index', {});
+});
+
 app.get('/interconnected/dashboard', (req, res) => {
-    res.render('interconnected/dashboard', {});
+    res.render('interconnected/dashboard', {
+        user : req.session.username
+    });
 });
 
 app.get('/interconnected/glc', (req,res) => {
     if (!req.session.username){
-        return res.redirect('/');
+        return res.redirect('/interconnected');
     } else {
         res.render('interconnected/glc', {
             user : req.session.username
@@ -109,7 +115,7 @@ app.get('/interconnected/glc', (req,res) => {
 
 app.post('/interconnected/new-user', (req,res) => {
     if (!req.body.username){
-        return res.redirect('/');
+        return res.redirect('/interconnected');
     } else {
         req.session.username = req.body.username
         res.redirect('/interconnected/glc')
@@ -117,9 +123,9 @@ app.post('/interconnected/new-user', (req,res) => {
 });
 
 
-app.get('/glc', (req,res) => {
-    res.sendFile(path.join(__dirname,'/dist/glc.html'))
-})
+// app.get('/glc', (req,res) => {
+//     res.sendFile(path.join(__dirname,'/dist/glc.html'))
+// })
 
 //later, the upload function will also grab the source of the codemirror and commit it.
 app.post('/commit', (req,res) => {
