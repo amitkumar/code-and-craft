@@ -8,6 +8,10 @@ http://codeandcraft.org
 
 ## Local Development
 
+- We use a forked GifLoopCoder, included as a git subtree at /public/vendor/glc
+- Assets in /public are built with webpack and output to /dist
+- Assets in /dist folder shouldn't be directly edited; they will be overwritten by a webpack build. Instead, edit the files in the /public directory.
+
 
 ### Project Setup
 
@@ -18,8 +22,7 @@ $ npm install
 $ npm install -g webpack
 ```
 
-- We use a forked GifLoopCoder, included as a git subtree at /public/vendor/glc
-- Assets in /public are built with webpack and output to /dist
+
 
 
 ### Run
