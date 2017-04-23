@@ -3,7 +3,7 @@ Features the tools & timers used for Code & Craft events. Made with D3.
 
 
 ## Live Site
-https://amitthekumar.gitlab.io/code-n-craft/
+http://codeandcraft.org 
 
 
 ## Local Development
@@ -17,6 +17,10 @@ https://amitthekumar.gitlab.io/code-n-craft/
 $ npm install
 $ npm install -g webpack
 ```
+
+- We use a forked GifLoopCoder, included as a git subtree at /public/vendor/glc
+- Assets in /public are built with webpack and output to /dist
+
 
 ### Run
 

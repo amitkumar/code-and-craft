@@ -3,14 +3,13 @@
 var webpack = require('webpack');
 var path = require('path');
 var copyWebpackPlugin = require('copy-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
-  debug: true,
   devtool: '#eval-source-map',
 
   entry: [
-  'bootstrap-loader',
-  './src/js/main'
+  './public/js/main'
   ],
 
   output: {
@@ -20,39 +19,29 @@ module.exports = {
   },
 
   plugins: [
-    new copyWebpackPlugin([ {
-      from: 'src/vendor'
-    }
+    new webpack.LoaderOptionsPlugin({
+     debug: true
+    }),
+    new copyWebpackPlugin([
+
+      {
+        from: 'public',
+        to : './'
+      }
+
     ]),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new WebpackShellPlugin({
+      onBuildStart: ['echo "Starting"'],
+      onBuildExit: ['cd dist/vendor/gifloopcoder && npm i && grunt build'],
+      safe: true
+    })
   ],
 
   module: {
     loaders: [
     { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
     { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
-    {
-      test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url?limit=10000',
-    },
-    {
-      test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-      loader: 'file',
-    },
-    { 
-      test: /\.png$/, 
-      loader: "url-loader?limit=100000" 
-    },
-    { 
-      test: /\.jpg$/, 
-      loader: "file-loader" 
-    },
-    {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
-      loader: 'url?limit=10000&mimetype=image/svg+xml'
-    },
-    { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' },
     {
       loader: "babel-loader",
 
