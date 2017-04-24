@@ -60,11 +60,11 @@ const fs = require('fs')
 const Session = require('express-session');
 const MemoryStore = require('session-memory-store')(Session);
 const sessionStore = new MemoryStore({
-    expires : 1 * 60 * 60 // 1 hour
+    expires : 24 * 60 * 60 // 24 hour
 });
 const session = Session({ 
     secret: "not so secret", 
-    resave: true, 
+    resave: false, 
     saveUninitialized: true,
     store : sessionStore
 });
@@ -76,9 +76,7 @@ const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./li
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 app.use(session)
-// io.use(sharedsession(session, {
-//     autoSave:true
-// }));
+
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('body-parser').json());
 app.use(compress());
@@ -107,6 +105,7 @@ app.get('/interconnected/glc', (req,res) => {
     if (!req.session.username){
         return res.redirect('/interconnected');
     } else {
+        console.log('read req.session.username', req.session, req.session.username);
         res.render('interconnected/glc', {
             user : req.session.username
         });    
@@ -117,9 +116,8 @@ app.post('/interconnected/new-user', (req,res) => {
     if (!req.body.username){
         return res.redirect('/interconnected');
     } else {
-        sessionStore.all((err, sessions)=>{
-        });
-        req.session.username = req.body.username
+        req.session.username = req.body.username;
+        console.log('set req.session.username', req.body.username);
         res.redirect('/interconnected/glc')
     }
 });
@@ -144,13 +142,14 @@ app.post('/commit', (req,res) => {
 
 
 app.post('/upload', (req,res) => {
-  console.log(req.session.username)
+  console.log('/upload read req.session.username', req.session, req.session.username);
   let videoFile = req.files.video;
-  let thisCompilePath = path.join(__dirname, 'video-bin', req.session.username)
-  let thisFileName = Date.now() //sorry just temporary
-  let clientSrc = path.join('video-bin',req.session.username,`${thisFileName}.webm`)
+  let thisCompilePath = path.join(__dirname, 'video-bin') + '/' + req.session.username;
+  let thisFileName = Date.now(); //sorry just temporary
+  
   promiseDir(thisCompilePath)
     .then(()=> new Promise((resolve, reject) => {
+        let clientSrc = path.join('video-bin', req.session.username ,`${thisFileName}.webm`)      
         videoFile.mv(path.join(thisCompilePath, `${thisFileName}.webm`), function(err) {
             if (err){
                 reject(err)
@@ -177,7 +176,7 @@ server.listen(server_port, server_ip_address);
 console.log(`Server listening on ${server_ip_address}:${server_port}`);
 
 const dashboardSockets = io.of('/interconnected/dashboard');
-const interconnectedSockets = io.of('interconnected');
+const interconnectedSockets = io.of('/interconnected');
 
 interconnectedSockets.use(sharedsession(session, {
     autoSave:true
