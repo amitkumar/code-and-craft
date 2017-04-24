@@ -10,7 +10,10 @@ define(function() {
 	function init() {
 		canvas = document.querySelector("#content .canvas_panel canvas");
 		stream = canvas.captureStream();	
-		recorder = new MediaRecorder(stream, { mimeType : 'video/webm' });
+		recorder = new MediaRecorder(stream, { 
+			mimeType : 'video/webm',
+			videoBitsPerSecond : 5000000 
+		});
 		recordedBlobs = [];
 
 		recorder.ondataavailable = function(e) {
