@@ -197,7 +197,8 @@ define(function(require) {
       form.append('video', blob);
       fetch('/upload', {
         method: 'post',
-        body: form
+        body: form,
+        credentials: 'same-origin'
       });
     }
 
