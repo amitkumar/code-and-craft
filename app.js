@@ -76,9 +76,9 @@ const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./li
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 app.use(session)
-io.use(sharedsession(session, {
-    autoSave:true
-}));
+// io.use(sharedsession(session, {
+//     autoSave:true
+// }));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('body-parser').json());
 app.use(compress());
@@ -117,6 +117,8 @@ app.post('/interconnected/new-user', (req,res) => {
     if (!req.body.username){
         return res.redirect('/interconnected');
     } else {
+        sessionStore.all((err, sessions)=>{
+        });
         req.session.username = req.body.username
         res.redirect('/interconnected/glc')
     }
@@ -174,9 +176,13 @@ var server_ip_address = process.env.IP || '127.0.0.1';
 server.listen(server_port, server_ip_address);
 console.log(`Server listening on ${server_ip_address}:${server_port}`);
 
-const dashboardSockets = io.of('/dashboard');
+const dashboardSockets = io.of('/interconnected/dashboard');
+const interconnectedSockets = io.of('interconnected');
 
-io.on('connection', socket => { 
+interconnectedSockets.use(sharedsession(session, {
+    autoSave:true
+}));
+interconnectedSockets.on('connection', socket => { 
     let {username} = socket.handshake.session
     if(username != undefined && username != 'dashboard'){
         console.log(username, 'joined.')

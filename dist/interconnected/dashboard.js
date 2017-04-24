@@ -1,4 +1,4 @@
-const socket = io('/dashboard');
+const socket = io('/interconnected/dashboard');
 
 socket.on('users', data => {
   console.log('users', data)
