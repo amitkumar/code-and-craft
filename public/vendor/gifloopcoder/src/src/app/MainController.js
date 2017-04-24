@@ -127,6 +127,9 @@ define(function(require) {
         GLCInterface.styles.reset();
         GLCInterface.onEnterFrame = null;
         GLCInterface.onExitFrame = null;
+        
+        forceLoop();
+        
     }
 
     function setDirty(dirty) {
@@ -139,6 +142,14 @@ define(function(require) {
     ////////////////////////////////////////
     // play methods
     ////////////////////////////////////////
+
+    function forceLoop(){
+        Scheduler.stop();
+        // give time for one more Scheduler.render call
+        setTimeout(function(){
+            Scheduler.loop();
+        }, 100);
+    };
 
     function loop() {
         Scheduler.loop();

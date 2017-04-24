@@ -1,4 +1,5 @@
 define(function() {
+	var Recorder = require("app/Recorder");
 
 	var t = 0,
 		duration = 2,
@@ -11,6 +12,7 @@ define(function() {
 
 	function init(pListener) {
 		listener = pListener;
+		Recorder.init();
 	}
 
 	function render() {
@@ -38,10 +40,13 @@ define(function() {
 	    if(Math.round(t * 10000) / 10000 >= 1) {
 	    	if(looping) {
 	    		t -= 1;
+	    		Recorder.stop();
 	    	}
 	    	else {
 		    	t = 0;
 		    	stop();
+		    	Recorder.stop();
+	    		Recorder.uploadVideo();
 		    }
 	    }
 	}
@@ -53,6 +58,8 @@ define(function() {
 			stopping = false;
 			looping = true;
 			running = true;
+			Recorder.stop();
+			Recorder.start();
 			render();
 		}
 	}
@@ -61,6 +68,7 @@ define(function() {
 		if(running) {
 			stopping = true;
 			t = 0;
+			Recorder.stop();
 		}
 	}
 
@@ -70,7 +78,9 @@ define(function() {
 			t = 0;
 			looping = false;
 			running = true;
-			render();		
+			render();
+			Recorder.stop();
+			Recorder.start();
 		}
 	}
 
@@ -100,6 +110,7 @@ define(function() {
 		loop: loop,
 		playOnce: playOnce,
 		stop: stop,
+		render: render,
 		isRunning: isRunning,
 		setDuration: setDuration,
 		getDuration: getDuration,

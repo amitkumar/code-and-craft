@@ -49,6 +49,7 @@ http://www.amitkumar.com
 - https://gitlab.com/amitthekumar/code-n-craft/tree/master/public/img/kawandeep-virdee
 - https://www.google.com/search?q=sol+lewitt
 
+
 ## References
 - https://www.browsersync.io/docs/recipes
 - https://bl.ocks.org/mbostock/1346410
@@ -56,6 +57,9 @@ http://www.amitkumar.com
 - http://webpack.github.io/docs/tutorials/getting-started/
 - https://github.com/harytkon/d3-es6-webpack-boilerplate/blob/master/package.json
 - http://webpack.github.io/docs/tutorials/getting-started/
+
+### Interconnected
+- Video capture: https://github.com/webrtc/samples/blob/gh-pages/src/content/capture/canvas-record/js/main.js
 
 
 
@@ -65,3 +69,10 @@ http://www.amitkumar.com
 - Using Nginx, PM2, Let's Encrypt, node.js
 - Project directory is at ~/code
 - `$ ssh root@45.55.157.3`
+
+
+
+## Video Capture Process for GLC
+- Created new Recorder class in GLC.
+- Hook start/stop recording into Scheduler. 
+- Compile now triggers a restart of the loop (through MainController), in order to restart the recording.
