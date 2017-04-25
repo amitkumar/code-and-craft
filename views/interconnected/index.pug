@@ -2,6 +2,36 @@ html
 	head
 		title Code &amp; Craft
 
+		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+		script.  
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+				authDomain: "codeandcraft-51db3.firebaseapp.com",
+				databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+				projectId: "codeandcraft-51db3",
+				storageBucket: "codeandcraft-51db3.appspot.com",
+				messagingSenderId: "489289770401"
+			};
+			firebase.initializeApp(config);
+		script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+		link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+		script.
+			// FirebaseUI config.
+			var uiConfig = {
+				signInSuccessUrl: '/interconnected/glc',
+				signInOptions: [
+					firebase.auth.EmailAuthProvider.PROVIDER_ID
+				],
+				// Terms of service url.
+				tosUrl: 'terms-of-service'
+			};
+
+			// Initialize the FirebaseUI Widget using Firebase.
+			var ui = new firebaseui.auth.AuthUI(firebase.auth());
+			// The start method will wait until the DOM is loaded.
+			ui.start('#firebaseui-auth-container', uiConfig);
 	body
 		style.
 			html, body {
@@ -118,38 +148,42 @@ html
 				text-align: center;
 				transition: .25s all ease;
 				color: rgba(0,0,0,1);
-				font-size: 24px;
+				font-size: 16px;
+			}
+
+			.form p {
+				font-weight: normal;
 			}
 
 			.form.visible {
 				transform: translate3d(-50%,-50%,0) scale(1);
 			}
 
-			.form input {
-				padding: 1em;
-				width: 20em;
-				background: white;
-				color: black;
-				font-weight: bold;
-				text-align: center;
-				border: 5px solid rgba(0,0,0,1);
-				font-size: 24px;
-			}
-			.form button {
-				background: none;
-				display: block;
-				margin: 1em auto 0;
-				padding: 1em 2em;
-				color: rgba(0,0,0,1);
-				border: 5px solid rgba(0,0,0,1);
-				font-weight: bold;
-				font-size: 24px;
-				cursor: pointer;
-				transition: .25s all ease;
-			}
-			.form button:hover {
-				transform: scale(1.2);
-			}
+			//- .form input {
+			//- 	padding: 1em;
+			//- 	width: 20em;
+			//- 	background: white;
+			//- 	color: black;
+			//- 	font-weight: bold;
+			//- 	text-align: center;
+			//- 	border: 5px solid rgba(0,0,0,1);
+			//- 	font-size: 24px;
+			//- }
+			//- .form button {
+			//- 	background: none;
+			//- 	display: block;
+			//- 	margin: 1em auto 0;
+			//- 	padding: 1em 2em;
+			//- 	color: rgba(0,0,0,1);
+			//- 	border: 5px solid rgba(0,0,0,1);
+			//- 	font-weight: bold;
+			//- 	font-size: 24px;
+			//- 	cursor: pointer;
+			//- 	transition: .25s all ease;
+			//- }
+			//- .form button:hover {
+			//- 	transform: scale(1.2);
+			//- }
 
 		style#base-font-sizes
 
@@ -276,10 +310,9 @@ html
 				h2 
 					| Log in to 
 					em Interconnected
-				input(name="username" placeholder="Enter Your Name" type="text")
-				button(type="submit") Submit
-
-		//- <script src="//d3js.org/d3.v4.min.js"></script>
+				p (this is how we'll identify which drawings are yours during the event)
+				#firebaseui-auth-container
+			
 		script(src="/js/bundle.js")
 
 		script.

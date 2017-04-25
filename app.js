@@ -1,4 +1,5 @@
 // /**
+
 //  * Require Browsersync along with webpack and middleware for it
 //  */
 // var browserSync          = require('browser-sync').create();
@@ -57,21 +58,34 @@ const path = require('path')
 const compress = require('compression');
 const fs = require('fs')
 
-const Session = require('express-session');
-const MemoryStore = require('session-memory-store')(Session);
-const sessionStore = new MemoryStore({
-    expires : 24 * 60 * 60 // 24 hour
+const firebaseAdmin = require("firebase-admin");
+const firebaseServiceAccount = require("./env/codeandcraft-firebase-key.json");
+
+const firebaseRef = firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount),
+  databaseURL: "https://codeandcraft-51db3.firebaseio.com"
 });
+
+
+const Session = require('express-session');
+const FirebaseStore = require('connect-session-firebase')(Session);
+const sessionStore = new FirebaseStore({
+    database: firebaseRef.database()
+});
+
 const session = Session({ 
     secret: "not so secret", 
     resave: false, 
     saveUninitialized: true,
     store : sessionStore
 });
+
 const sharedsession = require('express-socket.io-session')
 const exec = require('child_process').exec
 const fileUpload = require('express-fileupload');
 const {changeRepo, promiseGitInit, promiseGitCommit, promiseDir} = require('./lib/fs-git-hooks')
+
+
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
@@ -102,25 +116,28 @@ app.get('/interconnected/dashboard', (req, res) => {
 });
 
 app.get('/interconnected/glc', (req,res) => {
-    if (!req.session.username){
-        return res.redirect('/interconnected');
-    } else {
-        console.log('read req.session.username', req.session, req.session.username);
-        res.render('interconnected/glc', {
-            user : req.session.username
-        });    
-    }
+    // if (!req.session.username){
+    //     return res.redirect('/interconnected');
+    // } else {
+    //     console.log('read req.session.username', req.session, req.session.username);
+    //     res.render('interconnected/glc', {
+    //         user : req.session.username
+    //     });    
+    // }
+    res.render('interconnected/glc', {
+        user : req.session.username
+    });    
 });
 
-app.post('/interconnected/new-user', (req,res) => {
-    if (!req.body.username){
-        return res.redirect('/interconnected');
-    } else {
-        req.session.username = req.body.username;
-        console.log('set req.session.username', req.body.username);
-        res.redirect('/interconnected/glc')
-    }
-});
+// app.post('/interconnected/new-user', (req,res) => {
+//     if (!req.body.username){
+//         return res.redirect('/interconnected');
+//     } else {
+//         req.session.username = req.body.username;
+//         console.log('set req.session.username', req.body.username);
+//         res.redirect('/interconnected/glc')
+//     }
+// });
 
 
 // app.get('/glc', (req,res) => {
@@ -175,35 +192,34 @@ var server_ip_address = process.env.IP || '127.0.0.1';
 server.listen(server_port, server_ip_address);
 console.log(`Server listening on ${server_ip_address}:${server_port}`);
 
-const dashboardSockets = io.of('/interconnected/dashboard');
-const interconnectedSockets = io.of('/interconnected');
+// const dashboardSockets = io.of('/interconnected/dashboard');
+// const interconnectedSockets = io.of('/interconnected');
 
-interconnectedSockets.use(sharedsession(session, {
-    autoSave:true
-}));
-interconnectedSockets.on('connection', socket => { 
-    let {username} = socket.handshake.session
-    if(username != undefined && username != 'dashboard'){
-        console.log(username, 'joined.')
+// interconnectedSockets.use(sharedsession(session, {
+//     autoSave:true
+// }));
+// interconnectedSockets.on('connection', socket => { 
+//     let {username} = socket.handshake.session
+//     if(username != undefined && username != 'dashboard'){
+//         console.log(username, 'joined.')
         
-        socket.on('disconnect', () => {
-            console.log(username, 'went away');
-            broadcastVideos();
-        });
-    }
-});
+//         socket.on('disconnect', () => {
+//             console.log(username, 'went away');
+//             broadcastVideos();
+//         });
+//     }
+// });
 
-dashboardSockets.on('connection', function(socket){
-    broadcastVideos();
-});
+// dashboardSockets.on('connection', function(socket){
+//     broadcastVideos();
+// });
 
-function broadcastVideos(){
-    sessionStore.all((err, sessions)=>{
-        // Only return user sessions that have a video 
-        sessions = sessions.filter(session => {
-            return !!session.latestVideoPath;
-        });
-        console.log('broadcastVideos sessions', sessions);
-        dashboardSockets.emit('users', sessions);
-    }); 
-}
+// function broadcastVideos(){
+//     // Only return user sessions that have a video
+//     console.log('sessions', sessionStore.sessions); 
+//     var sessions = sessionStore.sessions.filter(session => {
+//         return !!session.latestVideoPath;
+//     });
+//     console.log('broadcastVideos sessions', sessions);
+//     dashboardSockets.emit('users', sessions);
+// }

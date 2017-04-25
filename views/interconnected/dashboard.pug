@@ -7,10 +7,41 @@ html
 				font-family : sans-serif;
 				font-weight : bold;
 			}
+
+		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+		script.  
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+				authDomain: "codeandcraft-51db3.firebaseapp.com",
+				databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+				projectId: "codeandcraft-51db3",
+				storageBucket: "codeandcraft-51db3.appspot.com",
+				messagingSenderId: "489289770401"
+			};
+			firebase.initializeApp(config);
+		script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+		link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+		script.
+			// FirebaseUI config.
+			var uiConfig = {
+				signInSuccessUrl: '/interconnected/glc',
+				signInOptions: [
+					firebase.auth.EmailAuthProvider.PROVIDER_ID
+				],
+				// Terms of service url.
+				tosUrl: 'terms-of-service'
+			};
+
+			// Initialize the FirebaseUI Widget using Firebase.
+			var ui = new firebaseui.auth.AuthUI(firebase.auth());
+			
 	body
 		main
 			h1 Grapevine Dashboard
-			grid 
+			#firebaseui-auth-container
+			#grid 
 			
 		script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
 		script(src="/interconnected/dashboard.js")
