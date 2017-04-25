@@ -44,19 +44,22 @@
 
 			var commitsDbRef = database.ref(commitsPath);
 			var commitsStorageRef = storage.ref(commitsPath);
-			
+		
+			var latestCommitRef = database.ref('interconnected/latest-by-user/' + uid);	
 
 			window.CnC.uploadCommitToFirebase = function(code, blob){
 				var newCommit = commitsDbRef.push();
 				var newCommitKey = newCommit.key;
+				var timestamp = Date.now();
+
 				newCommit.set({
 					code : code,
-					timestamp : Date.now()
+					timestamp : timestamp
 				});
 
 				var fileRef = commitsStorageRef.child(newCommitKey + '.webm');
 				fileRef.put(blob, { contentType : 'video/webm' }).then(function(snapshot) {
-					console.log('Uploaded a blob or file!', snapshot);
+					console.log('Uploaded blob to firebase', snapshot);
 					newCommit.set({
 						fileMetadata : {
 							bucket : snapshot.metadata.bucket,
@@ -67,8 +70,18 @@
 						},
 						fileURL : snapshot.downloadURL,
 						code : code,
-						timestamp : Date.now()
+						timestamp : timestamp
 					});
+
+					latestCommitRef.set({
+						uid : uid,
+						displayName : displayName,
+						timestamp : timestamp,
+						code : code,
+						fileURL : snapshot.downloadURL,
+						commitPath : newCommit.toString()
+					});
+					console.log('Finished writing commit to firebase', latestCommitRef);
 				});
 			};
 
