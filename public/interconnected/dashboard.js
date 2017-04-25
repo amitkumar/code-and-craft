@@ -17,7 +17,7 @@
             
             latestCommitsRef.on('value', function(snapshot) {
                 latestCommitsByUser = snapshot.val();
-                console.log('latestCommits', latestCommits);
+                console.log('latestCommits', latestCommitsByUser);
             });
 
             chainRef.on('value', function(snapshot) {
