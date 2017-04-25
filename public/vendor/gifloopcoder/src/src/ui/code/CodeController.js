@@ -163,7 +163,9 @@ define(function(require) {
 
     function compile() {
         window.refreshEditorVariables();
-        
+
+        CodeView.setCode(window.wrapCodeWithCnC(CodeView.getCode()), true);
+
         // TODO: reset and clear renderlist
         var script = document.getElementById("loaded_script");
         if(script) {

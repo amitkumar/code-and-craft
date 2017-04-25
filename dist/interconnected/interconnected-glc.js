@@ -10,32 +10,38 @@
 	var isFirstInputRead = true;
 
 	var codeTemplates = {
-        beginning : 
-`/* [codeandcraft] */
+        getBeginning : function(){
+        	return `/* [codeandcraft] */
 // Code & Craft Chained Variables. Use these at least once in your code. 
 // And feel free to modify them before they get sent to the next participant!
-
-window.CnC.length = window.CnC.length;
-window.CnC.hue = window.CnC.hue;
-window.CnC.quantity = window.CnC.quantity;
+// You're getting inputs from: ${window.CnC.inputs ? window.CnC.inputs.displayName : 'seed'}
+window.CnC.length = ${window.CnC.inputs ? window.CnC.inputs.length : 1}; // any number
+window.CnC.hue = ${window.CnC.inputs ? window.CnC.inputs.hue : 1}; // between 0-360
+window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // any number
 /* [/codeandcraft] */
 
-`,
-        end : 
-`
-/* Ending Code & Craft Chained Variables: */
-`
+`;
+		}
     };
 
     window.wrapCodeWithCnC = function(code){
-        console.log('wrapCodeWithCnC', code);
-        if (code.indexOf('/* [codeandcraft] */') < 0){
-            code = [
-                codeTemplates.beginning,
-                code,
-                codeTemplates.end
-            ].join('');
+        // console.log('wrapCodeWithCnC', code);
+		console.log('wrapCodeWithCnC');
+        console.log(codeTemplates.getBeginning());
+        
+        var headerIndex = code.indexOf('/* [/codeandcraft] */');
+
+        if (headerIndex > 0){
+        	var lastIndexOfHeader = headerIndex + ('/* [/codeandcraft] */'.length) + 2;
+        	code = code.slice(lastIndexOfHeader);
+        	console.log('sliced off header', code);
         }
+        
+        code = [
+            codeTemplates.getBeginning(),
+            code
+        ].join('');
+
         return code;
     };
 
@@ -139,6 +145,7 @@ window.CnC.quantity = window.CnC.quantity;
 				// Only using this object to store for later storage when committing
 				window.CnC.inputs = inputs;
 				window.CnC.inputs.uid = precedingChainUser ? precedingChainUser.val().uid : uid;
+				window.CnC.inputs.displayName = precedingChainUser ? precedingChainUser.val().displayName : displayName;
 				
 				if (isFirstInputRead){
 					isFirstInputRead = false;
@@ -152,6 +159,7 @@ window.CnC.quantity = window.CnC.quantity;
 					console.log('myChainRef does not exist, pushing to chain');
 					myChainRef = chainRef.push({
 						uid : uid,
+						displayName : displayName,
 						inputs : window.CnC.inputs,
 						outputs : {
 							length : window.CnC.length,
@@ -228,6 +236,7 @@ window.CnC.quantity = window.CnC.quantity;
 
 					myChainRef.set({
 						uid : uid,
+						displayName : displayName,
 						inputs : window.CnC.inputs,
 						outputs : {
 							length : window.CnC.length,
