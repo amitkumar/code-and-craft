@@ -38,7 +38,13 @@ window.CnC.quantity = window.CnC.quantity;
         return code;
     };
 
-	
+	var seedRef = database.ref('interconnected/seed');
+	seedRef.on('value', function(snapshot){
+		var seed = snapshot.val();
+		window.CnC.length = seed.length;
+		window.CnC.hue = seed.hue;
+		window.CnC.quantity = seed.quantity;
+	});
 
 
 	firebase.auth().onAuthStateChanged(function(user) {
