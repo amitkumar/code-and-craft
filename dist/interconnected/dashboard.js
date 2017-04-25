@@ -3,7 +3,7 @@
     var database = firebase.database();
     var storage = firebase.storage();
     var amOnline = database.ref('.info/connected');
-    var presenseRef = database.ref('/interconnected/presence/');
+    var presenseRef = database.ref('interconnected/presence/');
     var latestCommitsRef = database.ref('interconnected/latest-by-user/');
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -12,10 +12,12 @@
             var presentUsersIds = [];
 
             presenseRef.on('value', function(snapshot) {
-                snapshot = snapshot.val();
-                console.log('presense', snapshot);
-                presentUsersIds = Object.keys(snapshot);
-                console.log('presentUsers', presentUsersIds);
+                var presentUsers = snapshot.val();
+                console.log('presense', presentUsers);
+                if (presentUsers){
+                    presentUsersIds = Object.keys(presentUsers);
+                    console.log('presentUsers', presentUsersIds);    
+                }
             });
 
             latestCommitsRef.on('value', function(snapshot) {
@@ -50,7 +52,7 @@
                             <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
                             <p class="name">${commit.firstName}</p>
                         </div>`);
-                        
+
                     }
 
                 });
@@ -65,4 +67,7 @@
     });
 
 
+    database.ref('interconnected/code-snippets/dashboard-css').on('value', function(snapshot){
+        document.getElementById('dynamic-styles').innerHTML = snapshot.val();
+    });
 })();

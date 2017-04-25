@@ -73,7 +73,7 @@ define(function(require) {
 
     function setCode(pCode, pIgnoreChange) {
         ignoreChange = pIgnoreChange;
-        cm.setValue(pCode);
+        cm.setValue(window.wrapCodeWithCnC(pCode));
     }
 
     function getCode() {

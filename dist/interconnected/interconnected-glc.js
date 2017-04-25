@@ -1,10 +1,46 @@
+
 (function(){
-	const socket = io('/interconnected');
+	// const socket = io('/interconnected');
 
 	var database = firebase.database();
 	var storage = firebase.storage();
 	var amOnline = database.ref('.info/connected');
 	
+
+
+	var codeTemplates = {
+        beginning : 
+`/* [codeandcraft] */
+// Code & Craft Chained Variables. Use these at least once in your code. 
+// And feel free to modify them before they get sent to the next participant!
+
+window.CnC.length = window.CnC.length;
+window.CnC.hue = window.CnC.hue;
+window.CnC.quantity = window.CnC.quantity;
+/* [/codeandcraft] */
+
+`,
+        end : 
+`
+/* Ending Code & Craft Chained Variables: */
+`
+    };
+
+    window.wrapCodeWithCnC = function(code){
+        console.log('wrapCodeWithCnC', code);
+        if (code.indexOf('/* [codeandcraft] */') < 0){
+            code = [
+                codeTemplates.beginning,
+                code,
+                codeTemplates.end
+            ].join('');
+        }
+        return code;
+    };
+
+	
+
+
 	firebase.auth().onAuthStateChanged(function(user) {
 		console.log('auth', user);
 		if (user) {
@@ -23,7 +59,7 @@
 			userRef.child('email').set(email);
 			userRef.child('firstName').set(firstName);
 
-			var presenseRef = database.ref('/interconnected/presence/' + uid);
+			var presenseRef = database.ref('interconnected/presence/' + uid);
 			amOnline.on('value', function(snapshot) {
 				if (snapshot.val()) {
 					presenseRef.onDisconnect().remove();

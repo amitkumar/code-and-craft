@@ -6,9 +6,10 @@ html
 				box-sizing: border-box;
 			}
 			html, body {
-				font-size : 24px;
+				font-size : 20px;
 				font-family : sans-serif;
 				font-weight : bold;
+				transition: all .2s ease;
 			}
 
 
@@ -25,6 +26,7 @@ html
 				max-width: 16.6666666667%;
 				padding: 1rem;
 				position: relative;
+				transition: all .2s ease;
 			}	
 
 			.item:after {
@@ -35,6 +37,11 @@ html
 				margin-top: -2em;
 			}
 
+			.item p {
+				text-align: center;
+				margin: .25em;
+			}
+
 			video {
 				width: 100%;
 			}
@@ -42,6 +49,8 @@ html
 		script.
 			// Code & Craft namespace
 			window.CnC = {};
+
+			
             
 		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
 		script.  
@@ -71,7 +80,9 @@ html
 
 			// Initialize the FirebaseUI Widget using Firebase.
 			var ui = new firebaseui.auth.AuthUI(firebase.auth());
-			
+
+		style#dynamic-styles
+
 	body
 		main
 			#firebaseui-auth-container
