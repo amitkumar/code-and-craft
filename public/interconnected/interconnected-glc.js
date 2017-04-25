@@ -7,6 +7,7 @@
 	var amOnline = database.ref('.info/connected');
 	
 
+	var isFirstInputRead = true;
 
 	var codeTemplates = {
         beginning : 
@@ -139,6 +140,13 @@ window.CnC.quantity = window.CnC.quantity;
 				window.CnC.inputs = inputs;
 				window.CnC.inputs.uid = precedingChainUser ? precedingChainUser.val().uid : uid;
 				
+				if (isFirstInputRead){
+					isFirstInputRead = false;
+					window.refreshEditorVariables();
+					if (window.GLCMainController){
+						window.GLCMainController.compile();
+					}
+				}
 
 				if (!myChainRef){
 					console.log('myChainRef does not exist, pushing to chain');
