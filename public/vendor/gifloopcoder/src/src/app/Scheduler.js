@@ -46,7 +46,7 @@ define(function() {
 		    	t = 0;
 		    	stop();
 		    	Recorder.stop();
-	    		Recorder.uploadVideo();
+	    		Recorder.uploadCommit();
 		    }
 	    }
 	}

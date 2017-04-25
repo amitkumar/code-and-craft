@@ -1,5 +1,6 @@
 define(function() {
-	
+	var CodeView = require("ui/code/CodeView");
+
 	var canvas,
 		stream,
 		recorder,
@@ -41,7 +42,7 @@ define(function() {
 				var player = document.getElementById('replay');
 				finalBlob = new Blob(recordedBlobs, { type : 'video/webm' });
 				player.src = window.URL.createObjectURL(finalBlob);	
-				uploadVideo();
+				uploadCommit();
 				isRecording = false;
 			}, 1000);
 		}
@@ -49,8 +50,8 @@ define(function() {
     
     
 
-    function uploadVideo() {
-		console.log('uploadVideo');
+    function uploadCommit() {
+		console.log('uploadCommit');
 		
 		// var form = new FormData();
 		// form.append('video', finalBlob);
@@ -60,8 +61,8 @@ define(function() {
 		// 	credentials: 'same-origin'
 		// });
 
-		if (window.CnC.uploadVideoToFirebase){
-			window.CnC.uploadVideoToFirebase(finalBlob)
+		if (window.CnC.uploadCommitToFirebase){
+			window.CnC.uploadCommitToFirebase(CodeView.getCode(), finalBlob);
 		}
 	}
 
@@ -73,7 +74,7 @@ define(function() {
 		init: init,
 		start: start,
 		stop: stop,
-		uploadVideo : uploadVideo,
+		uploadCommit : uploadCommit,
 		getIsRecording : getIsRecording
 	};
 

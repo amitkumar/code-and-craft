@@ -46,11 +46,11 @@
 			var commitsStorageRef = storage.ref(commitsPath);
 			
 
-			window.CnC.uploadVideoToFirebase = function(blob){
+			window.CnC.uploadCommitToFirebase = function(code, blob){
 				var newCommit = commitsDbRef.push();
 				var newCommitKey = newCommit.key;
 				newCommit.set({
-					// TODO : set code
+					code : code,
 					timestamp : Date.now()
 				});
 
@@ -65,8 +65,9 @@
 							size  : snapshot.metadata.size,
 							timeCreated  : snapshot.metadata.timeCreated
 						},
-						fileURL : snapshot.downloadURL
-						// TODO : set code
+						fileURL : snapshot.downloadURL,
+						code : code,
+						timestamp : Date.now()
 					});
 				});
 			};
