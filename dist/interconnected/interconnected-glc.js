@@ -128,7 +128,7 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 						precedingChainUser = prevChild;
 					}
 
-					prevChild = childSnapshot.ref;
+					prevChild = childSnapshot;
 				});
 
 				var inputs = {};
