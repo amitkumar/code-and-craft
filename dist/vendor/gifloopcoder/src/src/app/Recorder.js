@@ -7,12 +7,13 @@ define(function() {
 		finalBlob,
 		isRecording = false;
 
+
 	function init() {
 		canvas = document.querySelector("#content .canvas_panel canvas");
 		stream = canvas.captureStream();	
 		recorder = new MediaRecorder(stream, { 
 			mimeType : 'video/webm',
-			videoBitsPerSecond : 5000000 
+			videoBitsPerSecond : 7500000 
 		});
 		recordedBlobs = [];
 
@@ -51,13 +52,17 @@ define(function() {
     function uploadVideo() {
 		console.log('uploadVideo');
 		
-		var form = new FormData();
-		form.append('video', finalBlob);
-		fetch('/upload', {
-			method: 'post',
-			body: form,
-			credentials: 'same-origin'
-		});
+		// var form = new FormData();
+		// form.append('video', finalBlob);
+		// fetch('/upload', {
+		// 	method: 'post',
+		// 	body: form,
+		// 	credentials: 'same-origin'
+		// });
+
+		if (window.CnC.uploadVideoToFirebase){
+			window.CnC.uploadVideoToFirebase(finalBlob)
+		}
 	}
 
 	function getIsRecording(){
