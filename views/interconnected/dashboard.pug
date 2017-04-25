@@ -2,12 +2,47 @@ html
 	head
 		title Code &amp; Craft - Grapevine Dashboard
 		style.
+			* {
+				box-sizing: border-box;
+			}
 			html, body {
 				font-size : 24px;
 				font-family : sans-serif;
 				font-weight : bold;
 			}
 
+
+			.grid {
+				display: flex;
+				flex-wrap : wrap;
+				//- justify-content: space-around;
+				//- align-items: left;
+				//- align-content: stretch;
+			}
+
+			.item {
+				flex: 0 0 16.6666666667%;
+				max-width: 16.6666666667%;
+				padding: 1rem;
+				position: relative;
+			}	
+
+			.item:after {
+				content: '→';
+				position:absolute;
+				right: -.5em;
+				top: 50%;
+				margin-top: -2em;
+			}
+
+			video {
+				width: 100%;
+			}
+
+		script.
+			// Code & Craft namespace
+			window.CnC = {};
+            
 		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
 		script.  
 			// Initialize Firebase
@@ -39,9 +74,10 @@ html
 			
 	body
 		main
-			h1 Grapevine Dashboard
 			#firebaseui-auth-container
-			#grid 
-			
-		script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
+
+			#grid.grid
+		
+		script(src="https://code.jquery.com/jquery-3.2.1.min.js", integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=",crossorigin="anonymous")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
 		script(src="/interconnected/dashboard.js")

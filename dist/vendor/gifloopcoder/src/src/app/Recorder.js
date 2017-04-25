@@ -14,7 +14,7 @@ define(function() {
 		stream = canvas.captureStream();	
 		recorder = new MediaRecorder(stream, { 
 			mimeType : 'video/webm',
-			videoBitsPerSecond : 7500000 
+			videoBitsPerSecond : 25000000
 		});
 		recordedBlobs = [];
 
