@@ -6,6 +6,9 @@
     var presenseRef = database.ref('interconnected/presence/');
     var latestCommitsRef = database.ref('interconnected/latest-by-user/');
 
+    var repeatBlock = 1;
+    var latestCommits = [];
+
     firebase.auth().onAuthStateChanged(function(user) {
         console.log('auth', user);
         if (user) {
@@ -21,53 +24,41 @@
             });
 
             latestCommitsRef.on('value', function(snapshot) {
-                var latestCommits = snapshot.val();
+                latestCommits = snapshot.val();
                 console.log('latestCommits', latestCommits);
+                redraw();
+            });
 
+            function redraw(){
                 var $grid = $('#grid');
 
                 $grid.empty();
-
                 presentUsersIds.forEach(function(userId, index) {
                     var commit = latestCommits[userId];
                     if (commit) {
                         console.log('commit', commit)
-                        $grid.append(`<div class="item">
-                            <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
-                            <p class="name">${commit.firstName}</p>
-                        </div>`);
-                        $grid.append(`<div class="item">
-                            <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
-                            <p class="name">${commit.firstName}</p>
-                        </div>`);
-                        $grid.append(`<div class="item">
-                            <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
-                            <p class="name">${commit.firstName}</p>
-                        </div>`);
-                        $grid.append(`<div class="item">
-                            <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
-                            <p class="name">${commit.firstName}</p>
-                        </div>`);
-                        $grid.append(`<div class="item">
-                            <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
-                            <p class="name">${commit.firstName}</p>
-                        </div>`);
-
+        
+                        for (var i = 0; i < repeatBlock; i++){
+                            $grid.append(`<div class="item">
+                                <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
+                                <p class="name">${commit.firstName}</p>
+                            </div>`);    
+                        }
                     }
-
                 });
+            }
 
-                // var presentLatest = snapshot.filter
+            database.ref('interconnected/settings/dashboard-css').on('value', function(snapshot){
+                document.getElementById('dynamic-styles').innerHTML = snapshot.val();
+            });
 
-                // TODO: Template should display video & username & arrow-right. Squares.
-                // On hover, can show absolutely-positioned overlay on top of video with 
-                // input & output values
+            database.ref('interconnected/settings/repeat-blocks').on('value', function(snapshot){
+                repeatBlock = snapshot.val();
+                redraw();
             });
         }
     });
 
 
-    database.ref('interconnected/code-snippets/dashboard-css').on('value', function(snapshot){
-        document.getElementById('dynamic-styles').innerHTML = snapshot.val();
-    });
+    
 })();
