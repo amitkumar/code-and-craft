@@ -17,6 +17,9 @@
             
             latestCommitsRef.on('value', function(snapshot) {
                 latestCommitsByUser = snapshot.val();
+                if (chain && latestCommitsByUser){
+                    redraw();
+                }
                 console.log('latestCommits', latestCommitsByUser);
             });
 
