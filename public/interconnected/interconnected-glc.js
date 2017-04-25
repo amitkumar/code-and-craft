@@ -39,13 +39,27 @@ window.CnC.quantity = window.CnC.quantity;
     };
 
 	var seedRef = database.ref('interconnected/seed');
-	seedRef.on('value', function(snapshot){
+	seedRef.once('value', function(snapshot){
 		var seed = snapshot.val();
-		window.CnC.length = seed.length;
-		window.CnC.hue = seed.hue;
-		window.CnC.quantity = seed.quantity;
+
+		window.CnC.seed = seed;
+		
 	});
 
+	
+	window.refreshEditorVariables = function(){
+		// Active values for code editor. Will read back out from these when time for export
+		if (window.CnC.inputs){
+			window.CnC.length = window.CnC.inputs.length;
+			window.CnC.hue = window.CnC.inputs.hue;
+			window.CnC.quantity = window.CnC.inputs.quantity;	
+		} else {
+			window.CnC.length = 1;
+			window.CnC.hue = 1;
+			window.CnC.quantity = 1;
+		}
+		console.log('Reading inputs', window.CnC.inputs);
+	}
 
 	firebase.auth().onAuthStateChanged(function(user) {
 		console.log('auth', user);
@@ -76,17 +90,72 @@ window.CnC.quantity = window.CnC.quantity;
 			// Maintain a continuously-updated snapshot of the input vars.
 			// GLC Compile will request these, and we'll return them synchronously
 			var chainRef = database.ref('interconnected/chain');
+			// var myChainRef = chainRef.child(uid);
 			var chainInputs = {
 				iterations : 100,
 				length : 1,
 				hue : 20 // 0-360
 			};
-			chainRef.on('value', function(){
-				// If I'm not in the chain, push myself to the chain
+			
+			var myChainRef;
+
+			chainRef.on('value', function(snapshot){
+				if (myChainRef){
+					// myChainRef.off();
+				}
 				
+				var prevChild;
+				var precedingChainUser;
+
+				// If I'm not in the chain, push myself to the chain
+				snapshot.forEach(function(childSnapshot) {
+					
+					var childKey = childSnapshot.key;
+					var childData = childSnapshot.val();
+					
+					console.log('uid, child.uid, childKey, childData', uid, childData.uid, childKey, childData);
+
+					if (childData.uid === uid){
+						console.log('found my user in chain', childSnapshot);
+						myChainRef = childSnapshot.ref;
+						precedingChainUser = prevChild;
+					}
+
+					prevChild = childSnapshot.ref;
+				});
+
+				var inputs = {};
+
 				// Always: Set my object's inputs to be the output of the prev person. 
 				// If no prev person, use seed values
+
+				if (precedingChainUser && myChainRef && precedingChainUser.key !== myChainRef.key){
+					inputs = precedingChainUser.val().outputs;
+				} else {
+					inputs =  window.CnC.seed;
+				}
+
+				// Only using this object to store for later storage when committing
+				window.CnC.inputs = inputs;
+				window.CnC.inputs.uid = precedingChainUser ? precedingChainUser.val().uid : uid;
+				
+
+				if (!myChainRef){
+					console.log('myChainRef does not exist, pushing to chain');
+					myChainRef = chainRef.push({
+						uid : uid,
+						inputs : window.CnC.inputs,
+						outputs : {
+							length : window.CnC.length,
+							hue : window.CnC.hue,
+							quantity : window.CnC.quantity
+						}
+					});
+				}
+				// myChainRef.onDisconnect().remove();
+				console.log('myChainRef', myChainRef);
 			});
+			
 			window.CnC.getChainInputs = function(){
 				return chainInputs;
 			};
@@ -125,13 +194,11 @@ window.CnC.quantity = window.CnC.quantity;
 						timestamp : timestamp,
 						
 						// TODO : Store input & output variables
-						input : {
-							uid : '',
-							values : {}
-						},
-						output : {
-							uid : '',
-							values : {}
+						inputs : window.CnC.inputs,
+						outputs : {
+							length : window.CnC.length,
+							hue : window.CnC.hue,
+							quantity : window.CnC.quantity
 						}
 					});
 
@@ -142,8 +209,25 @@ window.CnC.quantity = window.CnC.quantity;
 						timestamp : timestamp,
 						code : code,
 						fileURL : snapshot.downloadURL,
-						commitPath : newCommit.toString()
+						commitPath : newCommit.toString(),
+						inputs : window.CnC.inputs,
+						outputs : {
+							length : window.CnC.length,
+							hue : window.CnC.hue,
+							quantity : window.CnC.quantity
+						}
 					});
+
+					myChainRef.set({
+						uid : uid,
+						inputs : window.CnC.inputs,
+						outputs : {
+							length : window.CnC.length,
+							hue : window.CnC.hue,
+							quantity : window.CnC.quantity
+						}
+					})
+
 					console.log('Finished writing commit to firebase', latestCommitRef);
 				});
 			};

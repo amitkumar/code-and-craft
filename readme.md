@@ -20,7 +20,7 @@ http://codeandcraft.org
 
 ``` shell
 $ npm install
-$ npm install -g webpack
+$ npm install -g webpack gulp grunt
 ```
 
 ### Run

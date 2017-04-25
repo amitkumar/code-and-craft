@@ -162,6 +162,8 @@ define(function(require) {
     }
 
     function compile() {
+        window.refreshEditorVariables();
+        
         // TODO: reset and clear renderlist
         var script = document.getElementById("loaded_script");
         if(script) {
