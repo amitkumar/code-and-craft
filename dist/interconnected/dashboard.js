@@ -16,9 +16,8 @@
         if (user) {
             
             latestCommitsRef.on('value', function(snapshot) {
-                latestCommits = snapshot.val();
+                latestCommitsByUser = snapshot.val();
                 console.log('latestCommits', latestCommits);
-                
             });
 
             chainRef.on('value', function(snapshot) {
@@ -36,10 +35,11 @@
                 Object.keys(chain).forEach(function(chainKey, index) {
                     var chainItem = chain[chainKey];
                     var commit = latestCommitsByUser[chainItem.uid];
+                    
                     console.log('chainItem', chainItem);
+                    console.log('commit', commit)
+
                     if (commit) {
-                        console.log('commit', commit)
-        
                         for (var i = 0; i < repeatBlock; i++){
                             $grid.append(`<div class="item">
                                 <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
