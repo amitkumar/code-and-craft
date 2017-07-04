@@ -3,7 +3,7 @@
     var database = firebase.database();
     var storage = firebase.storage();
     var amOnline = database.ref('.info/connected');
-    // var presenseRef = database.ref('interconnected/presence/');
+    var presenseRef = database.ref('interconnected/presence/');
     var chainRef = database.ref('interconnected/chain/');
     var latestCommitsRef = database.ref('interconnected/latest-by-user/');
 

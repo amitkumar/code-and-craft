@@ -16,7 +16,7 @@
 // Use these at least once in your code. 
 // Modify them before they get sent to the next participant. 
 // You're getting inputs from: ${ CnC.inputs ? CnC.inputs.displayName : 'seed'}
-CnC.size = ${ CnC.inputs ? CnC.inputs.length : 1 }; 
+CnC.size = ${ CnC.inputs ? CnC.inputs.size : 1 }; 
 CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
 CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
 

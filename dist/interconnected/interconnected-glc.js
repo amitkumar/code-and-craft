@@ -16,7 +16,7 @@
 // Use these at least once in your code. 
 // Modify them before they get sent to the next participant. 
 // You're getting inputs from: ${ CnC.inputs ? CnC.inputs.displayName : 'seed'}
-CnC.size = ${ CnC.inputs ? CnC.inputs.length : 1 }; 
+CnC.size = ${ CnC.inputs ? CnC.inputs.size : 1 }; 
 CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
 CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
 
@@ -83,7 +83,7 @@ CnC.quantity = 1000000; // what omg so many
 		// Active values for code editor. Will read back out from these when time for export
 		if (CnC.inputs){
 			CnC.size = CnC.inputs.size;
-			CnC.color = 'blue';//CnC.inputs.color || 'green';
+			CnC.color = CnC.inputs.color || 'green';
 			CnC.quantity = CnC.inputs.quantity;	
 		} else {
 			CnC.size = 1;
