@@ -12,12 +12,37 @@
 	var codeTemplates = {
         getBeginning : function(){
         	return `/* [codeandcraft] */
-// Code & Craft Chained Variables. Use these at least once in your code. 
-// And feel free to modify them before they get sent to the next participant!
-// You're getting inputs from: ${window.CnC.inputs ? window.CnC.inputs.displayName : 'seed'}
-window.CnC.length = ${window.CnC.inputs ? window.CnC.inputs.length : 1}; // any number
-window.CnC.hue = ${window.CnC.inputs ? window.CnC.inputs.hue : 1}; // between 0-360
-window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // any number
+// Code & Craft Chained Variables. 
+// Use these at least once in your code. 
+// Modify them before they get sent to the next participant. 
+// You're getting inputs from: ${ CnC.inputs ? CnC.inputs.displayName : 'seed'}
+CnC.size = ${ CnC.inputs ? CnC.inputs.length : 1 }; 
+CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
+CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
+
+// Use these in your code with something like this:
+
+/*
+glc.renderList.addCircle({
+	x: 80,
+	y: 80,
+	radius: CnC.size,
+	fillStyle: CnC.color,
+	startAngle: [0, 90],
+	endAngle: [360, 270],
+	lineWidth: 30,
+	lineCap: "butt"
+});
+*/
+
+// At the end of your code, set them to new values that you invent in your weird brain:
+/*
+CnC.size = 1; // tiny!
+CnC.color = 'palevioletred';
+CnC.quantity = 1000000; // what omg so many
+*/ 
+
+// Have fun!
 /* [/codeandcraft] */
 
 `;
@@ -49,23 +74,23 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 	seedRef.once('value', function(snapshot){
 		var seed = snapshot.val();
 
-		window.CnC.seed = seed;
+		CnC.seed = seed;
 		
 	});
 
 	
 	window.refreshEditorVariables = function(){
 		// Active values for code editor. Will read back out from these when time for export
-		if (window.CnC.inputs){
-			window.CnC.length = window.CnC.inputs.length;
-			window.CnC.hue = window.CnC.inputs.hue;
-			window.CnC.quantity = window.CnC.inputs.quantity;	
+		if (CnC.inputs){
+			CnC.size = CnC.inputs.size;
+			CnC.color = 'blue';//CnC.inputs.color || 'green';
+			CnC.quantity = CnC.inputs.quantity;	
 		} else {
-			window.CnC.length = 1;
-			window.CnC.hue = 1;
-			window.CnC.quantity = 1;
+			CnC.size = 1;
+			CnC.color = 'green';
+			CnC.quantity = 1;
 		}
-		console.log('Reading inputs', window.CnC.inputs);
+		console.log('Reading inputs', CnC.inputs);
 	}
 
 	firebase.auth().onAuthStateChanged(function(user) {
@@ -98,11 +123,6 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 			// GLC Compile will request these, and we'll return them synchronously
 			var chainRef = database.ref('interconnected/chain');
 			// var myChainRef = chainRef.child(uid);
-			var chainInputs = {
-				iterations : 100,
-				length : 1,
-				hue : 20 // 0-360
-			};
 			
 			var myChainRef;
 
@@ -139,13 +159,13 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 				if (precedingChainUser && myChainRef && precedingChainUser.key !== myChainRef.key){
 					inputs = precedingChainUser.val().outputs;
 				} else {
-					inputs =  window.CnC.seed;
+					inputs =  CnC.seed;
 				}
 
 				// Only using this object to store for later storage when committing
-				window.CnC.inputs = inputs;
-				window.CnC.inputs.uid = precedingChainUser ? precedingChainUser.val().uid : uid;
-				window.CnC.inputs.displayName = precedingChainUser ? precedingChainUser.val().displayName : displayName;
+				CnC.inputs = inputs;
+				CnC.inputs.uid = precedingChainUser ? precedingChainUser.val().uid : uid;
+				CnC.inputs.displayName = precedingChainUser ? precedingChainUser.val().displayName : displayName;
 				
 				if (isFirstInputRead){
 					isFirstInputRead = false;
@@ -160,21 +180,17 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 					myChainRef = chainRef.push({
 						uid : uid,
 						displayName : displayName,
-						inputs : window.CnC.inputs,
+						inputs : CnC.inputs,
 						outputs : {
-							length : window.CnC.length,
-							hue : window.CnC.hue,
-							quantity : window.CnC.quantity
+							size : CnC.size,
+							color : CnC.color,
+							quantity : CnC.quantity
 						}
 					});
 				}
 				// myChainRef.onDisconnect().remove();
 				console.log('myChainRef', myChainRef);
 			});
-			
-			window.CnC.getChainInputs = function(){
-				return chainInputs;
-			};
 
 
 			var commitsPath = 'interconnected/users/' + uid + '/commits';
@@ -184,7 +200,7 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 		
 			var latestCommitRef = database.ref('interconnected/latest-by-user/' + uid);	
 
-			window.CnC.uploadCommitToFirebase = function(code, blob, chainOutputs){
+			CnC.uploadCommitToFirebase = function(code, blob, chainOutputs){
 				var newCommit = commitsDbRef.push();
 				var newCommitKey = newCommit.key;
 				var timestamp = Date.now();
@@ -210,11 +226,11 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 						timestamp : timestamp,
 						
 						// TODO : Store input & output variables
-						inputs : window.CnC.inputs,
+						inputs : CnC.inputs,
 						outputs : {
-							length : window.CnC.length,
-							hue : window.CnC.hue,
-							quantity : window.CnC.quantity
+							size : CnC.size,
+							color : CnC.color,
+							quantity : CnC.quantity
 						}
 					});
 
@@ -226,22 +242,22 @@ window.CnC.quantity = ${window.CnC.inputs ? window.CnC.inputs.quantity : 1}; // 
 						code : code,
 						fileURL : snapshot.downloadURL,
 						commitPath : newCommit.toString(),
-						inputs : window.CnC.inputs,
+						inputs : CnC.inputs,
 						outputs : {
-							length : window.CnC.length,
-							hue : window.CnC.hue,
-							quantity : window.CnC.quantity
+							size : CnC.size,
+							color : CnC.color,
+							quantity : CnC.quantity
 						}
 					});
 
 					myChainRef.set({
 						uid : uid,
 						displayName : displayName,
-						inputs : window.CnC.inputs,
+						inputs : CnC.inputs,
 						outputs : {
-							length : window.CnC.length,
-							hue : window.CnC.hue,
-							quantity : window.CnC.quantity
+							size : CnC.size,
+							color : CnC.color,
+							quantity : CnC.quantity
 						}
 					})
 
