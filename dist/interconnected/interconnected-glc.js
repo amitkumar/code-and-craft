@@ -20,9 +20,8 @@ CnC.size = ${ CnC.inputs ? CnC.inputs.size : 1 };
 CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
 CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
 
-// Use these in your code with something like this:
-
 /*
+// Use these in your code with something like this:
 glc.renderList.addCircle({
 	x: 80,
 	y: 80,
@@ -35,8 +34,9 @@ glc.renderList.addCircle({
 });
 */
 
-// At the end of your code, set them to new values that you invent in your weird brain:
 /*
+// At the end of your code, set them to new values that you invent in your weird brain.
+// Something like this:
 CnC.size = 1; // tiny!
 CnC.color = 'palevioletred';
 CnC.quantity = 1000000; // what omg so many
@@ -59,7 +59,7 @@ CnC.quantity = 1000000; // what omg so many
         if (headerIndex > 0){
         	var lastIndexOfHeader = headerIndex + ('/* [/codeandcraft] */'.length) + 2;
         	code = code.slice(lastIndexOfHeader);
-        	console.log('sliced off header', code);
+        	console.log('sliced off header');
         }
         
         code = [
@@ -225,7 +225,7 @@ CnC.quantity = 1000000; // what omg so many
 						code : code,
 						timestamp : timestamp,
 						
-						// TODO : Store input & output variables
+						// Store input & output variables
 						inputs : CnC.inputs,
 						outputs : {
 							size : CnC.size,
