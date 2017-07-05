@@ -44,10 +44,12 @@
 
                     if (commit) {
                         for (var i = 0; i < repeatBlock; i++){
-                            $grid.append(`<div class="item">
+                            var $item = $(`<div class="item">
                                 <video loop autoplay muted type="video/webm" src=${commit.fileURL}"></video>
                                 <p class="name">${commit.firstName}</p>
-                            </div>`);    
+                            </div>`);
+                            $item.data('commit', commit);
+                            $grid.append($item);    
                         }
                     }
                 });
@@ -65,5 +67,13 @@
     });
 
 
-    
+    $('#grid').on('click', '.item', function(e){
+        var commit = $(this).data('commit');
+        console.log(commit);
+
+        var $modal = $('#commitModal');
+        $modal.find('.modal-title').text(commit.displayName + "'s Current Code");
+        $modal.find('.modal-commit-code').html(commit.code);
+        $('#commitModal').modal();
+    });
 })();

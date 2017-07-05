@@ -1,6 +1,14 @@
 html
 	head
 		title Code &amp; Craft - Grapevine Dashboard
+		
+		
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
+
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous")
+
+		
+		
 		style.
 			* {
 				box-sizing: border-box;
@@ -27,6 +35,7 @@ html
 				padding: 1rem;
 				position: relative;
 				transition: all .2s ease;
+				cursor: pointer;
 			}	
 
 			.item:after {
@@ -44,6 +53,12 @@ html
 
 			video {
 				width: 100%;
+			}
+
+			textarea.modal-commit-code {
+				font-size: 12px;
+				font-weight: normal;
+				height: 30em;
 			}
 
 		script.
@@ -89,7 +104,25 @@ html
 			#firebaseui-auth-container
 
 			#grid.grid
-		
+
+			#commitModal.modal.fade(tabindex='-1', role='dialog')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+								span(aria-hidden='true') ×
+							h4.modal-title 
+						.modal-body
+							form
+								.form-group
+									textarea.modal-commit-code.form-control
+						.modal-footer
+							button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+			
 		script(src="https://code.jquery.com/jquery-3.2.1.min.js", integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=",crossorigin="anonymous")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
+		
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous")
+
 		script(src="/interconnected/dashboard.js")
