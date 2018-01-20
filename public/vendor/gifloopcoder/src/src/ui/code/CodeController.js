@@ -24,6 +24,13 @@ define(function(require) {
         fileInput = UIUtil.createInput("file", null, null, null, "change", chooseFile);
     }
 
+    function chooseRemoteFile(path) {
+        $.get(path, function(data) { 
+            CodeView.setCode(data, true);
+            compile();
+        }, "text");
+    }
+
     function chooseFile(event) {
         // when cancelling, sometimes you get no event
         // sometimes you get an event with 0 files.
@@ -238,7 +245,8 @@ define(function(require) {
         setCodeFromCache: setCodeFromCache,
         onSnippet: onSnippet,
         setDirty: setDirty,
-        getDirty: getDirty
+        getDirty: getDirty,
+        chooseRemoteFile : chooseRemoteFile
     };
 
 });

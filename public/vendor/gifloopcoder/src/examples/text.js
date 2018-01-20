@@ -5,7 +5,7 @@ function onGLC(glc) {
         height = glc.h,
         color = glc.color;
 
-    var text = ["gif", "loop", "coder"];
+    var text = ["code", "&", "craft"];
 
     for(var i = 0; i < text.length; i++) {
         var t = text[i];

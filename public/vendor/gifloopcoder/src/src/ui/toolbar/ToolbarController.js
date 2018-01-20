@@ -30,7 +30,7 @@ define(function(require) {
         ToolbarView.addButton("pause_btn", "icons/pause.png", "PAUSE", MainController.stop);
         ToolbarView.addSeparator();
 
-        ToolbarView.addExamples();
+        ToolbarView.addExamples(MainController.chooseExample);
 
         // ToolbarView.addButton("gif_btn", "icons/gif.png", "MAKE GIF", MainController.makeGif);
         // ToolbarView.addButton("still_btn", "icons/still.png", "CAPTURE STILL", MainController.captureStill);
