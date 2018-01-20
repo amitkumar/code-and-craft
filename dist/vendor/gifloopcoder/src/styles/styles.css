@@ -1,3 +1,27 @@
+:root {
+    --color-0: rgb(255, 120, 71);
+    --color-1: rgb(255, 141, 56);
+    --color-2: rgb(242, 164, 47);
+    --color-3: rgb(223, 187, 47);
+    --color-4: rgb(204, 208, 56);
+    --color-5: rgb(186, 228, 73);
+    --color-6: rgb(166, 241, 89);
+    --color-7: rgb(131, 245, 87);
+    --color-8: rgb(99, 247, 95);
+    --color-9: rgb(71, 245, 110);
+    --color-10: rgb(48, 239, 130);
+    --color-11: rgb(33, 228, 153);
+    --color-12: rgb(26, 214, 176);
+    --color-13: rgb(26, 197, 197);
+    --color-14: rgb(33, 177, 213);
+    --color-15: rgb(44, 156, 223);
+    --color-16: rgb(58, 134, 225);
+    --color-17: rgb(74, 113, 221);
+    --color-18: rgb(89, 94, 209);
+    --color-19: rgb(101, 78, 192);
+}
+
+
 html, body, #content {
     width: 100%;
     height: 100%;
@@ -8,8 +32,8 @@ html, body, #content {
 
 .toolbar {
     width: 100%;
-    height: 50px;
-    background-color: #eeeeee;
+    height: 5em;
+    background-color: var(--color-15);
     border-bottom: solid 1px #999999;
     overflow: hidden;
     white-space: nowrap;
@@ -18,10 +42,12 @@ html, body, #content {
 .toolbar_button {
     margin: 5px 10px;
     text-align: center;
-    font-size: 9px;
-    font-family: sans-serif;
+    font-size: 10px;
+    font-family: Helvetica Neue, sans-serif;
     cursor: pointer;
     display: inline-block;
+    /*color: white;*/
+    font-weight: bold;
 }
 
 .dirty {
@@ -66,14 +92,21 @@ html, body, #content {
     right: 177px;
     top: 51px;
     bottom: 0;
-    background: #dddddd;
+    background: #eee;
     overflow: auto;
 }
 
 .scrubber_div {
-    background-color: #cccccc;
+    background-color: var(--color-7);
     border-bottom: 2px solid #bbbbbb;
     padding: 10px;
+    position: absolute;
+    
+    bottom: 0;
+    width: 100%;
+}
+.scrubber_div .control_label{
+
 }
 
 canvas {
@@ -94,14 +127,17 @@ canvas {
     right: 0;
     top: 51px;
     bottom: 0;
-    background: #cccccc;
+    background: var(--color-19);
+    
     border-left: solid 2px #bbbbbb;
     padding: 10px;
 }
 
 .control_label {
     font-size: 10px;
-    font-family: sans-serif;
+    font-family: Helvetica Neue, sans-serif;
+    color: white;
+    font-weight: bold;
 }
 
 .slider {
@@ -139,7 +175,7 @@ canvas {
     text-align: center;
     line-height: 15px;
     background-color: white;
-    font-family: sans-serif;
+    font-family: Helvetica Neue, sans-serif;
     font-size: 10px;
     padding: 5px 10px;
     position: absolute;
@@ -157,7 +193,7 @@ canvas {
     right: 10px;
     top: 10px;
     padding: 10px;
-    font-family: sans-serif;
+    font-family: Helvetica Neue, sans-serif;
     cursor: pointer;
     -webkit-box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.5);
@@ -172,7 +208,7 @@ canvas {
     transform: translateX(-50%);
     bottom: 10px;
     padding: 10px;
-    font-family: sans-serif;
+    font-family: Helvetica Neue, sans-serif;
     cursor: pointer;
     -webkit-box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.5);
@@ -182,7 +218,7 @@ canvas {
 .about_info {
     padding: 0px 20px;
     background-color: white;
-    font-family: sans-serif;
+    font-family: Helvetica Neue, sans-serif;
     font-size: 10px;
     width: 500px;
     position: absolute;
@@ -316,6 +352,7 @@ input[type=range].slider:focus::-ms-fill-upper {
   z-index: 1;
   width: 150px;
   height: 150px;
+  display: none;
 }
 
 /* SELECT */
@@ -352,4 +389,31 @@ input[type=button] {
 input[type=button]:hover {
   background: #999;
   text-decoration: none;
+}
+.toolbar_select {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+}
+
+.select2,
+.select2-dropdown {
+  font-family: Helvetica Neue, sans-serif;
+}
+.select2-dropdown .video,
+.toolbar_select .video {
+  width: 30%;
+  display: inline-block;
+}
+.select2-dropdown .text,
+.toolbar_select .text {
+  display: inline-block; 
+  vertical-align: top;
+  padding: 0 1em;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+body .select2-container--default .select2-results>.select2-results__options {
+  max-height: 600px;
 }

@@ -15,6 +15,7 @@ var total = 20;
 var colorScale = d3.scaleLinear()
 .domain([0, total]).range([.3, 1]);
 var color = (index) => {
+  console.log('color ', index, d3.interpolateRainbow(colorScale(index)));
   return d3.interpolateRainbow(colorScale(index));
 };
 

@@ -73,6 +73,8 @@ define(function(require) {
 
     function setCode(pCode, pIgnoreChange) {
         ignoreChange = pIgnoreChange;
+        var cursorPosition = cm.getCursor();
+        console.log('cursorPosition', cursorPosition);
         cm.setValue(window.wrapCodeWithCnC(pCode));
     }
 

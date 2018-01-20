@@ -115,6 +115,10 @@ define(function(require) {
         CodeController.compile();
     }
 
+    function chooseExample(path){
+        CodeController.chooseRemoteFile(path);
+    }
+
     function reset() {
         RenderList.clear();
         setDuration(2);
@@ -271,6 +275,7 @@ define(function(require) {
         init: init,
         newFile: newFile,
         open: open,
+        chooseExample : chooseExample,
         save: save,
         saveAs: saveAs,
         compile: compile,
