@@ -31,7 +31,7 @@ html
 			// Initialize the FirebaseUI Widget using Firebase.
 			var ui = new firebaseui.auth.AuthUI(firebase.auth());
 			// The start method will wait until the DOM is loaded.
-			ui.start('#firebaseui-auth-container', uiConfig);
+			//- ui.start('#firebaseui-auth-container', uiConfig);
 	body
 		style.
 			html, body {
@@ -169,21 +169,21 @@ html
 			//- 	border: 5px solid rgba(0,0,0,1);
 			//- 	font-size: 24px;
 			//- }
-			//- .form button {
-			//- 	background: none;
-			//- 	display: block;
-			//- 	margin: 1em auto 0;
-			//- 	padding: 1em 2em;
-			//- 	color: rgba(0,0,0,1);
-			//- 	border: 5px solid rgba(0,0,0,1);
-			//- 	font-weight: bold;
-			//- 	font-size: 24px;
-			//- 	cursor: pointer;
-			//- 	transition: .25s all ease;
-			//- }
-			//- .form button:hover {
-			//- 	transform: scale(1.2);
-			//- }
+			.button {
+				background: none;
+				display: block;
+				margin: 1em auto 0;
+				padding: 1em 2em;
+				color: rgba(0,0,0,1);
+				border: 5px solid rgba(0,0,0,1);
+				font-weight: bold;
+				font-size: 24px;
+				cursor: pointer;
+				transition: .25s all ease;
+			}
+			.button:hover {
+				transform: scale(1.2);
+			}
 
 		style#base-font-sizes
 
@@ -306,11 +306,13 @@ html
 				br
 				| Craft
 			
-			form#form.form(action="/Interconnected/new-user" method="POST")
+			form#form.form(action="/interconnected/new-user" method="POST")
 				h2 
-					| Log in to 
+					| Sign in to 
 					em Interconnected
 				p (this is how we'll identify which drawings are yours during the event)
+
+				a.button(href="/interconnected/glc") Sign In
 				#firebaseui-auth-container
 			
 		script(src="/js/bundle.js")

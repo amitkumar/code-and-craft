@@ -11,40 +11,39 @@
 
 	var codeTemplates = {
         getBeginning : function(){
-        	return `/* [codeandcraft] */
-// Code & Craft Chained Variables. 
-// Use these at least once in your code. 
-// Modify them before they get sent to the next participant. 
-// You're getting inputs from: ${ CnC.inputs ? CnC.inputs.displayName : 'seed'}
-CnC.size = ${ CnC.inputs ? CnC.inputs.size : 1 }; 
-CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
-CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
+			return `function onGLC(glc) {
+	// Code & Craft Chained Variables. 
+	// Use these at least once in your code. 
+	// Modify them before they get sent to the next participant. 
+	// You're getting inputs from: ${ CnC.inputs ? CnC.inputs.displayName : 'seed'}
+	CnC.size = ${ CnC.inputs ? CnC.inputs.size : 1 }; 
+	CnC.color = '${ CnC.inputs ? CnC.inputs.color : 'green' }'; 
+	CnC.quantity = ${ CnC.inputs ? CnC.inputs.quantity : 1 }; 
 
-/*
-// Use these in your code with something like this:
-glc.renderList.addCircle({
-	x: 80,
-	y: 80,
-	radius: CnC.size,
-	fillStyle: CnC.color,
-	startAngle: [0, 90],
-	endAngle: [360, 270],
-	lineWidth: 30,
-	lineCap: "butt"
-});
-*/
+	/*
+	// Use these in your code with something like this:
+	glc.renderList.addCircle({
+		x: 80,
+		y: 80,
+		radius: CnC.size,
+		fillStyle: CnC.color,
+		startAngle: [0, 90],
+		endAngle: [360, 270],
+		lineWidth: 30,
+		lineCap: "butt"
+	});
+	*/
 
-/*
-// At the end of your code, set them to new values that you invent in your weird brain.
-// Something like this:
-CnC.size = 1; // tiny!
-CnC.color = 'palevioletred';
-CnC.quantity = 1000000; // what omg so many
-*/ 
+	/*
+	// At the end of your code, set the CnC variables to new values that you invent in your weird brain.
+	// Something like this:
+	CnC.size = 1; // tiny!
+	CnC.color = 'palevioletred';
+	CnC.quantity = 1000000; // what omg so many
+	*/ 
 
-// Have fun!
-/* [/codeandcraft] */
-
+	// Have fun!
+	// Start your code here:
 `;
 		}
     };
@@ -53,11 +52,18 @@ CnC.quantity = 1000000; // what omg so many
         // console.log('wrapCodeWithCnC', code);
 		console.log('wrapCodeWithCnC');
         console.log(codeTemplates.getBeginning());
-        
-        var headerIndex = code.indexOf('/* [/codeandcraft] */');
+		
+		var onGLCStr = 'function onGLC(glc) {';
+		var lastIndexOfOnGLC = code.lastIndexOf(onGLCStr);
+		if (lastIndexOfOnGLC >= 0){
+			lastIndexOfOnGLC = (lastIndexOfOnGLC + onGLCStr.length);
+			code = code.slice(lastIndexOfOnGLC);
+		}
 
+		var headerIndex = code.lastIndexOf('// Start your code here:');
+		
         if (headerIndex > 0){
-        	var lastIndexOfHeader = headerIndex + ('/* [/codeandcraft] */'.length) + 2;
+			var lastIndexOfHeader = headerIndex + ('// Start your code here:'.length) + 1;
         	code = code.slice(lastIndexOfHeader);
         	console.log('sliced off header');
         }

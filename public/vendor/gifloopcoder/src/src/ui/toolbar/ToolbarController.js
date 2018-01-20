@@ -30,20 +30,22 @@ define(function(require) {
         ToolbarView.addButton("pause_btn", "icons/pause.png", "PAUSE", MainController.stop);
         ToolbarView.addSeparator();
 
-        ToolbarView.addButton("gif_btn", "icons/gif.png", "MAKE GIF", MainController.makeGif);
-        ToolbarView.addButton("still_btn", "icons/still.png", "CAPTURE STILL", MainController.captureStill);
-        ToolbarView.addButton("sprite_btn", "icons/sprite.png", "SPRITE SHEET", MainController.makeSpriteSheet);
-        if(!glcConfig.externalEditor) {
-            ToolbarView.addButton("sequence_btn", "icons/sequence.png", "IMAGE SEQUENCE", MainController.makeImageSequence);
-        }
-        ToolbarView.addSeparator();
+        ToolbarView.addExamples();
+
+        // ToolbarView.addButton("gif_btn", "icons/gif.png", "MAKE GIF", MainController.makeGif);
+        // ToolbarView.addButton("still_btn", "icons/still.png", "CAPTURE STILL", MainController.captureStill);
+        // ToolbarView.addButton("sprite_btn", "icons/sprite.png", "SPRITE SHEET", MainController.makeSpriteSheet);
+        // if(!glcConfig.externalEditor) {
+        //     ToolbarView.addButton("sequence_btn", "icons/sequence.png", "IMAGE SEQUENCE", MainController.makeImageSequence);
+        // }
+        // ToolbarView.addSeparator();
 
         if(glcConfig.isStandalone) {
             ToolbarView.addButton("console_btn", "icons/console.png", "CONSOLE", showConsole);
             ToolbarView.addSeparator();
         }
 
-        ToolbarView.addButton("icon_btn", "icons/help.png", "ABOUT", MainController.showAbout);
+        // ToolbarView.addButton("icon_btn", "icons/help.png", "ABOUT", MainController.showAbout);
 
         ToolbarView.setKey(71, "keydown", makeGif); // G
         ToolbarView.setKey(32, "keyup", MainController.toggleLoop);
@@ -62,9 +64,9 @@ define(function(require) {
         ToolbarView.enableBtn("loop_btn");
         ToolbarView.enableBtn("once_btn");
         ToolbarView.disableBtn("pause_btn")
-        ToolbarView.enableBtn("gif_btn");
-        ToolbarView.enableBtn("sprite_btn");
-        ToolbarView.enableBtn("sequence_btn");
+        // ToolbarView.enableBtn("gif_btn");
+        // ToolbarView.enableBtn("sprite_btn");
+        // ToolbarView.enableBtn("sequence_btn");
     }
 
     function disablePlay() {
@@ -72,9 +74,9 @@ define(function(require) {
         ToolbarView.disableBtn("loop_btn");
         ToolbarView.disableBtn("once_btn");
         ToolbarView.enableBtn("pause_btn")
-        ToolbarView.disableBtn("gif_btn");
-        ToolbarView.disableBtn("sprite_btn");
-        ToolbarView.disableBtn("sequence_btn");
+        // ToolbarView.disableBtn("gif_btn");
+        // ToolbarView.disableBtn("sprite_btn");
+        // ToolbarView.disableBtn("sequence_btn");
     }
 
     function setDirty(dirty) {

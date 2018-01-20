@@ -1,3 +1,27 @@
+:root {
+    --color-0: rgb(255, 120, 71);
+    --color-1: rgb(255, 141, 56);
+    --color-2: rgb(242, 164, 47);
+    --color-3: rgb(223, 187, 47);
+    --color-4: rgb(204, 208, 56);
+    --color-5: rgb(186, 228, 73);
+    --color-6: rgb(166, 241, 89);
+    --color-7: rgb(131, 245, 87);
+    --color-8: rgb(99, 247, 95);
+    --color-9: rgb(71, 245, 110);
+    --color-10: rgb(48, 239, 130);
+    --color-11: rgb(33, 228, 153);
+    --color-12: rgb(26, 214, 176);
+    --color-13: rgb(26, 197, 197);
+    --color-14: rgb(33, 177, 213);
+    --color-15: rgb(44, 156, 223);
+    --color-16: rgb(58, 134, 225);
+    --color-17: rgb(74, 113, 221);
+    --color-18: rgb(89, 94, 209);
+    --color-19: rgb(101, 78, 192);
+}
+
+
 html, body, #content {
     width: 100%;
     height: 100%;
@@ -8,8 +32,8 @@ html, body, #content {
 
 .toolbar {
     width: 100%;
-    height: 50px;
-    background-color: #eeeeee;
+    height: 5em;
+    background-color: var(--color-15);
     border-bottom: solid 1px #999999;
     overflow: hidden;
     white-space: nowrap;
@@ -352,4 +376,21 @@ input[type=button] {
 input[type=button]:hover {
   background: #999;
   text-decoration: none;
+}
+.toolbar_select {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+}
+
+.select2-dropdown .video,
+.toolbar_select .video {
+  width: 20%;
+  display: inline-block;
+}
+.select2-dropdown .text,
+.toolbar_select .text {
+ display: inline-block; 
+ vertical-align: top;
+ margin: 0 1em;
 }
