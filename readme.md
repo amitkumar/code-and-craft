@@ -32,11 +32,13 @@ $ npm start
 View the site at http://localhost:3000.
 
 ### Deploy
-- `$ ssh root@45.55.157.3` # Must be permissioned.
+- `$ ssh root@104.236.90.0` # Must be permissioned.
 - `$ cd code-and-craft`
 - `$ git pull`
+- `$ npm i`
 - `$ webpack`
 - `$ pm2 restart all`
+- If errors (502 Bad Gateway), check pm2 logs. `$ pm2 logs`
 
 ## "Interconnected" app 
 
