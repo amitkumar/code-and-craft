@@ -8,7 +8,7 @@ http://codeandcraft.org
 
 ## Development Notes
 
-- We use a forked GifLoopCoder, included as a git subtree at /public/vendor/glc
+- We use a forked GifLoopCoder, included as a git subtree at /public/vendor/glc. If editing GLC, run `grunt build` at /public/vendor/gifloopcoder/
 - Assets in /public are built with webpack and output to /dist
 - Assets in /dist folder shouldn't be directly edited; they will be overwritten by a webpack build. Instead, edit the files in the /public directory.
 
@@ -57,7 +57,7 @@ View the site at http://localhost:3000.
 - Hosted on DigitalOcean. Contact Amit Kumar for access.
 - Set up with these instructions: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
 - Using Nginx, PM2, Let's Encrypt, node.js
-- Project directory is at ~/code
+- Project directory is at ~/code-and-craft
 - `$ ssh root@45.55.157.3`
 - `$ cd code-and-craft`
 - `$ git pull`

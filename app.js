@@ -49,7 +49,7 @@
 //     ]
 // });
 
-
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -61,7 +61,7 @@ const fs = require('fs')
 const firebaseAdmin = require("firebase-admin");
 const firebaseServiceAccount = require("./env/codeandcraft-firebase-key.json");
 
-const firebaseRef = firebaseAdmin.initializeApp({
+app.firebaseApp = firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(firebaseServiceAccount),
   databaseURL: "https://codeandcraft-51db3.firebaseio.com"
 });
@@ -70,7 +70,7 @@ const firebaseRef = firebaseAdmin.initializeApp({
 const Session = require('express-session');
 const FirebaseStore = require('connect-session-firebase')(Session);
 const sessionStore = new FirebaseStore({
-    database: firebaseRef.database()
+    database: app.firebaseApp.database()
 });
 
 const session = Session({ 
@@ -109,6 +109,12 @@ app.get('/interconnected', (req, res) => {
     res.render('interconnected/index', {});
 });
 
+app.get('/interconnected/login', (req, res) => {
+    res.render('interconnected/login', {
+        user : req.session.username
+    });
+});
+
 app.get('/interconnected/dashboard', (req, res) => {
     res.render('interconnected/dashboard', {
         user : req.session.username
@@ -128,6 +134,17 @@ app.get('/interconnected/glc', (req,res) => {
         user : req.session.username
     });    
 });
+
+const transcoder = require('./lib/transcoder')(app);
+var storage = app.firebaseApp.storage();
+var inputbucket = storage.bucket('interconnected');
+console.log('inputbucket', inputbucket);
+app.get('/interconnected/get-collage-video', (req, res) => {
+
+    res.render();
+});
+
+
 
 // app.post('/interconnected/new-user', (req,res) => {
 //     if (!req.body.username){
@@ -158,31 +175,6 @@ app.post('/commit', (req,res) => {
 })
 
 
-app.post('/upload', (req,res) => {
-  console.log('/upload read req.session.username', req.session, req.session.username);
-  let videoFile = req.files.video;
-  let thisCompilePath = path.join(__dirname, 'video-bin') + '/' + req.session.username;
-  let thisFileName = Date.now(); //sorry just temporary
-  
-  promiseDir(thisCompilePath)
-    .then(()=> new Promise((resolve, reject) => {
-        let clientSrc = path.join('video-bin', req.session.username ,`${thisFileName}.webm`)      
-        videoFile.mv(path.join(thisCompilePath, `${thisFileName}.webm`), function(err) {
-            if (err){
-                reject(err)
-                res.status(500).send(err);
-            } else {
-                req.session.latestVideoPath = clientSrc;
-                broadcastVideos()
-                res.send('File uploaded.');
-                resolve(thisFileName + 'written successfully')
-            }
-        });
-    })
-  )
-  .catch(console.log.bind(console))
-
-})
 
 
 var server_port = process.env.PORT || 3000;
