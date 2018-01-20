@@ -31,7 +31,7 @@ html
 			// Initialize the FirebaseUI Widget using Firebase.
 			var ui = new firebaseui.auth.AuthUI(firebase.auth());
 			// The start method will wait until the DOM is loaded.
-			//- ui.start('#firebaseui-auth-container', uiConfig);
+			ui.start('#firebaseui-auth-container', uiConfig);
 	body
 		style.
 			html, body {
@@ -306,14 +306,7 @@ html
 				br
 				| Craft
 			
-			#form.form
-				h2 
-					| Sign in to 
-					em C&C: Interconnected
-				p (this is how we'll identify which drawings are yours during the event)
-
-				a.button(href="/interconnected/login") Sign In
-				#firebaseui-auth-container
+			#firebaseui-auth-container
 			
 		script(src="/js/bundle.js")
 
@@ -324,17 +317,4 @@ html
 				document.getElementById('form').className = 'form visible';// = 'scale(1)';
 			}, 500)
 
-			//- var scale = 1;
-
-			//- setInterval(function(){
-			//- 	scale = scale === 1 ? 2 : 1;
-			//- 	var styles = `
-			//- 		svg {
-			//- 			transform: scale(${scale});
-			//- 		}
-			//- 	`;
-			//- 	document.getElementById('dynamic-styles').innerHTML = styles;
-			//- }, 5000)
-
-
-
+			

@@ -32,7 +32,9 @@ define(function(require) {
 
         ToolbarView.addExamples(MainController.chooseExample);
 
-        // ToolbarView.addButton("gif_btn", "icons/gif.png", "MAKE GIF", MainController.makeGif);
+        ToolbarView.addSeparator();
+        
+        ToolbarView.addButton("gif_btn", "icons/gif.png", "DOWNLOAD GIF", MainController.makeGif);
         // ToolbarView.addButton("still_btn", "icons/still.png", "CAPTURE STILL", MainController.captureStill);
         // ToolbarView.addButton("sprite_btn", "icons/sprite.png", "SPRITE SHEET", MainController.makeSpriteSheet);
         // if(!glcConfig.externalEditor) {
@@ -64,7 +66,7 @@ define(function(require) {
         ToolbarView.enableBtn("loop_btn");
         ToolbarView.enableBtn("once_btn");
         ToolbarView.disableBtn("pause_btn")
-        // ToolbarView.enableBtn("gif_btn");
+        ToolbarView.enableBtn("gif_btn");
         // ToolbarView.enableBtn("sprite_btn");
         // ToolbarView.enableBtn("sequence_btn");
     }
@@ -74,7 +76,7 @@ define(function(require) {
         ToolbarView.disableBtn("loop_btn");
         ToolbarView.disableBtn("once_btn");
         ToolbarView.enableBtn("pause_btn")
-        // ToolbarView.disableBtn("gif_btn");
+        ToolbarView.disableBtn("gif_btn");
         // ToolbarView.disableBtn("sprite_btn");
         // ToolbarView.disableBtn("sequence_btn");
     }

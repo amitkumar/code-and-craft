@@ -29,8 +29,7 @@
 		fillStyle: CnC.color,
 		startAngle: [0, 90],
 		endAngle: [360, 270],
-		lineWidth: 30,
-		lineCap: "butt"
+		lineWidth: 30
 	});
 	*/
 
