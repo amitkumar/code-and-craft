@@ -21,7 +21,10 @@ define(function(require) {
 
     function addExamples(callback){
         var exampleOptions = [
-            
+            {
+              "id": -1,
+              "text": "Examples"
+            },
             {
               "id": 1,
               "webm" : "/vendor/gifloopcoder/src/examples/allshapes.webm",
@@ -119,7 +122,6 @@ define(function(require) {
 
         $('.select-glc-examples').select2({
           width: '15em',
-          placeholder: "Examples",
           data: exampleOptions,
           // dropdownCss : 'select2-glc-examples',
           templateResult: function(state){
@@ -129,7 +131,7 @@ define(function(require) {
             return $item;
           }
         }).on('select2:select', function(e){
-            console.log('select2:select e', e);
+            console.log('select2:select e.params.data', e.params.data, 'e', e);
             var data = e.params.data;
             if (data.code){
                 callback(data.code);
