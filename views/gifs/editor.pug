@@ -1,0 +1,76 @@
+html
+    head
+        title Code &amp; Craft - Gif Loop Coder
+        link(rel="stylesheet" type="text/css" href="/vendor/gifloopcoder/app/styles/styles.css")
+        link(rel="stylesheet" type="text/css" href="/vendor/gifloopcoder/app/styles/codemirror.css")
+
+
+
+        script.
+            // Code & Craft namespace
+            window.CnC = {};
+
+            
+
+        script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+        script.  
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+                authDomain: "codeandcraft-51db3.firebaseapp.com",
+                databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+                projectId: "codeandcraft-51db3",
+                storageBucket: "codeandcraft-51db3.appspot.com",
+                messagingSenderId: "489289770401"
+            };
+            firebase.initializeApp(config);
+        script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+        link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+        script.
+            // FirebaseUI config.
+            var uiConfig = {
+                signInSuccessUrl: '/gifs/editor',
+                signInOptions: [
+                    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID
+                ],
+                // Terms of service url.
+                tosUrl: 'terms-of-service'
+            };
+
+            // Initialize the FirebaseUI Widget using Firebase.
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            // The start method will wait until the DOM is loaded.
+            //- ui.start('#firebaseui-auth-container', uiConfig);
+
+        script(
+            src="https://code.jquery.com/jquery-3.2.1.min.js",
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=",
+            crossorigin="anonymous")
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css",rel="stylesheet")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js")
+
+        script(src="/vendor/jquery-minicolors-master/jquery.minicolors.js")
+        link(rel="stylesheet" href="/vendor/jquery-minicolors-master/jquery.minicolors.css")
+    body
+        #firebaseui-auth-container
+
+        #content
+        
+        video(id="replay" autoplay loop)
+        
+        script.
+            glcConfig = {
+                externalEditor: false,
+                useTabs: false,
+                canvasWidth: 400,
+                canvasHeight: 400,
+                canvasCanScale: true
+            };
+    
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
+        
+        script(src="/vendor/gifloopcoder/app/glc-min.js")
+        script(src="/gifs/gifs-glc.js")
+        

@@ -169,9 +169,13 @@ define(function(require) {
     }
 
     function compile() {
-        window.refreshEditorVariables();
-
-        CodeView.setCode(window.wrapCodeWithCnC(CodeView.getCode()), true);
+        
+        if (window.wrapCodeWithCnC){
+            window.refreshEditorVariables();
+            CodeView.setCode(window.wrapCodeWithCnC(CodeView.getCode()), true);
+        } else {
+            console.log('no wrapCodeWithCnC');
+        }
 
         // TODO: reset and clear renderlist
         var script = document.getElementById("loaded_script");

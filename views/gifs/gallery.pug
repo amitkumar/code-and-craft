@@ -1,0 +1,128 @@
+html
+	head
+		title Code &amp; Craft - Electric Kinetic Gallery
+		
+		
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
+
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous")
+
+		
+		
+		style.
+			* {
+				box-sizing: border-box;
+			}
+			html, body {
+				font-size : 20px;
+				font-family : sans-serif;
+				font-weight : bold;
+				transition: all .2s ease;
+			}
+
+
+			.grid {
+				display: flex;
+				flex-wrap : wrap;
+				//- justify-content: space-around;
+				//- align-items: left;
+				//- align-content: stretch;
+			}
+
+			.item {
+				flex: 0 0 16.6666666667%;
+				max-width: 16.6666666667%;
+				padding: 1rem;
+				position: relative;
+				transition: all .2s ease;
+				cursor: pointer;
+			}	
+
+			//- .item:after {
+			//- 	content: '→';
+			//- 	position:absolute;
+			//- 	right: -.5em;
+			//- 	top: 50%;
+			//- 	margin-top: -2em;
+			//- }
+
+			.item p {
+				text-align: center;
+				margin: .25em;
+			}
+
+			video {
+				width: 100%;
+			}
+
+			textarea.modal-commit-code {
+				font-size: 12px;
+				font-weight: normal;
+				height: 30em;
+			}
+
+		script.
+			// Code & Craft namespace
+			window.CnC = {};
+
+			
+            
+		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+		script.  
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+				authDomain: "codeandcraft-51db3.firebaseapp.com",
+				databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+				projectId: "codeandcraft-51db3",
+				storageBucket: "codeandcraft-51db3.appspot.com",
+				messagingSenderId: "489289770401"
+			};
+			firebase.initializeApp(config);
+		script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+		link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+		script.
+			// FirebaseUI config.
+			var uiConfig = {
+				signInSuccessUrl: '/gifs/glc',
+				signInOptions: [
+					firebase.auth.EmailAuthProvider.PROVIDER_ID
+				],
+				// Terms of service url.
+				tosUrl: 'terms-of-service'
+			};
+
+			// Initialize the FirebaseUI Widget using Firebase.
+			var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+
+		style#dynamic-styles
+
+	body
+		main
+			#firebaseui-auth-container
+
+			#grid.grid
+
+			#commitModal.modal.fade(tabindex='-1', role='dialog')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							button.close(type='button', data-dismiss='modal', aria-label='Close')
+								span(aria-hidden='true') ×
+							h4.modal-title 
+						.modal-body
+							form
+								.form-group
+									textarea.modal-commit-code.form-control
+						.modal-footer
+							button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+			
+		script(src="https://code.jquery.com/jquery-3.2.1.min.js", integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=",crossorigin="anonymous")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js")
+		
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous")
+
+		script(src="/gifs/gallery.js")

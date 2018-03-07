@@ -1,13 +1,44 @@
 html
 	head
-		title Code &amp; Craft!
+		title Code &amp; Craft
 
+		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+		script.  
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+				authDomain: "codeandcraft-51db3.firebaseapp.com",
+				databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+				projectId: "codeandcraft-51db3",
+				storageBucket: "codeandcraft-51db3.appspot.com",
+				messagingSenderId: "489289770401"
+			};
+			firebase.initializeApp(config);
+		script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+		link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+		script.
+			// FirebaseUI config.
+			var uiConfig = {
+				signInSuccessUrl: '/gifs/editor',
+				signInOptions: [
+					firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+					firebase.auth.EmailAuthProvider.PROVIDER_ID
+				],
+				// Terms of service url.
+				tosUrl: 'terms-of-service'
+			};
+
+			// Initialize the FirebaseUI Widget using Firebase.
+			var ui = new firebaseui.auth.AuthUI(firebase.auth());
+			// The start method will wait until the DOM is loaded.
+			//- ui.start('#firebaseui-auth-container', uiConfig);
 	body
 		style.
 			html, body {
 				font-size : 16px;
 				font-family : sans-serif;
-				font-weight : 100;
+				font-weight : bold;
 			}
 
 			@media (max-width: 600px) {
@@ -34,10 +65,6 @@ html
 				padding: .5em;
 			}
 
-			#background-shapes>div:nth-of-type(1),
-			#background-shapes>div:nth-of-type(2) {
-				opacity: 0;
-			}
 
 			#invite {
 				position: absolute;
@@ -113,34 +140,50 @@ html
 
 			.form {
 				position: fixed;
-				bottom: 0;
-				left: 0;
-				//- transform: translate3d(0,-50%,0);
+				top: 50%;
+				left: 50%;
+				transform: translate3d(-50%,-50%,0) scale(0);
 				background: white;
 				padding: 4em;
 				font-weight: bold;
 				text-align: center;
 				transition: .25s all ease;
-				transform: scale(0);
-				color: rgba(0,0,0,1)
+				color: rgba(0,0,0,1);
+				font-size: 16px;
 			}
 
-			.form input {
-				padding: 1em;
-				width: 20em;
-				background: white;
-				color: black;
-				font-weight: bold;
-				text-align: center;
-				border: 5px solid rgba(0,0,0,1)
+			.form p {
+				font-weight: normal;
 			}
-			.form button {
+
+			.form.visible {
+				transform: translate3d(-50%,-50%,0) scale(1);
+			}
+
+			//- .form input {
+			//- 	padding: 1em;
+			//- 	width: 20em;
+			//- 	background: white;
+			//- 	color: black;
+			//- 	font-weight: bold;
+			//- 	text-align: center;
+			//- 	border: 5px solid rgba(0,0,0,1);
+			//- 	font-size: 24px;
+			//- }
+			.button {
 				background: none;
 				display: block;
 				margin: 1em auto 0;
 				padding: 1em 2em;
 				color: rgba(0,0,0,1);
 				border: 5px solid rgba(0,0,0,1);
+				font-weight: bold;
+				font-size: 24px;
+				cursor: pointer;
+				transition: .25s all ease;
+			}
+			.button:hover {
+				transform: scale(1.1);
 			}
 
 		style#base-font-sizes
@@ -254,36 +297,8 @@ html
 			resizeFonts();
 			window.addEventListener('resize', resizeFonts);
 
-		
-
-		#invite
-			div.invite
-				| Code & Craft is a night for makers of all stripes & skill levels to hang out and try something new!
-				br
-				br
-				|  For questions about events, or to have us host an event with your group, contact 
-				a(href="mailto:amit@codeandcraft.org") amit@codeandcraft.org
-				|  .
-				br
-				br
-				| 
-				a.external-resource(href="http://instagram.com/codeandcraft_org")
-					img(src="/img/instagram.png")
-				a.external-resource(href="https://www.facebook.com/codeandcraft.org")
-					img(src="/img/FB-f-Logo__blue_1024.png")
-				a.external-resource(href="https://github.com/amitkumar/code-and-craft")
-					img(src="/img/github.svg")
-		
 
 		#background-shapes
-			//- div.svg-wrapper.external-resource
-			//- 	a(href="http://instagram.com/code.and.craft")
-			//- 		img(src="/img/instagram.png")
-			//- div.svg-wrapper.external-resource
-			//- 	a(href="https://github.com/amitkumar/code-and-craft")
-			//- 		img(src="/img/github.svg")
-			
-
 		main
 			h1.h1
 				| Code
@@ -292,19 +307,23 @@ html
 				br
 				| Craft
 			
-			//- form#form.form(action="/grapevine/new-user" method="POST")
-				input(name="username" placeholder="Enter Your Name" type="text")
-				button(type="submit") Submit
+			#form.form
+				h2 
+					| Sign in to 
+					em Code & Craft Night: Electric Kinetic
+				p (this is how we'll identify which drawings are yours during the event)
 
-		<script src="//d3js.org/d3.v4.min.js"></script>
+				a.button(href="/gifs/login") Sign In
+				#firebaseui-auth-container
+			
 		script(src="/js/bundle.js")
 
 		script.
 			//- var scale = 1;
 
-			//- setTimeout(function(){
-			//- 	document.getElementById('form').style.transform = 'scale(1)';
-			//- }, 1000)
+			setTimeout(function(){
+				document.getElementById('form').className = 'form visible';// = 'scale(1)';
+			}, 500)
 
 			//- var scale = 1;
 
