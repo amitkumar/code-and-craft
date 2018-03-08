@@ -1,0 +1,81 @@
+html
+	head
+		title Code &amp; Craft
+
+		script(src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js")
+		script.  
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA7-NKfTzGvNtE5lZ3V49gyV4fat7AsoOU",
+				authDomain: "codeandcraft-51db3.firebaseapp.com",
+				databaseURL: "https://codeandcraft-51db3.firebaseio.com",
+				projectId: "codeandcraft-51db3",
+				storageBucket: "codeandcraft-51db3.appspot.com",
+				messagingSenderId: "489289770401"
+			};
+			firebase.initializeApp(config);
+		script(src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js")
+		link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css")
+
+		script.
+			// FirebaseUI config.
+			var uiConfig = {
+				signInSuccessUrl: '/interconnected/glc',
+				signInOptions: [
+					firebase.auth.EmailAuthProvider.PROVIDER_ID
+				],
+				// Terms of service url.
+				tosUrl: 'terms-of-service'
+			};
+
+			// Initialize the FirebaseUI Widget using Firebase.
+			var ui = new firebaseui.auth.AuthUI(firebase.auth());
+			// The start method will wait until the DOM is loaded.
+			//- ui.start('#firebaseui-auth-container', uiConfig);
+
+		link(href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.19/c3.css")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.19/c3.js")
+
+		script(src="/vendor/monaco-editor/min/vs/loader.js")
+
+	body
+		style.
+			html, body {
+				font-size : 16px;
+				font-family : sans-serif;
+				font-weight : bold;
+			}
+
+			@media (max-width: 600px) {
+				html, body {
+					font-size : 12px;
+				}
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			.editor {
+				height : 40em;
+				font-size: 1.2em;
+				padding: 0;
+				border: 1px solid #bbb;
+			}
+
+		
+		#editor.editor
+
+		script.
+			require.config({ paths: { 'vs': '/vendor/monaco-editor/min/vs' }});
+			require(['vs/editor/editor.main'], function() {
+				var editor = monaco.editor.create(document.getElementById('editor'), {
+					value: [
+						'function x() {',
+						'\tconsole.log("Hello world!");',
+						'}'
+					].join('\n'),
+					language: 'javascript'
+				});
+			});
+		script(src="/js/bundle-viz.js")

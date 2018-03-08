@@ -19,6 +19,14 @@ define(function(require) {
         buttons[id] = btn;
     }
 
+    function addLink(img, href, text, callback) {
+        var btn = UIUtil.createDiv("toolbar_button", div);
+        btn.innerHTML = "<a href='" + href + "' target='_blank'><img width='26' height='26' src='" + img + "'><br/>" + text + "</a>";
+        
+        // btn.addEventListener("click", callback);
+        // buttons[id] = btn;
+    }
+
     function addExamples(callback){
         var exampleOptions = [
             {
@@ -126,7 +134,7 @@ define(function(require) {
           // dropdownCss : 'select2-glc-examples',
           templateResult: function(state){
             var $item = $(
-              '<div><video class="video" loop autoplay src="' + state.webm + '"></video><span class="text">' + state.text + '</span></div>'
+              '<div><video class="video" loop autoplay muted type="video/webm" src="' + state.webm + '"></video><span class="text">' + state.text + '</span></div>'
             );
             return $item;
           }
@@ -194,6 +202,7 @@ define(function(require) {
         addButton: addButton,
         addSeparator: addSeparator,
         addExamples : addExamples,
+        addLink : addLink,
         enableBtn: enableBtn,
         disableBtn: disableBtn,
         setKey: setKey,

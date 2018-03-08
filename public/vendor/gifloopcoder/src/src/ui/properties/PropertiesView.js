@@ -6,10 +6,11 @@ define(function(require) {
         div = null,
         durationLabel,
         durationSlider,
-        fpsLabel,
-        fpsSlider,
-        maxColorLabel,
-        maxColorsSlider,
+        // fpsLabel,
+        // fpsSlider,
+        // maxColorLabel,
+        // maxColorsSlider,
+        modeLabel,
         modeSelect,
         easingCheckBox,
         easingLabel,
@@ -30,22 +31,25 @@ define(function(require) {
         durationSlider.step = 0.5;
         durationSlider.value = 2;
 
-        fpsLabel = UIUtil.createDiv("control_label", div);
-        fpsLabel.innerHTML = "FPS: 30";
-        fpsSlider = UIUtil.createInput("range", "slider", div, null, "input", onFPSChange);
-        fpsSlider.min = 1;
-        fpsSlider.max = 60;
-        fpsSlider.step = 1;
-        fpsSlider.value = 30;
+        // fpsLabel = UIUtil.createDiv("control_label", div);
+        // fpsLabel.innerHTML = "FPS: 30";
+        // fpsSlider = UIUtil.createInput("range", "slider", div, null, "input", onFPSChange);
+        // fpsSlider.min = 1;
+        // fpsSlider.max = 60;
+        // fpsSlider.step = 1;
+        // fpsSlider.value = 30;
         
-        maxColorLabel = UIUtil.createDiv("control_label", div);
-        maxColorLabel.innerHTML = "Max Colors: 256";
-        maxColorsSlider = UIUtil.createInput("range", "slider", div, null, "input", onMaxColorsChange);
-        maxColorsSlider.min = 1;
-        maxColorsSlider.max = 256;
-        maxColorsSlider.step = 1;
-        maxColorsSlider.value = 256;
+        // maxColorLabel = UIUtil.createDiv("control_label", div);
+        // maxColorLabel.innerHTML = "Max Colors: 256";
+        // maxColorsSlider = UIUtil.createInput("range", "slider", div, null, "input", onMaxColorsChange);
+        // maxColorsSlider.min = 1;
+        // maxColorsSlider.max = 256;
+        // maxColorsSlider.step = 1;
+        // maxColorsSlider.value = 256;
 
+
+        modeLabel = UIUtil.createDiv("control_label", div, { marginTop: "20px"});
+        modeLabel.innerHTML = "Loop Mode";
         modeSelect = UIUtil.createSelect("dropdown", div, null, ["bounce", "single"], onModeChange);
 
         easingCheckBox = UIUtil.createCheckbox("control_label", "Easing", div, {verticalAlign: "top"}, onEasingChange);
@@ -75,15 +79,15 @@ define(function(require) {
         listener.onDurationChange(Number(durationSlider.value));
     }
 
-    function onFPSChange() {
-        fpsLabel.innerHTML = "FPS: " + fpsSlider.value;
-        listener.onFPSChange(Number(fpsSlider.value));
-    }
+    // function onFPSChange() {
+    //     fpsLabel.innerHTML = "FPS: " + fpsSlider.value;
+    //     listener.onFPSChange(Number(fpsSlider.value));
+    // }
 
-    function onMaxColorsChange() {
-        maxColorLabel.innerHTML = "Max Colors: " + maxColorsSlider.value;
-        listener.onMaxColorsChange(Number(maxColorsSlider.value));
-    }
+    // function onMaxColorsChange() {
+    //     maxColorLabel.innerHTML = "Max Colors: " + maxColorsSlider.value;
+    //     listener.onMaxColorsChange(Number(maxColorsSlider.value));
+    // }
 
     function onModeChange() {
         listener.onModeChange(modeSelect.value);
@@ -99,13 +103,13 @@ define(function(require) {
     }
 
     function setFPS(fps) {
-        fpsSlider.value = fps;
-        fpsLabel.innerHTML = "FPS: " + fpsSlider.value;
+        // fpsSlider.value = fps;
+        // fpsLabel.innerHTML = "FPS: " + fpsSlider.value;
     }
 
     function setMaxColors(maxColors) {
-        maxColorsSlider.value = maxColors;
-        maxColorLabel.innerHTML = "Max Colors: " + maxColorsSlider.value;
+        // maxColorsSlider.value = maxColors;
+        // maxColorLabel.innerHTML = "Max Colors: " + maxColorsSlider.value;
     }
 
     function setMode(mode) {
@@ -117,20 +121,20 @@ define(function(require) {
     }
 
     function setStatus(pStatus) {
-        status.innerHTML = "Status: " + pStatus;
+        // status.innerHTML = "Status: " + pStatus;
     }
 
     function disable() {
-        fpsSlider.disabled = true;
-        maxColorsSlider.disabled = true;
+        // fpsSlider.disabled = true;
+        // maxColorsSlider.disabled = true;
         durationSlider.disabled = true;
         modeSelect.disabled = true;
         easingCheckBox.disabled = true;
     }
 
     function enable() {
-        fpsSlider.disabled = false;
-        maxColorsSlider.disabled = false;
+        // fpsSlider.disabled = false;
+        // maxColorsSlider.disabled = false;
         durationSlider.disabled = false;
         modeSelect.disabled = false;
         easingCheckBox.disabled = false;
