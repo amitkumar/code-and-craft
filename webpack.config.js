@@ -8,14 +8,16 @@ const WebpackShellPlugin = require('webpack-shell-plugin');
 module.exports = {
   devtool: '#eval-source-map',
 
-  entry: [
-  './public/js/main'
-  ],
+  entry: {
+    main : './public/js/main',
+    timer : './public/js/main-timer',
+    viz : './public/viz/js/main-viz'
+  },
 
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'js/bundle.js'
+    filename: 'js/bundle-[name].js'
   },
 
   plugins: [

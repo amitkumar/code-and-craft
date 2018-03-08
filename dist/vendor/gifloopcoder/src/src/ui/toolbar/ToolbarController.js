@@ -40,7 +40,12 @@ define(function(require) {
         // if(!glcConfig.externalEditor) {
         //     ToolbarView.addButton("sequence_btn", "icons/sequence.png", "IMAGE SEQUENCE", MainController.makeImageSequence);
         // }
-        // ToolbarView.addSeparator();
+        
+        ToolbarView.addSeparator();
+
+        ToolbarView.addLink("/img/noun_399116_cc.svg", "https://docs.google.com/document/d/1tRFC4rD6wA601gA0pZBG18jnW_lfjr6QR4VHGe4gC70/edit?usp=sharing", "CHEATSHEET");
+        ToolbarView.addLink("/img/noun_1033143_cc.svg", "http://www.gifloopcoder.com/docs/intro.html", "FULL DOCUMENTATION");
+        
 
         if(glcConfig.isStandalone) {
             ToolbarView.addButton("console_btn", "icons/console.png", "CONSOLE", showConsole);

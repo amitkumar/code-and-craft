@@ -47,7 +47,7 @@ View the site at http://localhost:3000.
 - JS is in /public/interconnected
 - Uses GLC library, which is located at /public/vendor/gifloopcoder. It is compiled to /dist
 - Video capture: https://github.com/webrtc/samples/blob/gh-pages/src/content/capture/canvas-record/js/main.js
-
+- To reset event data, 
 
 ### Video Capture Process for GLC
 - Created new Recorder class in GLC.
@@ -60,7 +60,7 @@ View the site at http://localhost:3000.
 - Set up with these instructions: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
 - Using Nginx, PM2, Let's Encrypt, node.js
 - Project directory is at ~/code-and-craft
-- `$ ssh root@45.55.157.3`
+- `$ ssh root@104.236.90.0`
 - `$ cd code-and-craft`
 - `$ git pull`
 - `$ webpack`

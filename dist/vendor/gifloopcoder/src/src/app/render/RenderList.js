@@ -219,6 +219,7 @@ define([
 	}
 
 	function render(t) {
+		// console.log('render', t, list);
 		if(styles.backgroundColor === "transparent") {
 			context.clearRect(0, 0, width, height);
 		}

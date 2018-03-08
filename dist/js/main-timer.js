@@ -25,12 +25,16 @@ jquery(function(){
 
 	let hideControlPanelTimeout = undefined;
 
+	var workMinutes = 25;
+	var numIntervals = 2;
+	var breakMinutes = 5;
+	
 	const masterGraph = new MasterGraph({
 		id : 'master',
 		svg: svg, 
-		numIntervals : 20,
-		workDuration: 5 * 60 * 1000,
-		breakDuration: 20 * 1000,
+		numIntervals : numIntervals,
+		workDuration: workMinutes * 60 * 1000,
+		breakDuration: breakMinutes * 60 * 1000,
 		width: Math.min(svgRectangle.width, svgRectangle.height) - 50,
 		discToSpikeRatio : 0.1666666667,
 		$timeDisplay : jquery('#elapsed-time'),

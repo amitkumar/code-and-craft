@@ -11,14 +11,16 @@ define(function() {
 
 	function init() {
 		canvas = document.querySelector("#content .canvas_panel canvas");
-		stream = canvas.captureStream();	
+		console.log('Recorder.init canvas', canvas);
+		stream = canvas.captureStream();
+		console.log('Recorder.init stream', stream)
 		recorder = new MediaRecorder(stream, { 
 			mimeType : 'video/webm',
 			videoBitsPerSecond : 7500000 
 		});
 		recordedBlobs = [];
 
-		recorder.ondataavailable = function(e) {
+		recorder.ondataavailable = function(event) {
 			if (event.data && event.data.size > 0) {
 				recordedBlobs.push(event.data);
 			}

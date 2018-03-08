@@ -105,6 +105,13 @@ app.get('/', (req, res) => {
     });
 });
 
+
+app.get('/timer', (req, res) => {
+    res.render('timer', {
+        user : req.session.username
+    });
+});
+
 app.get('/interconnected', (req, res) => {
     res.render('interconnected/index', {});
 });
@@ -133,6 +140,36 @@ app.get('/interconnected/glc', (req,res) => {
     res.render('interconnected/glc', {
         user : req.session.username
     });    
+});
+
+
+
+
+app.get('/gifs', (req, res) => {
+    res.render('gifs/index', {});
+});
+
+app.get('/gifs/login', (req, res) => {
+    res.render('gifs/login', {
+        user : req.session.username
+    });
+});
+
+app.get('/gifs/gallery', (req, res) => {
+    res.render('gifs/gallery', {
+        user : req.session.username
+    });
+});
+
+app.get('/gifs/editor', (req,res) => {
+    res.render('gifs/editor', {
+        user : req.session.username
+    });    
+});
+
+
+app.get('/viz', (req, res) => {
+    res.render('viz/index', {});
 });
 
 const transcoder = require('./lib/transcoder')(app);
